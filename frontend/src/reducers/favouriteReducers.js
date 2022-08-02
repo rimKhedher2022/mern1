@@ -1,9 +1,9 @@
-import { ADD_TO_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO } from '../constants/cartConstants'
+import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO } from '../constants/favouriteConstants'
 
 export const cartReducer = (state = { cartItems: [], shippingInfo: {} }, action) => {
     switch (action.type) {
 
-        case ADD_TO_CART:
+        case ADD_TO_FAVOURITE:
             const item = action.payload;
 
             const isItemExist = state.cartItems.find(i => i.experience === item.experience)
@@ -20,7 +20,7 @@ export const cartReducer = (state = { cartItems: [], shippingInfo: {} }, action)
                 }
             }
 
-        case REMOVE_ITEM_CART:
+        case REMOVE_ITEM_FAVOURITE:
             return {
                 ...state,
                 cartItems: state.cartItems.filter(i => i.experience !== action.payload)

@@ -33,6 +33,9 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 
 
+
+
+
 const options = ['1 Person', '2 Persons', '3-10 Persons', '10+ Persons'];
 
 
@@ -64,10 +67,10 @@ const reviewHandler = () => {
     const [slideIndex, setSlideIndex] = useState(1)
 
     const nextSlide = () => {
-        if(slideIndex !== experience.images.length){
+        if(slideIndex !== experience.YourIdeaImage.length){
             setSlideIndex(slideIndex + 1)
         } 
-        else if (slideIndex === experience.images.length){
+        else if (slideIndex === experience.YourIdeaImage.length){
             setSlideIndex(1)
         }
     }
@@ -77,7 +80,7 @@ const reviewHandler = () => {
             setSlideIndex(slideIndex - 1)
         }
         else if (slideIndex === 1){
-            setSlideIndex(experience.images.length)
+            setSlideIndex(experience.YourIdeaImage.length)
         }
     }
 
@@ -134,14 +137,14 @@ const color = "#E42651"
 
 <br />
 <h3 style={{fontFamily: "normal",fontWeight: 700, fontSize: "32px",
- lineHeight: "39px", margin: "20px 290px 0", color:"#DA1D6C"}}>{experience.name}</h3>
+ lineHeight: "39px", margin: "20px 290px 0", color:"#DA1D6C"}}>{experience.exptitle}</h3>
             <div className="container-slider">
-       {experience.images && experience.images.map((image , index) => (
+       {experience.YourIdeaImage && experience.YourIdeaImage.map((image , index) => (
                     <div
                     key={image.public_id}
                     className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
                     >
-                        <img className="d-block w-100" src={image.url} alt={experience.name}/>
+                        <img className="d-block w-100" src={image.url} alt={experience.exptitle}/>
                     </div>
             ))}
             <BtnSlider moveSlide={nextSlide} direction={"next"} />
@@ -215,7 +218,7 @@ lineHeight: "29px", margin: "10px 10px 0"}}>About the lodging</h4>
         <p style={{fontFamily: 'Roboto',
 fontStyle: "normal", fontWeight: 400, fontSize: "18px",
 lineHeight: "21px",margin: "10px 10px 0",
-letterSpacing: "0.02em",}}>{experience.description}</p>
+letterSpacing: "0.02em",}}>{experience.lodgingdescription}</p>
         </Paper>
         </Box>
         <Box
@@ -246,7 +249,7 @@ letterSpacing: "0.02em",}}>{experience.description}</p>
 fontWeight: 700,
 fontSize: "28px",
 textAlign:"center",
-lineHeight: "39px"}}>{experience.pricepernight} DT / Night</h4>
+lineHeight: "39px"}}>{experience.price} DT / Night</h4>
 <br/>
 <br/>
 <br/>

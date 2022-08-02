@@ -7,7 +7,7 @@ import { experiencesReducer, newExperienceReducer, experienceReducer, experience
 import { lodgingsReducer, newLodgingReducer, lodgingReducer, lodgingDetailsReducer, newReview1Reducer, lodgingReviewsReducer  } from './reducers/lodgingReducers';
 import { restaurantsReducer, newRestaurantReducer, restaurantReducer, restaurantDetailsReducer, newReview2Reducer, restaurantReviewsReducer   } from './reducers/restaurantReducers';
 import { transportsReducer, newTransportReducer, transportReducer, transportDetailsReducer, newReview3Reducer, transportReviewsReducer   } from './reducers/transportReducers';
-import { cartReducer } from './reducers/cartReducers'
+import { cartReducer } from './reducers/favouriteReducers'
 import reservationConfirmedLodgingReducer from "./reducers/reservationConfirmedLodgingReducer";
 import reservationConfirmedRestaurantReducer from "./reducers/reservationConfirmedRestaurantReducer";
 import reservationConfirmedTransportReducer from "./reducers/reservationConfirmedTransportReducer";

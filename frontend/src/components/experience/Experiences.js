@@ -1,6 +1,9 @@
-import { Button } from '@mui/material'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useAlert } from 'react-alert'
+import { v4 as uuidv4 } from 'uuid';
+import { addItemToCart,  removeItemFromCart} from '../../actions/favouriteActions'
 
 import './experienceDetails'
 
@@ -12,7 +15,40 @@ import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const Experience = ({ experience, col  }) => {
+
+const Experience = ({ experience, col }) => {
+
+
+
+  const [value, setValue] = React.useState(null);;
+
+  const onChangefav = (event, newValue) => {
+      setValue(newValue);
+      if(value !== 1) {
+        alert.success('Experience Added to Favourites')
+
+      }else{
+        alert.success('Experience Removed From Favourites')
+
+      }
+  }
+  
+  const dispatch = useDispatch();
+  const alert = useAlert()
+  
+  //Add & Remove To favourite
+
+  const addToCart = () => {
+ if(value !== 1) {
+    dispatch(addItemToCart(experience._id));
+  }else {
+    dispatch(removeItemFromCart(experience._id))
+  }
+}
+
+
+
+
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#ff6d75',
@@ -27,6 +63,7 @@ const Experience = ({ experience, col  }) => {
                   <div className="card__container">
                   <div className="card__container--inner--card">
                     <div className='img-wrapper'>
+          
                   <StyledRating
                   className='btn'
                     name="customized-color"
@@ -34,9 +71,13 @@ const Experience = ({ experience, col  }) => {
                     max={1} 
                     getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                     precision={1}
-                    icon={<FavoriteIcon  fontSize="inherit" />}
+                    icon={<FavoriteIcon  fontSize="inherit"  />}
                     emptyIcon={<FavoriteBorderIcon sx={{ color:"#E42651"}} fontSize="inherit" />}
+                    onClick={addToCart }
+                    value={value}
+                    onChange={onChangefav}
                   />
+              
                     <img
                       className = "cardd-img-top mx-auto"
                       src= {experience.YourIdeaImage[0].url}
@@ -51,6 +92,7 @@ const Experience = ({ experience, col  }) => {
                      
     
                         <p>{experience.theme}<span style={{textAlign:"right"}}>{experience.price} DT</span></p>
+                 
                         
                             </div>
                 </div>

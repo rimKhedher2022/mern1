@@ -1,4 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom'
+import { useAlert } from 'react-alert'
+import { addItemToCart, removeItemFromCart } from '../../../../../actions/favouriteActions'
+import { getSingleExperience, clearErrors } from '../../../../../actions/experienceActions'
+import { useDispatch, useSelector } from 'react-redux'
+
+
 //
 import experienceIcon from "../../../../img/reservationExperienceIcon.png";
 import lodgingIcon from "../../../../img/reservationLodgingIcon.png";
@@ -9,21 +16,30 @@ import Box from "@mui/material/Box";
 
 //
 import HostFavouritesLodgingItem from "./HostFavouriteLodgingItem";
-import HostFavouritesExperienceItem from "./HostFavouritesExperienceItem";
+
 import "../hostStyle.scss";
+
+
+//fv
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 
 
 
 const HostFavourites =() =>{
+    //Fac
+    const dispatch = useDispatch();
+    const alert = useAlert()
 
+    const { cartItems } = useSelector(state => state.cart)
+
+    const removeCartItemHandler = (id) => {
+        dispatch(removeItemFromCart(id))
+        alert.success('Experience Removed From Favourites')
+
+    }
     //Preset data
-    const favouritesExperiences= //[]
-        [
-            {id: '1', name: 'Sushi Workshop', type: 'Culture', location: 'Marsa', price: 120, image:'https://t4.ftcdn.net/jpg/03/23/88/07/240_F_323880740_7dz5xQ3Jcimx84xWmV37U7lxYGSsvs4t.jpg'},
-            {id: '2', name: 'Yuma concert', type: 'Culture', location: 'Bizerte', price: 120, image:'https://scontent.ftun16-1.fna.fbcdn.net/v/t39.30808-6/288454887_176130824791789_7581388712270996806_n.png?stp=dst-png_p843x403&_nc_cat=107&ccb=1-7&_nc_sid=730e14&_nc_ohc=eHrnGIWpwdsAX_E2ZC_&_nc_ht=scontent.ftun16-1.fna&oh=00_AT_ofpDeyoIdQNYmK007BvrLIZJulbbwSHGihPn_M9oZWQ&oe=62DECC28'},
-            {id: '3', name: 'Camping', type: 'Culture', location: 'Beja', price: 120, image:'https://t4.ftcdn.net/jpg/02/06/15/63/240_F_206156399_YKVMqWTkaU9YVCJkDQIKRu7OD3GuubqJ.jpg'},
-            //{id: '4', name: 'Sushi Workshop', type: 'Culture', location: 'Marsa', price: 120, image:'https://t4.ftcdn.net/jpg/03/23/88/07/240_F_323880740_7dz5xQ3Jcimx84xWmV37U7lxYGSsvs4t.jpg'},
-        ]
+
     const favouritesLodging= //[]
         [
             {id: '1', name: 'Movenpick Hotel', lodging: 'Hotel', location: 'Sousse', price: 120, image:'https://as2.ftcdn.net/v2/jpg/02/81/34/47/1000_F_281344776_BU8Z7Yr6TM3cdjrwu3zsa0OqE0YbXJTY.jpg'},
@@ -33,7 +49,7 @@ const HostFavourites =() =>{
     ]
 
 
-    const goToExperience = () => alert("Go to experience")
+   
     const goToLodging = () => alert("Go to lodging")
 
     return(
@@ -41,28 +57,52 @@ const HostFavourites =() =>{
 
             {/* Experiences */}
             <Box>
-                <Box className="flex">
+            {cartItems.length === 0 ? <>
+
+                            <Box className="arrayEmptyBox blueGradientText">
+                                You don't have any favourite experience yet,
+                                {/* A link to lodgings' list, opens in new tab */}
+                                <Link to= {`/allexperiences`}  className="pinkGradientText" target="_blank">  check experiences!</Link>
+                            </Box>
+            
+            </>
+
+            :( <>
+             <Box className="flex">
                     <img width={45}  src={experienceIcon} alt="Experience icon"/>
                     <Box className="pinkGradientText titleFont ml-7" >Experiences</Box>
                 </Box>
 
                 <Grid container justifyContent="left">
-                    {
-                        favouritesExperiences.length?
-                        favouritesExperiences.map(item=>(
-                            <Box key={item.id}>
-                                <HostFavouritesExperienceItem onClick={goToExperience} data={item}/>
-                            </Box>
-                        )):
-                            //If favourite experiences is empty show this
-                            <Box className="arrayEmptyBox blueGradientText">
-                                You don't have any favourite experiences yet,
-                                {/* A link to experiences' list, opens in new tab */}
-                                <a href='#' className="pinkGradientText" target="_blank"> check experiences!</a>
-                            </Box>
+                <>
+        {cartItems.map(item => (
+        
+        <Box className="hostFavouriteItem" key={item.experience}>
+            <Box className="relative flex">
+                <img src={item.image} alt={item.name+' image'}  />
+                <HighlightOffIcon className="favouriteHeart " fontSize="large"  onClick={() => removeCartItemHandler(item.experience)}/>
+            </Box>
+            <Box sx={{position: 'relative', width: '100%'}}>
+                {/* Lodging data */}
+                <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
+                <Link to={`/experience/${item.experience}`}>
+                    <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.name}</Box>
+                    </Link>
+                    <Box className="hostFavouriteItemLodgingTypeFont" >{item.theme}</Box>
+                </Box>
+                <Box sx={{ float: 'right'}}  className="text-right mt-1 space-y-1">
+                    <Box className="hostFavouriteItemLocationPriceFont" >{item.place}, Tunisia</Box>
+                    <Box className="hostFavouriteItemLocationPriceFont">{item.price} DT</Box>
+                </Box>
+            </Box>
 
-                    }
+        </Box>
+         ))}
+         </>
                 </Grid>
+            </>)
+    }
+               
             </Box>
 
             {/* Divider */}
