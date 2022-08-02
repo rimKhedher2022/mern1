@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
-import { removeItemFromCart, removeLodgingFromCart, removeTransportFromCart  } from '../../../../../actions/favouriteActions'
+import { removeItemFromCart, removeLodgingFromCart, removeTransportFromCart, removeRestaurantFromCart  } from '../../../../../actions/favouriteActions'
 
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -56,6 +56,14 @@ const { cartTransport } = useSelector(state => state.cartTransport)
 const removeCartTransportHandler = (id) => {
     dispatch(removeTransportFromCart(id))
     alert.success('Transport Removed From Favourites')
+
+}
+//restaurant
+const { cartRestaurant } = useSelector(state => state.cartRestaurant)
+
+const removeCartRestaurantHandler = (id) => {
+    dispatch(removeRestaurantFromCart(id))
+    alert.success('Food Removed From Favourites')
 
 }
   
@@ -170,8 +178,8 @@ const removeCartTransportHandler = (id) => {
 
           </Box>
 
-  {/* Divider */}
-  <Box>
+            {/* Divider */}
+            <Box>
                 <hr className="divider" />
             </Box>
 
@@ -205,7 +213,63 @@ const removeCartTransportHandler = (id) => {
                 <Box sx={{position: 'relative', width: '100%'}}>
                 {/* Transport data */}
                 <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
-                <Link to={`/lodging/${item.transport}`}>
+                <Link to={`/transport/${item.transport}`}>
+                <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.name}</Box>
+                </Link>
+                <Box className="hostFavouriteItemLodgingTypeFont" >{item.activity}</Box>
+                </Box>
+                <Box sx={{ float: 'right'}}  className="text-right mt-1 space-y-1">
+                <Box className="hostFavouriteItemLocationPriceFont" >{item.governorate}, Tunisia</Box>
+                <Box className="hostFavouriteItemLocationPriceFont">{item.pricepernight} DT</Box>
+                </Box>
+                </Box>
+
+                </Box>
+                ))}
+                </>
+                </Grid>
+                </>)
+                }
+
+          </Box>
+
+
+            {/* Divider */}
+            <Box>
+                <hr className="divider" />
+            </Box>
+          
+            {/* Restaurant */}
+            <Box>
+            {cartRestaurant.length === 0 ? <>
+
+                <Box className="arrayEmptyBox blueGradientText">
+                    You don't have any favourite restaurant yet,
+                    {/* A link to lodgings' list, opens in new tab */}
+                    <Link to= {`/allrestaurants`}  className="pinkGradientText" target="_blank">  check restaurants!</Link>
+                </Box>
+
+                </>
+
+                :( <>
+                <Box className="flex">
+               <LocalTaxiIcon  sx={{fontSize: 60, color: "#DA1D6C"}}></LocalTaxiIcon>
+                <Box className="pinkGradientText titleFont ml-7" >Restaurant</Box>
+                </Box>
+
+                <Grid container justifyContent="left">
+                <>
+                {cartRestaurant.map(item => (
+
+                <Box className="hostFavouriteItem" key={item.restaurant}>
+                <Box className="relative flex">
+                <img src={item.image} alt={item.name+' image'}  />
+                <HighlightOffIcon className="favouriteHeart " fontSize="large"  onClick={() => removeCartRestaurantHandler(item.restaurant)}/>
+                </Box>
+                <Box sx={{position: 'relative', width: '100%'}}>
+                {/* cartRestaurant data */}
+                <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
+                <Link to={`/restaurant/${item.restaurant}`}>
                 <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.name}</Box>
                 </Link>
                 <Box className="hostFavouriteItemLodgingTypeFont" >{item.activity}</Box>

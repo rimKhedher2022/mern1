@@ -1,6 +1,7 @@
 import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
     ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE,
-    ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE} from '../constants/favouriteConstants'
+    ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE,
+    ADD_RESTAURANT_TO_FAVOURITE, REMOVE_RESTAURANT_FAVOURITE} from '../constants/favouriteConstants'
 
 
 //Experience
@@ -105,10 +106,50 @@ export const cartTransportReducer = (state = { cartTransport: [], shippingInfo: 
                 }
             }
 
-        case REMOVE_TRANSPORT_FAVOURITE:
+        case REMOVE_RESTAURANT_FAVOURITE:
             return {
                 ...state,
                 cartTransport: state.cartTransport.filter(i => i.transport !== action.payload)
+            }
+
+
+        case SAVE_SHIPPING_INFO:
+            return {
+                ...state,
+                shippingInfo: action.payload
+            }
+
+
+        default:
+            return state
+    }
+}
+
+//Restaurant
+export const cartRestaurantReducer = (state = { cartRestaurant: [], shippingInfo: {} }, action) => {
+    switch (action.type) {
+
+        case ADD_RESTAURANT_TO_FAVOURITE:
+            const item = action.payload;
+
+            const isItemExist = state.cartRestaurant.find(i => i.restaurant === item.restaurant)
+
+            if (isItemExist) {
+                return {
+                    ...state,
+                    cartRestaurant: state.cartRestaurant.map(i => i.restaurant === isItemExist.restaurant ? item : i)
+                }
+            } else {
+                return {
+                    ...state,
+                    cartRestaurant: [...state.cartRestaurant, item]
+                }
+            }
+
+        case REMOVE_RESTAURANT_FAVOURITE:
+            return {
+                ...state,
+                cartRestaurant: state.cartRestaurant.filter(i => i.restaurant !== action.payload)
             }
 
 

@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
-ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE,
-ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE
- } from '../constants/favouriteConstants'
+    ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE,
+    ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE,
+    ADD_RESTAURANT_TO_FAVOURITE, REMOVE_RESTAURANT_FAVOURITE
+
+    } from '../constants/favouriteConstants'
 
 
 
@@ -95,6 +97,37 @@ export const removeTransportFromCart = (id) => async (dispatch, getState) => {
     })
 
     localStorage.setItem('cartTransport', JSON.stringify(getState().cartTransport.cartTransport))
+
+}
+
+
+//Restaurant
+export const addRestaurantToCart = (id) => async (dispatch, getState) => {
+    const { data } = await axios.get(`/api/v1/restaurant/${id}`)
+
+    dispatch({
+        type: ADD_RESTAURANT_TO_FAVOURITE,
+        payload: {
+            restaurant: data.restaurant._id,
+            name: data.restaurant.restaurantName,
+            activity: data.restaurant.restaurantType,
+            pricepernight: data.restaurant.price,
+            governorate: data.restaurant.address,
+            image: data.restaurant.imagesPlat[0].url,   
+        }
+    })
+
+    localStorage.setItem('cartRestaurant', JSON.stringify(getState().cartRestaurant.cartRestaurant))
+}
+
+export const removeRestaurantFromCart = (id) => async (dispatch, getState) => {
+
+    dispatch({
+        type: REMOVE_RESTAURANT_FAVOURITE,
+        payload: id
+    })
+
+    localStorage.setItem('cartRestaurant', JSON.stringify(getState().cartRestaurant.cartRestaurant))
 
 }
 //

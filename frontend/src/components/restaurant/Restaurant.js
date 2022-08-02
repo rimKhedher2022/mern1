@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom'
 import './restaurant.scss'
 import moment from 'moment'
 
+import { useDispatch } from 'react-redux'
+
+import { useAlert } from 'react-alert'
+import { addRestaurantToCart,  removeRestaurantFromCart} from '../../actions/favouriteActions'
+
 //MUI imports
 import { Grid } from '@mui/material'
 import { styled } from '@mui/material/styles';
@@ -12,6 +17,34 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const Restaurant = ({ restaurant, col  }) => {
+
+  const [value, setValue] = React.useState(null);;
+
+  const onChangefav = (event, newValue) => {
+      setValue(newValue);
+      if(value !== 1) {
+        alert.success('Lodging Added to Favourites')
+
+      }else{
+        alert.success('Lodging Removed From Favourites')
+
+      }
+  }
+  
+  const dispatch = useDispatch();
+  const alert = useAlert()
+  
+  //Add & Remove To favourite
+
+  const addToCart = () => {
+ if(value !== 1) {
+    dispatch(addRestaurantToCart(restaurant._id));
+  }else {
+    dispatch(removeRestaurantFromCart(restaurant._id))
+  }
+}
+
+
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#ff6d75',
@@ -36,6 +69,9 @@ const Restaurant = ({ restaurant, col  }) => {
             precision={1}
             icon={<FavoriteIcon  fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon sx={{ color:"#E42651"}} fontSize="inherit" />}
+            onClick={addToCart}
+            value={value}
+            onChange={onChangefav}
           />
             <img
               className = "cardd-img-top mx-auto"
