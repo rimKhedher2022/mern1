@@ -1,5 +1,8 @@
-import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO } from '../constants/favouriteConstants'
+import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
+    ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE } from '../constants/favouriteConstants'
 
+
+//Experience
 export const cartReducer = (state = { cartItems: [], shippingInfo: {} }, action) => {
     switch (action.type) {
 
@@ -24,6 +27,46 @@ export const cartReducer = (state = { cartItems: [], shippingInfo: {} }, action)
             return {
                 ...state,
                 cartItems: state.cartItems.filter(i => i.experience !== action.payload)
+            }
+
+
+        case SAVE_SHIPPING_INFO:
+            return {
+                ...state,
+                shippingInfo: action.payload
+            }
+
+
+        default:
+            return state
+    }
+}
+
+//Lodging
+export const cartLodgingReducer = (state = { cartLodging: [], shippingInfo: {} }, action) => {
+    switch (action.type) {
+
+        case ADD_LODGING_TO_FAVOURITE:
+            const item = action.payload;
+
+            const isItemExist = state.cartLodging.find(i => i.lodging === item.lodging)
+
+            if (isItemExist) {
+                return {
+                    ...state,
+                    cartLodging: state.cartLodging.map(i => i.lodging === isItemExist.lodging ? item : i)
+                }
+            } else {
+                return {
+                    ...state,
+                    cartLodging: [...state.cartLodging, item]
+                }
+            }
+
+        case REMOVE_LODGING_FAVOURITE:
+            return {
+                ...state,
+                cartLodging: state.cartLodging.filter(i => i.lodging !== action.payload)
             }
 
 

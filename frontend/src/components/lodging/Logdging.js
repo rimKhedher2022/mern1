@@ -1,7 +1,10 @@
-import { Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './lodging.scss'
+import { useDispatch } from 'react-redux'
+
+import { useAlert } from 'react-alert'
+import { addLodgingToCart,  removeLodgingFromCart} from '../../actions/favouriteActions'
 
 //MUI Imports
 import { Grid } from '@mui/material'
@@ -11,6 +14,38 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const Lodging = ({ lodging, col  }) => {
+
+
+
+  const [value, setValue] = React.useState(null);;
+
+  const onChangefav = (event, newValue) => {
+      setValue(newValue);
+      if(value !== 1) {
+        alert.success('Lodging Added to Favourites')
+
+      }else{
+        alert.success('Lodging Removed From Favourites')
+
+      }
+  }
+  
+  const dispatch = useDispatch();
+  const alert = useAlert()
+  
+  //Add & Remove To favourite
+
+  const addToCart = () => {
+ if(value !== 1) {
+    dispatch(addLodgingToCart(lodging._id));
+  }else {
+    dispatch(removeLodgingFromCart(lodging._id))
+  }
+}
+
+
+
+
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#ff6d75',
@@ -34,6 +69,9 @@ const Lodging = ({ lodging, col  }) => {
                 precision={1}
                 icon={<FavoriteIcon  fontSize="inherit" />}
                 emptyIcon={<FavoriteBorderIcon sx={{ color:"#E42651"}} fontSize="inherit" />}
+                onClick={addToCart}
+                value={value}
+                onChange={onChangefav}
               />
               <img
               src= {lodging.images[0].url}

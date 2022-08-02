@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
-import { addItemToCart, removeItemFromCart } from '../../../../../actions/favouriteActions'
-import { getSingleExperience, clearErrors } from '../../../../../actions/experienceActions'
+import { removeItemFromCart } from '../../../../../actions/favouriteActions'
+import { removeLodgingFromCart } from '../../../../../actions/favouriteActions'
+
+
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -15,7 +17,6 @@ import {Grid} from "@mui/material";
 import Box from "@mui/material/Box";
 
 //
-import HostFavouritesLodgingItem from "./HostFavouriteLodgingItem";
 
 import "../hostStyle.scss";
 
@@ -27,14 +28,23 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 
 const HostFavourites =() =>{
-    //Fac
+    //Fav
     const dispatch = useDispatch();
     const alert = useAlert()
-
+//exp
     const { cartItems } = useSelector(state => state.cart)
 
     const removeCartItemHandler = (id) => {
         dispatch(removeItemFromCart(id))
+        alert.success('Experience Removed From Favourites')
+
+    }
+
+//lodging
+    const { cartLodging } = useSelector(state => state.cartLodging)
+
+    const removeCartLodgingHandler = (id) => {
+        dispatch(removeLodgingFromCart(id))
         alert.success('Experience Removed From Favourites')
 
     }
@@ -50,7 +60,7 @@ const HostFavourites =() =>{
 
 
    
-    const goToLodging = () => alert("Go to lodging")
+    
 
     return(
         <Box>
@@ -83,7 +93,7 @@ const HostFavourites =() =>{
                 <HighlightOffIcon className="favouriteHeart " fontSize="large"  onClick={() => removeCartItemHandler(item.experience)}/>
             </Box>
             <Box sx={{position: 'relative', width: '100%'}}>
-                {/* Lodging data */}
+                {/* experience data */}
                 <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
                 <Link to={`/experience/${item.experience}`}>
                     <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.name}</Box>
@@ -112,30 +122,53 @@ const HostFavourites =() =>{
 
             {/* Lodging */}
             <Box>
+            {cartLodging.length === 0 ? <>
+
+                <Box className="arrayEmptyBox blueGradientText">
+                    You don't have any favourite lodging yet,
+                    {/* A link to lodgings' list, opens in new tab */}
+                    <Link to= {`/alllodgings`}  className="pinkGradientText" target="_blank">  check lodgings!</Link>
+                </Box>
+
+                </>
+
+                :( <>
                 <Box className="flex">
-                    <img width={45}  src={lodgingIcon} alt="Lodging icon"/>
-                    <Box className="pinkGradientText titleFont ml-7" >Lodgings</Box>
+                <img width={45}  src={experienceIcon} alt="Experience icon"/>
+                <Box className="pinkGradientText titleFont ml-7" >Lodging</Box>
                 </Box>
 
                 <Grid container justifyContent="left">
-                    {
-                        favouritesLodging.length?
-                        favouritesLodging.map(item=>(
-                            <Box key={item.id}>
-                                <HostFavouritesLodgingItem onClick={goToLodging} data={item}/>
-                            </Box>
-                        )):
-                            //If favourite lodging is empty show this
-                            <Box className="arrayEmptyBox blueGradientText">
-                                You don't have any favourite lodgings yet,
-                                {/* A link to lodgings' list, opens in new tab */}
-                                <a href='#' className="pinkGradientText" target="_blank"> check lodgings!</a>
-                            </Box>
-                    }
+                <>
+                {cartLodging.map(item => (
+
+                <Box className="hostFavouriteItem" key={item.lodging}>
+                <Box className="relative flex">
+                <img src={item.image} alt={item.title+' image'}  />
+                <HighlightOffIcon className="favouriteHeart " fontSize="large"  onClick={() => removeCartLodgingHandler(item.lodging)}/>
+                </Box>
+                <Box sx={{position: 'relative', width: '100%'}}>
+                {/* Lodging data */}
+                <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
+                <Link to={`/lodging/${item.lodging}`}>
+                <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.title}</Box>
+                </Link>
+                <Box className="hostFavouriteItemLodgingTypeFont" >{item.lodgingType}</Box>
+                </Box>
+                <Box sx={{ float: 'right'}}  className="text-right mt-1 space-y-1">
+                <Box className="hostFavouriteItemLocationPriceFont" >{item.address}, Tunisia</Box>
+                <Box className="hostFavouriteItemLocationPriceFont">{item.pricepernight} DT</Box>
+                </Box>
+                </Box>
+
+                </Box>
+                ))}
+                </>
                 </Grid>
-            </Box>
+                </>)
+                }
 
-
+          </Box>
 
         </Box>
     )
