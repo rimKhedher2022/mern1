@@ -342,12 +342,26 @@ const dispatch = useDispatch()
         </ListItemIcon>
         <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Settings</Link>
         </MenuItem>
+        {user.role ==="trader" ? (
         <MenuItem>
         <ListItemIcon>
         <AddBoxIcon sx={{ color: '#F02F32' }} fontSize="small"/>
         </ListItemIcon>
         <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Create a Service</Link>
         </MenuItem>
+        ) : ( 
+          <></>
+        )}
+        {user.role ==="host" ? (
+        <MenuItem>
+        <ListItemIcon>
+        <AddBoxIcon sx={{ color: '#F02F32' }} fontSize="small"/>
+        </ListItemIcon>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Create an experience</Link>
+        </MenuItem>
+        ) : ( 
+          <></>
+        )}
         <Divider />
         <MenuItem onClick={logoutHandler}>
           <ListItemIcon >
