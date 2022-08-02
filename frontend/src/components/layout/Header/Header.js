@@ -31,8 +31,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './header.scss'
 import { logout } from '../../../actions/userActions';
 
-
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -311,7 +312,7 @@ const dispatch = useDispatch()
         </MenuItem>
         <MenuItem>
         <ListItemIcon>
-        <PersonIcon  fontSize="small"/>
+        <PersonIcon sx={{ color: '#F02F32' }} fontSize="small"/>
         </ListItemIcon>
         {user.role ==="host" ? (
         <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/host/me">Profile</Link>
@@ -329,10 +330,28 @@ const dispatch = useDispatch()
           <></>
         )}
         </MenuItem>
+        <MenuItem>
+        <ListItemIcon>
+        <MailOutlineIcon sx={{ color: '#F02F32' }} fontSize="small"/>
+        </ListItemIcon>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Messages</Link>
+        </MenuItem>
+        <MenuItem>
+        <ListItemIcon>
+        <SettingsIcon sx={{ color: '#F02F32' }} fontSize="small"/>
+        </ListItemIcon>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Settings</Link>
+        </MenuItem>
+        <MenuItem>
+        <ListItemIcon>
+        <AddBoxIcon sx={{ color: '#F02F32' }} fontSize="small"/>
+        </ListItemIcon>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Create a Service</Link>
+        </MenuItem>
         <Divider />
         <MenuItem onClick={logoutHandler}>
           <ListItemIcon >
-            <Logout fontSize="small" />
+            <Logout sx={{ color: '#F02F32' }} fontSize="small" />
           </ListItemIcon>
           Logout 
         </MenuItem>
@@ -341,7 +360,7 @@ const dispatch = useDispatch()
          ) : !loading && 
         <div>
         <MenuItem onClick={handleClickOpene}>
-          <Avatar /> <Link to="/signup" ><p>Signup</p></Link>
+          <Avatar  /> <Link to="/signup" ><p>Signup</p></Link>
           </MenuItem>
           <MenuItem onClick={handleClickOpenn}>
           <Avatar /> <Link to="/login" ><p>Login</p></Link>

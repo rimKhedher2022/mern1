@@ -16,6 +16,7 @@ import {Grid} from "@mui/material";
 import Box from "@mui/material/Box";
 import LocalHotelIcon from '@mui/icons-material/LocalHotel';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 //
 
 import "../hostStyle.scss";
@@ -253,8 +254,8 @@ const removeCartRestaurantHandler = (id) => {
 
                 :( <>
                 <Box className="flex">
-               <LocalTaxiIcon  sx={{fontSize: 60, color: "#DA1D6C"}}></LocalTaxiIcon>
-                <Box className="pinkGradientText titleFont ml-7" >Restaurant</Box>
+               <FastfoodIcon  sx={{fontSize: 60, color: "#DA1D6C"}}></FastfoodIcon>
+                <Box className="pinkGradientText titleFont ml-7" >Food</Box>
                 </Box>
 
                 <Grid container justifyContent="left">
