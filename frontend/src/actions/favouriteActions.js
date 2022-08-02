@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
-ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE
+ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE,
+ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE
  } from '../constants/favouriteConstants'
 
 
@@ -66,6 +67,36 @@ export const removeLodgingFromCart = (id) => async (dispatch, getState) => {
 
 }
 
+
+//Transport
+export const addTransportToCart = (id) => async (dispatch, getState) => {
+    const { data } = await axios.get(`/api/v1/transport/${id}`)
+
+    dispatch({
+        type: ADD_TRANSPORT_TO_FAVOURITE,
+        payload: {
+            transport: data.transport._id,
+            name: data.transport.name,
+            activity: data.transport.activity,
+            pricepernight: data.transport.pricepernight,
+            governorate: data.transport.governorate,
+            image: data.transport.images[0].url,   
+        }
+    })
+
+    localStorage.setItem('cartTransport', JSON.stringify(getState().cartTransport.cartTransport))
+}
+
+export const removeTransportFromCart = (id) => async (dispatch, getState) => {
+
+    dispatch({
+        type: REMOVE_TRANSPORT_FAVOURITE,
+        payload: id
+    })
+
+    localStorage.setItem('cartTransport', JSON.stringify(getState().cartTransport.cartTransport))
+
+}
 //
 
 export const saveShippingInfo = (data) => async (dispatch) => {

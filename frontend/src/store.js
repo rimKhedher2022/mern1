@@ -7,7 +7,7 @@ import { experiencesReducer, newExperienceReducer, experienceReducer, experience
 import { lodgingsReducer, newLodgingReducer, lodgingReducer, lodgingDetailsReducer, newReview1Reducer, lodgingReviewsReducer  } from './reducers/lodgingReducers';
 import { restaurantsReducer, newRestaurantReducer, restaurantReducer, restaurantDetailsReducer, newReview2Reducer, restaurantReviewsReducer   } from './reducers/restaurantReducers';
 import { transportsReducer, newTransportReducer, transportReducer, transportDetailsReducer, newReview3Reducer, transportReviewsReducer   } from './reducers/transportReducers';
-import { cartReducer, cartLodgingReducer } from './reducers/favouriteReducers'
+import { cartReducer, cartLodgingReducer, cartTransportReducer } from './reducers/favouriteReducers'
 import reservationConfirmedLodgingReducer from "./reducers/reservationConfirmedLodgingReducer";
 import reservationConfirmedRestaurantReducer from "./reducers/reservationConfirmedRestaurantReducer";
 import reservationConfirmedTransportReducer from "./reducers/reservationConfirmedTransportReducer";
@@ -53,6 +53,8 @@ const reducer = combineReducers({
 
      cart: cartReducer,
      cartLodging: cartLodgingReducer,
+     cartTransport: cartTransportReducer,
+
 
 
      reservationConfirmedLodging: reservationConfirmedLodgingReducer,
@@ -76,7 +78,12 @@ const reducer = combineReducers({
     cartLodging: localStorage.getItem('cartLodging')
         ? JSON.parse(localStorage.getItem('cartLodging'))
         : []    
-}
+    },
+    cartTransport: {
+        cartTransport: localStorage.getItem('cartTransport')
+            ? JSON.parse(localStorage.getItem('cartTransport'))
+            : []    
+    }
     
  }
 

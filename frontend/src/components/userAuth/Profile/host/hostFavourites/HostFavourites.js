@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
-import { removeItemFromCart } from '../../../../../actions/favouriteActions'
-import { removeLodgingFromCart } from '../../../../../actions/favouriteActions'
+import { removeItemFromCart, removeLodgingFromCart, removeTransportFromCart  } from '../../../../../actions/favouriteActions'
 
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,12 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 //
 import experienceIcon from "../../../../img/reservationExperienceIcon.png";
-import lodgingIcon from "../../../../img/reservationLodgingIcon.png";
+
 
 //
 import {Grid} from "@mui/material";
 import Box from "@mui/material/Box";
-
+import LocalHotelIcon from '@mui/icons-material/LocalHotel';
+import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 //
 
 import "../hostStyle.scss";
@@ -45,22 +45,22 @@ const HostFavourites =() =>{
 
     const removeCartLodgingHandler = (id) => {
         dispatch(removeLodgingFromCart(id))
-        alert.success('Experience Removed From Favourites')
+        alert.success('Lodging Removed From Favourites')
 
     }
-    //Preset data
 
-    const favouritesLodging= //[]
-        [
-            {id: '1', name: 'Movenpick Hotel', lodging: 'Hotel', location: 'Sousse', price: 120, image:'https://as2.ftcdn.net/v2/jpg/02/81/34/47/1000_F_281344776_BU8Z7Yr6TM3cdjrwu3zsa0OqE0YbXJTY.jpg'},
-            {id: '2', name: 'El Mouradi Hotel', lodging: 'Hotel', location: 'Mahdia', price: 130, image:'https://as2.ftcdn.net/v2/jpg/02/81/34/47/1000_F_281344776_BU8Z7Yr6TM3cdjrwu3zsa0OqE0YbXJTY.jpg'},
-            {id: '3', name: 'Dar Nour', lodging: 'Villa', location: 'Hammamet', price: 400, image:'https://t4.ftcdn.net/jpg/04/94/76/01/240_F_494760101_uDYrDBavlxK8P7OLf0tKzTqqWH6QHkcm.jpg'},
-            {id: '4', name: 'Ville Verde', lodging: 'Guest House', location: 'Jbal Rsas', price: 300, image:'https://t3.ftcdn.net/jpg/01/26/79/46/240_F_126794631_74xvlIMAeOr1PlbYWp8IlZ1vsSGMYiLW.jpg'},
-    ]
+    
+//transport
+const { cartTransport } = useSelector(state => state.cartTransport)
 
+const removeCartTransportHandler = (id) => {
+    dispatch(removeTransportFromCart(id))
+    alert.success('Transport Removed From Favourites')
+
+}
+  
 
    
-    
 
     return(
         <Box>
@@ -134,7 +134,7 @@ const HostFavourites =() =>{
 
                 :( <>
                 <Box className="flex">
-                <img width={45}  src={experienceIcon} alt="Experience icon"/>
+               <LocalHotelIcon sx={{ fontSize: 60 , color: "#DA1D6C"}}></LocalHotelIcon>
                 <Box className="pinkGradientText titleFont ml-7" >Lodging</Box>
                 </Box>
 
@@ -170,7 +170,65 @@ const HostFavourites =() =>{
 
           </Box>
 
+  {/* Divider */}
+  <Box>
+                <hr className="divider" />
+            </Box>
+
+            {/* Transport */}
+            <Box>
+            {cartTransport.length === 0 ? <>
+
+                <Box className="arrayEmptyBox blueGradientText">
+                    You don't have any favourite transport yet,
+                    {/* A link to lodgings' list, opens in new tab */}
+                    <Link to= {`/alltransports`}  className="pinkGradientText" target="_blank">  check transports!</Link>
+                </Box>
+
+                </>
+
+                :( <>
+                <Box className="flex">
+               <LocalTaxiIcon  sx={{fontSize: 60, color: "#DA1D6C"}}></LocalTaxiIcon>
+                <Box className="pinkGradientText titleFont ml-7" >Transport</Box>
+                </Box>
+
+                <Grid container justifyContent="left">
+                <>
+                {cartTransport.map(item => (
+
+                <Box className="hostFavouriteItem" key={item.transport}>
+                <Box className="relative flex">
+                <img src={item.image} alt={item.name+' image'}  />
+                <HighlightOffIcon className="favouriteHeart " fontSize="large"  onClick={() => removeCartTransportHandler(item.transport)}/>
+                </Box>
+                <Box sx={{position: 'relative', width: '100%'}}>
+                {/* Transport data */}
+                <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
+                <Link to={`/lodging/${item.transport}`}>
+                <Box className="pinkGradientText hostFavouriteItemNameFont" >{item.name}</Box>
+                </Link>
+                <Box className="hostFavouriteItemLodgingTypeFont" >{item.activity}</Box>
+                </Box>
+                <Box sx={{ float: 'right'}}  className="text-right mt-1 space-y-1">
+                <Box className="hostFavouriteItemLocationPriceFont" >{item.governorate}, Tunisia</Box>
+                <Box className="hostFavouriteItemLocationPriceFont">{item.pricepernight} DT</Box>
+                </Box>
+                </Box>
+
+                </Box>
+                ))}
+                </>
+                </Grid>
+                </>)
+                }
+
+          </Box>
+
         </Box>
+
+
+
     )
 
 }

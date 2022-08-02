@@ -1,5 +1,6 @@
 import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
-    ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE } from '../constants/favouriteConstants'
+    ADD_LODGING_TO_FAVOURITE, REMOVE_LODGING_FAVOURITE,
+    ADD_TRANSPORT_TO_FAVOURITE, REMOVE_TRANSPORT_FAVOURITE} from '../constants/favouriteConstants'
 
 
 //Experience
@@ -67,6 +68,47 @@ export const cartLodgingReducer = (state = { cartLodging: [], shippingInfo: {} }
             return {
                 ...state,
                 cartLodging: state.cartLodging.filter(i => i.lodging !== action.payload)
+            }
+
+
+        case SAVE_SHIPPING_INFO:
+            return {
+                ...state,
+                shippingInfo: action.payload
+            }
+
+
+        default:
+            return state
+    }
+}
+
+
+//Transport
+export const cartTransportReducer = (state = { cartTransport: [], shippingInfo: {} }, action) => {
+    switch (action.type) {
+
+        case ADD_TRANSPORT_TO_FAVOURITE:
+            const item = action.payload;
+
+            const isItemExist = state.cartTransport.find(i => i.transport === item.transport)
+
+            if (isItemExist) {
+                return {
+                    ...state,
+                    cartTransport: state.cartTransport.map(i => i.transport === isItemExist.transport ? item : i)
+                }
+            } else {
+                return {
+                    ...state,
+                    cartTransport: [...state.cartTransport, item]
+                }
+            }
+
+        case REMOVE_TRANSPORT_FAVOURITE:
+            return {
+                ...state,
+                cartTransport: state.cartTransport.filter(i => i.transport !== action.payload)
             }
 
 
