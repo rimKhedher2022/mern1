@@ -2,6 +2,10 @@
     background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     url('../../../public/images/car.png') center/cover;
 }
+.editTransport {
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+  url('../../../public/images/editTransport.png') center/cover;
+}
 
 .card__container {
     display: flex;

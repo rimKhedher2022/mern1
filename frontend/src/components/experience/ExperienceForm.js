@@ -254,7 +254,7 @@ export default function ExperienceForm(props) {
                   Thank you for your inscription.
                 </Typography>
                 <Typography variant="subtitle1" style={{ color:"black"}}>
-                  Welcome To BAGNGO ...
+                  Welcome To livmo ...
                 </Typography>
                 <br />
                 <Button variant="contained" disableElevation style={{textTransform: 'none'}}>

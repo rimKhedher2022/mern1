@@ -2,7 +2,10 @@
     background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     url('../../../public/images/he.png') center/cover;
 }
-
+.editHero {
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+  url('../../../public/images/editHero.png') center/cover;
+}
 
 .card__container {
     display: flex;

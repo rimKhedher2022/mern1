@@ -27,6 +27,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_LODGINGS_REQUEST,
+    MY_LODGINGS_SUCCESS,
+    MY_LODGINGS_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/lodgingConstants'
@@ -270,3 +273,33 @@ export const lodgingReviewsReducer = (state = { review: [] }, action) => {
 }
 
 
+
+export const myLodgingsReducer = (state = { lodgings: [] }, action) => {
+    switch (action.type) {
+
+        case MY_LODGINGS_REQUEST:
+            return {
+                loading: true
+            }
+
+        case MY_LODGINGS_SUCCESS:
+            return {
+                loading: false,
+                lodgings: action.payload
+            }
+
+        case MY_LODGINGS_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
+    }
+}

@@ -129,10 +129,6 @@ const userSchema = new mongoose.Schema({
 	mfiscale: {
         type: Number
     },
-	verified: {
-        type: Boolean,
-        default: true
-    },
     typehost: {
         type: String,
 
@@ -149,9 +145,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'Not yet'
     },
+    showbooked : {
+        type: false,
+    },
     role:  {
         type: String,
         default: 'user'
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    activationCode: {
+        type: String,
     },
     createdAt: {
         type: Date,
@@ -202,6 +208,9 @@ const userSchema = new mongoose.Schema({
 
         return resetToken
     }
+
+
+
 
 
 module.exports = mongoose.model('User', userSchema);

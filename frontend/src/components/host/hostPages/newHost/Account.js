@@ -57,7 +57,7 @@ const Account = ({ informationFormValues, changeInformationValue }) => {
 									    className='custom-file-input'
                                         type='file'
                                         name='avatar'
-                                       
+                                       style={{display : 'none'}}
                                         id='customFile'
                                         accept='image/*'
                                         onChange={onChangee}

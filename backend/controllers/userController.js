@@ -4,12 +4,38 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
+const sendConfirmationEmail = require('../utils/sendEmail');
 const cloudinary = require('cloudinary');
 const crypto =require('crypto');
 
 
+//Verify user => /api/v1/verifyuser/:activationcode
+exports.verifyUser  = catchAsyncErrors(async (req, res, next) => {
+
+    const user = await User.findOne({ activationCode: req.params.activationcode });
+   
+                 
+            user.verified = true
+
+            await user.save();
+
+            res.send({
+                message: ""
+            })
+    
+
+    
+})
+
+
 // Register a user   => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+
+    const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let activationCode = "";
+    for (let i = 0; i < 25; i++) {
+        activationCode += characters[Math.floor(Math.random() * characters.length)];
+    }
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: 'avatars',
         width: 150,
@@ -26,16 +52,44 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         phone,
         country,
         password,
+        activationCode: activationCode,
         avatar: {
             public_id: result.public_id,
             url: result.secure_url
         }
     })
 
+        // Create reset password url
+        const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`;
+
+        const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
     
-    sendToken(user, 200, res)
+        try {
+    
+            await sendEmail({
+                email: user.email,
+                subject: 'livmo conform your account',
+                message
+            })
+    
+            res.status(200).json({
+                success: true,
+                message: `Email sent to: ${user.email}`
+            })
+    
+        } catch (error) {
+        
+
+            return next(console.log(error));
+        }
+        
+        await user.save();
+
 
 })
+   
+
+
 
 // Login User  =>  /a[i/v1/login
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
@@ -43,7 +97,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
     // Checks if email and password is entered by user
     if (!email || !password) {
-        return next(new ErrorHandler('Veuillez saisir votre email et votre mot de passe', 400))
+        return next(new ErrorHandler('Please enter your email address and password', 400))
     }
 
 
@@ -52,14 +106,18 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
 
     if (!user) {
-        return next(new ErrorHandler('Email ou mot de passe invalide', 401));
+        return next(new ErrorHandler('Invalid email or password', 401));
     }
 
     // Checks if password is correct or not
     const isPasswordMatched = await user.comparePassword(password);
 
     if (!isPasswordMatched) {
-        return next(new ErrorHandler('Email ou mot de passe invalide', 401));
+        return next(new ErrorHandler('Invalid email or password', 401));
+    }
+
+    if (isPasswordMatched && user && !user.verified ) {
+        return next(new ErrorHandler('Please check your email for activation', 401));
     }
 
     sendToken(user, 200, res)
@@ -72,7 +130,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-        return next(new ErrorHandler('Utilisateur introuvable avec cet e-mail', 404));
+        return next(new ErrorHandler('User not found with this email', 404));
     }
 
     // Get reset token
@@ -89,7 +147,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
         await sendEmail({
             email: user.email,
-            subject: 'BAGNGO Password Recovery',
+            subject: 'livmo Password Recovery',
             message
         })
 
@@ -157,19 +215,19 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
     // Check previous user password
     const isMatched = await user.comparePassword(req.body.oldPassword)
     if (!isMatched) {
-        return next(new ErrorHandler('Ancien mot de passe est incorrect'));
+        return next(new ErrorHandler('Old password is incorrect'));
     }
 
     user.password = req.body.password;
     await user.save();
 
-    const message = `Votre mot de passe a été changé à ${new Date()}` 
+    const message = `Your password has been changed to ${new Date()}` 
 
     try {
 
         await sendEmail({
             email: user.email,
-            subject: 'BAGNGO Password Changed',
+            subject: 'livmo Password Changed',
             message
         })
 
@@ -189,8 +247,13 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
         fname: req.body.fname,
         lname: req.body.lname,
+        name: req.body.name,
+        birthday: req.body.birthday,
         country: req.body.country,
-        email: req.body.email
+        phone: req.body.phone,
+        bio: req.body.bio,
+        showbooked : req.body.showBookedExp,
+
     }
 
     // Update avatar
@@ -546,6 +609,40 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
 
     
     
+    sendToken(user, 200, res)
+
+})
+
+
+
+//Update / Change email   =>  /api/v1/email/update
+exports.updateEmail = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+email');
+
+
+    user.email = req.body.email;
+    await user.save();
+    
+    {/*
+    const message = `Your password has been changed to ${new Date()}`
+
+      try {
+
+        await sendEmail({
+            email: req.body.email,
+            subject: 'livmo Email Changed',
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${req.body.email}`
+        })
+
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+    }
+    */}
     sendToken(user, 200, res)
 
 })

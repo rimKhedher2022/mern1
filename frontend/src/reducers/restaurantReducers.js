@@ -27,6 +27,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_RESTAURANTS_REQUEST,
+    MY_RESTAURANTS_SUCCESS,
+    MY_RESTAURANTS_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/restaurantConstants'
@@ -267,5 +270,38 @@ export const restaurantReviewsReducer = (state = { review: [] }, action) => {
 
         default:
             return state
+    }
+}
+
+
+//
+
+export const myRestaurantsReducer = (state = { restaurants: [] }, action) => {
+    switch (action.type) {
+
+        case MY_RESTAURANTS_REQUEST:
+            return {
+                loading: true
+            }
+
+        case MY_RESTAURANTS_SUCCESS:
+            return {
+                loading: false,
+                restaurants: action.payload
+            }
+
+        case MY_RESTAURANTS_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
     }
 }

@@ -21,6 +21,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LanguageIcon from '@mui/icons-material/Language';
 import Logo from '../../../img/logo.png'
+import { useHistory } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -101,12 +102,13 @@ const dispatch = useDispatch()
 
   };
 
-
+  const history = useHistory()
 
   const logoutHandler = () => {
     dispatch(logout());
-  
+    history.push('/');
     alert.success('Log out.')
+    localStorage.clear();
   }
 
   const classes = useStyles();
@@ -308,9 +310,6 @@ const dispatch = useDispatch()
     {user ? (
         <div>
         <MenuItem>
-        {user && user.fname}
-        </MenuItem>
-        <MenuItem>
         <ListItemIcon>
         <PersonIcon sx={{ color: '#F02F32' }} fontSize="small"/>
         </ListItemIcon>
@@ -320,12 +319,12 @@ const dispatch = useDispatch()
           <></>
         )}
          {user.role ==="trader"  ? (
-        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/trader/me">Profile</Link>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/merchant/me">Profile</Link>
         ) : ( 
       <></>
         )}
          {user.role ==="user" ? (
-        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/me">Profile</Link>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/me/user">Profile</Link>
         ) : ( 
           <></>
         )}
@@ -340,7 +339,7 @@ const dispatch = useDispatch()
         <ListItemIcon>
         <SettingsIcon sx={{ color: '#F02F32' }} fontSize="small"/>
         </ListItemIcon>
-        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Settings</Link>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/settings">Settings</Link>
         </MenuItem>
         {user.role ==="trader" ? (
         <MenuItem>

@@ -29,6 +29,9 @@ import {
     DELETE_REVIEW_SUCCESS,
     DELETE_REVIEW_RESET,
     DELETE_REVIEW_FAIL,
+    MY_EXPERIENCES_REQUEST,
+    MY_EXPERIENCES_SUCCESS,
+    MY_EXPERIENCES_FAIL,
     CLEAR_ERRORS
 
 
@@ -255,3 +258,23 @@ export const clearErrors = () => async (dispatch) => {
     })
 }
 
+// Get curretly logged in host experiences
+export const myExperiences = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: MY_EXPERIENCES_REQUEST });
+
+        const { data } = await axios.get('/api/v1/experiences/me')
+
+        dispatch({
+            type: MY_EXPERIENCES_SUCCESS,
+            payload: data.experiences
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MY_EXPERIENCES_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import {  useHistory } from 'react-router-dom';
-
+import {  Link, useHistory } from 'react-router-dom';
+import {  useForm } from "react-hook-form";
 
 //MUI IMPORTS
 import { Container } from '@mui/material';
@@ -47,6 +47,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NewTransport= () => {
+
+  //Validation
+
+  const { register , handleSubmit, formState: {errors} } = useForm();
+  
+  const governorateValidation = errors?.governorate ? errors.governorate.message : null;
+  //const typeTransportValidation = errors?.typeTransport ? errors.typeTransport.message : null;
+  const activityValidation = errors?.activity ? errors.activity.message : null;
+  const fueltypeValidation = errors?.fueltype ? errors.fueltype.message : null;
+  const pricepernightValidation = errors?.pricepernight ? errors.pricepernight.message : null;
+  const nameValidation = errors?.name ? errors.name.message : null;
+  const rulesValidation = errors?.rules ? errors.rules.message : null;
+  const nbrePlaceValidation = errors?.nbrePlace ? errors.nbrePlace.message : null;
+  const imagesValidation = errors?.images ? errors.images.message : null;
+
+
 
   const theme = useTheme();
 
@@ -179,7 +195,7 @@ useEffect(() => {
 
 
 const submitHandler = (e) => {
-  e.preventDefault();
+
 
   const formData = new FormData();
   formData.set('typeTransport', typeTransport);
@@ -230,29 +246,32 @@ const oSelected = () =>{
         fontWeight:700,
         fontSize:"42px",
         lineHeight:'42px',
-        marginTop:'7rem',
+        marginTop:'4rem',
         color:"white"
      }}>
     CREATE A TRANSPORT
       </Typography>
       <br />
           <br/>
-      <Grid container component="form" onSubmit={submitHandler}   noValidate spacing={4} >
+      <Grid container component="form" onSubmit={handleSubmit(submitHandler)}   noValidate spacing={4} >
       <Grid item xs={12} md={4}> 
       <Typography  style={{ color:"white", textAlign: "left", }}>Activity :</Typography> 
       <FormControl fullWidth>
         <Select
+            style={{ textAlign: "left", backgroundColor:"white", height:"35px"}}
+            {...register("activity", { required: "Activity is required",
+          })}
           value={activity}
           onChange={Radiochange}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
-          style={{ textAlign: "left", backgroundColor:"white", height:"35px"}}
+      
         >
           <MenuItem onClick={onNSelected} value={"Regular passenger transport, intercity"}>Regular passenger transport, intercity</MenuItem>
           <MenuItem onClick={onNSelected} value={"Private transport"}>Private transport</MenuItem>
-          <MenuItem onClick={oSelected} selected={select} value={"Public transport (“louage”, taxi...)"}>Public transport (“louage”, taxi...)</MenuItem>
+          <MenuItem onClick={oSelected} selected={select} value={"Public transport"}>Public transport (“louage”, taxi...)</MenuItem>
           <MenuItem onClick={onNSelected} value={"Urban and suburban transport"}>Urban and suburban transport</MenuItem>
           <MenuItem onClick={onNSelected} value={"Auxiliary transport service"}>Auxiliary transport service</MenuItem>
 
@@ -260,6 +279,9 @@ const oSelected = () =>{
 
         </Select>
       </FormControl>
+      <br/>
+      {!!errors?.activity && <span className="text-sm text-red-500">
+                                        {activityValidation}</span>}
       </Grid>
       { selected ? (
          <Grid item xs={12} md={4}>
@@ -271,6 +293,10 @@ const oSelected = () =>{
               placeholder="Other"
               fullWidth
               variant="standard"
+              {...register("activity", { required: "Activity is required",
+            })}
+              error={!!errors?.activity}
+              helperText={activityValidation}
               value={activity}
               onChange={Radiochange}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -281,6 +307,7 @@ const oSelected = () =>{
       <div></div>
     )
     }
+    {/*
     { select ? (
       <Grid item xs={12} md={4}> 
         <FormControl>
@@ -306,7 +333,7 @@ const oSelected = () =>{
 ):(
   <div></div>
 )
-}
+} */}
       
 
                  <Grid item xs={12} md={4}>
@@ -318,6 +345,10 @@ const oSelected = () =>{
               placeholder="Vehicle Name"
               fullWidth
               variant="standard"
+              {...register("name", {required: "Name is required"})}
+              error={!!errors?.name}
+              helperText={nameValidation}
+    
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -347,6 +378,9 @@ const oSelected = () =>{
           </MenuItem>
           {countries.map((name) => (
             <MenuItem
+            {...register("governorate", { required: "Governorate is required",
+          })}
+
               key={name}
               value={name}
               style={getStyles(name, governorate, theme)}
@@ -356,9 +390,12 @@ const oSelected = () =>{
           ))}
         </Select>
       </FormControl>
+      <br/>
+      {!!errors?.governorate && <span className="text-sm text-red-500">
+                                        {governorateValidation}</span>}
  </Grid>
           <Grid item xs={12} md={4}>
-    <Typography  style={{ color:"white", textAlign: "left", }}>Price Per Day:</Typography> 
+    <Typography  style={{ color:"white", textAlign: "left", }}>Price Per Day: (DTN)</Typography> 
 	  <TextField
               required
               id="price"
@@ -366,6 +403,14 @@ const oSelected = () =>{
               placeholder="Price Per Day"
               fullWidth
               variant="standard"
+              {...register("pricepernight", {required: "Price is required, Only numbers is allowed",
+              valueAsNumber: true,
+              pattern:{
+                   value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                  },
+            })}
+              error={!!errors?.pricepernight}
+              helperText={pricepernightValidation}
               value={pricepernight}
               onChange={(e) => setPricepernight(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white",
@@ -378,6 +423,7 @@ const oSelected = () =>{
            <div>
                 <label className="file-label">
                     <input className="file-input" type="file" style={{ color:"white" }}
+                  {...register("images", {required: "Vehicle photos is required"})}
                   name='patente'
                   accept='image/*,application/pdf' 
                   onChange={onChange}
@@ -401,6 +447,13 @@ const oSelected = () =>{
 
                           </div>
                             </div>
+                            {namee === "" ? (
+										<>
+									 {!!errors?.images && <span className="text-sm text-red-500">
+                                        {imagesValidation}</span>}
+										</>
+									):(<></>)
+										}
                           </Grid>
                          
 
@@ -414,6 +467,15 @@ const oSelected = () =>{
             fullWidth
             type="number"
             variant="standard"
+            {...register("nbrePlace", {required: "Number of Seats is required, Only numbers is allowed",
+            valueAsNumber: true,
+            pattern:{
+                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                },
+          })}
+            error={!!errors?.nbrePlace}
+            helperText={nbrePlaceValidation}
+
 		      	value={nbrePlace}
             onChange={(e) => setNbrePlace(e.target.value)}
             style={{ textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -423,6 +485,7 @@ const oSelected = () =>{
       <Typography  style={{ color:"white", textAlign: "left", }}>Fuel Type :</Typography> 
       <FormControl fullWidth>
       <Select				
+
           displayEmpty
           style={{ textAlign: "left", backgroundColor:"white", height:"35px"}}
           labelId="demo-multiple-name-label"
@@ -432,6 +495,7 @@ const oSelected = () =>{
           input={<OutlinedInput label="Governorate" />}
           MenuProps={MenuProps}
           renderValue={(selected) => {
+            
             if (selected.length === 0) {
               return <em>Fuel Type</em>;
             }
@@ -443,6 +507,8 @@ const oSelected = () =>{
           </MenuItem>
           {fuel.map((name) => (
             <MenuItem
+            {...register("fueltype", { required: "Fuel Type is required",
+          })}
               key={name}
               value={name}
               style={getStyles(name, governorate, theme)}
@@ -452,6 +518,9 @@ const oSelected = () =>{
           ))}
         </Select>
       </FormControl>
+      <br/>
+{!!errors?.fueltype && <span className="text-sm text-red-500">
+                                        {fueltypeValidation}</span>}
       </Grid>
       <Grid item xs={12} >
             <Typography  style={{ color:"white", textAlign: "left" }}> Vehicle Rules</Typography> 
@@ -459,13 +528,21 @@ const oSelected = () =>{
       aria-label="maximum height"
       placeholder="Vehicle rules..."
       style={{ width: "65%", height:"100%", borderRadius:'8px 8px 8px 8px'}}
+      {...register("rules", {required: "Rules is required"})}
+
       value={rules}
       onChange={(e) => setRules(e.target.value)}
     />
+<br/>
+{!!errors?.rules && <span className="text-sm text-red-500">
+                                        {rulesValidation}</span>}
 </Grid>
+
+
       <Grid item xs={12} style={{textAlign:"right"}}>
         <br/>
         <br/>
+        <Link to="/merchant/me">
         <Button variant="contained"
 		   color="secondary" 
       
@@ -477,6 +554,7 @@ const oSelected = () =>{
             >
 			CANCEL 
 		  </Button>
+      </Link>
      <Button variant="contained"
        type='submit'
        style={{textTransform: 'none',

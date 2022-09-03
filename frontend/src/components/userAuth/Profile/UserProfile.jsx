@@ -78,7 +78,7 @@ const UserProfile = () => {
             />
           </BottomNavigation>
           <Divider />
-          <p>{user.fname} Confirmation effectuee</p>
+          <p>{user.name} Confirmation effectuee</p>
           <MyCard>
             <span>
               <CheckCircleOutlineOutlinedIcon sx={{color: "#e42651"}}/>
@@ -102,7 +102,7 @@ const UserProfile = () => {
         </Left>
         <Right>
           <div>
-            <h2 style={{ color: "#e42651" }}>{user.fname} {user.lname}</h2>
+            <h2 style={{ color: "#e42651" }}>{user.name} </h2>
             <h5>{role}</h5>
             <h6>Member since {moment(user.createdAt).format('LL')}</h6>
             <h6>Lives in {user.country}</h6>

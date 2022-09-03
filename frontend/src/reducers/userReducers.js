@@ -49,6 +49,13 @@ import {
     DELETE_USER_SUCCESS,
     DELETE_USER_RESET,
     DELETE_USER_FAIL,
+    UPDATE_EMAIL_REQUEST,
+    UPDATE_EMAIL_SUCCESS,
+    UPDATE_EMAIL_RESET,
+    UPDATE_EMAIL_FAIL,
+    VALIDATION_REQUEST,
+    VALIDATION_SUCCESS,
+    VALIDATION_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
 
@@ -137,20 +144,22 @@ export const authReducer = (state = { user: {} }, action) => {
 
 export const userReducer = (state = {}, action) => {
     switch (action.type) {
-
+        case VALIDATION_REQUEST:
         case UPDATE_PROFILE_REQUEST:
         case HOSTUPDATE_PROFILE_REQUEST:
         case UPDATE_PASSWORD_REQUEST:
+        case UPDATE_EMAIL_REQUEST:
         case UPDATE_USER_REQUEST:
         case DELETE_USER_REQUEST:
             return {
                 ...state,
                 loading: true
             }
-
+        case VALIDATION_SUCCESS:
         case UPDATE_PROFILE_SUCCESS:
         case HOSTUPDATE_PROFILE_SUCCESS:
         case UPDATE_PASSWORD_SUCCESS:
+        case UPDATE_EMAIL_SUCCESS:
         case UPDATE_USER_SUCCESS:
             return {
                 ...state,
@@ -168,6 +177,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PROFILE_RESET:
         case HOSTUPDATE_PROFILE_RESET:
         case UPDATE_PASSWORD_RESET:
+        case UPDATE_EMAIL_RESET:
         case UPDATE_USER_RESET:
             return {
                 ...state,
@@ -180,9 +190,11 @@ export const userReducer = (state = {}, action) => {
                 isDeleted: false
             }
 
+        case VALIDATION_FAIL:
         case UPDATE_PROFILE_FAIL:
         case HOSTUPDATE_PROFILE_FAIL:
         case UPDATE_PASSWORD_FAIL:
+        case UPDATE_EMAIL_FAIL:
         case UPDATE_USER_FAIL:
         case DELETE_USER_FAIL:
             return {

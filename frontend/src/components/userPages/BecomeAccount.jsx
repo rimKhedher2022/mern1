@@ -7,7 +7,7 @@ const BecomeAccounts = () => {
   return (
   <React.Fragment>
     <Layout>
-          <MetaData title={'BAGNGO|Services & Experience Page'} />
+          <MetaData title={'livmo|Services & Experience Page'} />
     <BecomeAccount />
     </Layout>
          </React.Fragment>

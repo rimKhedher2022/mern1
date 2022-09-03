@@ -83,11 +83,12 @@ const Terms = ({ compteFormValues ,changeCompteValue,
        }])
      
         },[])
-
         //Dish local Storage
         const [dishinputFields, setDishInputFields] = useState([
           { id: uuidv4(), dishName: '' , dishImages: [], dishDescription: '', dishimagename: '' },
         ]);
+        
+
         useEffect(() => {
           const dishinputFields = window.localStorage.getItem("dynamic form Dish")
           setDishInputFields(JSON.parse(dishinputFields) || [{  id: uuidv4(),  dishName: '' , dishImages: [],
@@ -95,6 +96,8 @@ const Terms = ({ compteFormValues ,changeCompteValue,
        
           },[])
 
+          
+          
 
           //experience image local storage
           const [YourIdeaImage, setYourIdeaImage] = useState(() => {
@@ -136,11 +139,13 @@ const Terms = ({ compteFormValues ,changeCompteValue,
       
       }, [dispatch, alert, error, success, ])
 
+      
+
       const submitHandler = (e) => {
         e.preventDefault();
       
         const formData = new FormData();
-        formData.set('exptitle', compteFormValues.exptitle);
+        /*formData.set('exptitle', compteFormValues.exptitle);
         formData.set('theme', compteFormValues.theme);
         formData.set('subtheme', compteFormValues.subtheme);
         formData.set('location', compteFormValues.location);
@@ -306,14 +311,36 @@ const Terms = ({ compteFormValues ,changeCompteValue,
                formData.append('LdImage', [])
              })
            }
+*/
       
+//Dish Dynamic Form
+            formData.append('size',dishinputFields.length )
 
-        formData.append('dishinputFields', JSON.stringify(dishinputFields))
-        
+   
+            dishinputFields.forEach(e => {
+              formData.append('id', JSON.stringify(e.id))
+              formData.append('dishName', JSON.stringify(e.dishName))
+              formData.append('dishDescription', JSON.stringify(e.dishDescription))  
+              e.dishImages.forEach(f => { 
+              formData.append('dishImages', f)
+              })
+            })
+    
+
+
+//Activity Dynamic Form
 
       
+  
         dispatch(newExperience(formData))
       }
+
+      const [fff , setFff] = useState([dishinputFields.dishImages])
+      const ff = () => {
+        
+        console.log(fff)
+      }
+  
   return (
     <React.Fragment>
       <React.Fragment>
@@ -747,7 +774,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
 
        <Button
                 onClick={submitHandler}
-                type="submit" 
+                type="submit"
                 variant="contained"
                 style={{textTransform: 'none', background: "linear-gradient(#F02F32,#DA1D6C)", width: '12%',height:'20%'}}
               >

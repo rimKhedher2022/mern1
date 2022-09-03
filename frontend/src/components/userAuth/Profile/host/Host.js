@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom';
 
 //
 import verifiedIcon from '../../../img/verifiedIcon.png';
@@ -60,7 +61,7 @@ function TabPanel(props){
 
 
 const Host= () =>{
-    const { user, loading } = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.auth);
 
 
     //Array of tabs label
@@ -92,8 +93,10 @@ const Host= () =>{
                     </Typography>
 
                     <Box className="pt-6">
+                    <Link  style={{ textDecoration : "none", color: '#000000'}} to="/settings">
                         <Button sx={muiButtonSx} className="pinkGradientText" style={{textTransform: 'none'}}>
                             Settings</Button>
+                    </Link>
                     </Box>
                 </Box>
 

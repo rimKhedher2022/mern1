@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 
 
@@ -115,7 +115,7 @@ const TypeService = ({ compteFormValues, changeCompteValue }) => {
                  alignItems:"center" }}
                 >
             <DirectionsCarIcon  sx={{ fontSize: 50, color:"#E42651"}}/>
-        <FormControlLabel type="checkbox" value="Transport" onChange={OnChanging} checked={compteFormValues.setCheck}  control={<Radio style={{
+        <FormControlLabel  value="Transport" onChange={OnChanging} checked={compteFormValues.setCheck}  control={<Radio style={{
 			color:"#E42651"}} />}      
               
 			labelPlacement="top" style={{backgroudColor:"black"}}
@@ -133,7 +133,7 @@ const TypeService = ({ compteFormValues, changeCompteValue }) => {
                  alignItems:"center" }}
                 >
             <HotelIcon  sx={{ fontSize: 50, color:"#E42651"}} />
-        <FormControlLabel onChange={OnChangin} checked={compteFormValues.setChecked} type="checkbox"  value="Lodging" control={<Radio style={{
+        <FormControlLabel onChange={OnChangin} checked={compteFormValues.setChecked}   value="Lodging" control={<Radio style={{
 			color:"#E42651"}} />} 
 			labelPlacement="top" 
 			label="Lodging"
@@ -150,7 +150,7 @@ const TypeService = ({ compteFormValues, changeCompteValue }) => {
                  alignItems:"center" }}
                 >
             <RestaurantIcon  sx={{ fontSize: 50, color:"#E42651"}} />
-              <FormControlLabel onChange={OnChanges} checked={compteFormValues.setCheckedd} type="checkbox"  value="Restaurant" control={<Radio style={{
+              <FormControlLabel onChange={OnChanges} checked={compteFormValues.setCheckedd} t  value="Restaurant" control={<Radio style={{
 			color:"#E42651"}} />} 
 			labelPlacement="top" 
 			label="Restaurant"

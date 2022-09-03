@@ -12,12 +12,13 @@ const {
     createExperienceReview,
     getExperienceReviews,
     deleteReview,
-
+    myExperiences,
      } = require('../controllers/experienceController')
 
      const { isAuthenticatedUser , authorizeRoles} = require('../middleware/auth');
 
-
+    //
+    router.route('/experiences/me').get(isAuthenticatedUser,authorizeRoles('host'), myExperiences);
 
      router.route('/experiences').get(getExperiences);
      router.route('/host/experiences').get(getHostExperiences);

@@ -17,14 +17,14 @@ const helmet = require("helmet");
 //
 var xss = require('xss-clean')
 
-//Setting up config file
-dotenv.config({ path: 'backend/config/config.env'});
-
 //Use to limit repeated requests to public APIs and/or endpoints such as password reset. 
 const rateLimit = require('express-rate-limit')
 
 // Express middleware to protect against HTTP Parameter Pollution attacks
 var hpp = require('hpp');
+
+//Setting up config file
+dotenv.config({ path: 'backend/config/config.env'});
 
 // Setting up cloudinary configuration
 cloudinary.config({

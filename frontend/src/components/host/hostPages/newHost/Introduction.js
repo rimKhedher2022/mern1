@@ -96,14 +96,14 @@ const onRadichange = e => {
 		 }}>
 			<br/>
 
-        <FormControlLabel type="checkbox" value="Individual"  control={<Radio style={{
+        <FormControlLabel  value="Individual"  control={<Radio style={{
 			color:"#E22357"}} />}        
 			labelPlacement="top" 
 			label="Individual" 
 			onChange={OnChanging} checked={compteFormValues.setCheck}
 			/>
 
-        <FormControlLabel type="checkbox"  value="Organization" control={<Radio style={{
+        <FormControlLabel  value="Organization" control={<Radio style={{
 			color:"#E22357"}} />} 
 			labelPlacement="top" 
 			label="Organization"

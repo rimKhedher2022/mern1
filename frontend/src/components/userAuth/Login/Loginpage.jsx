@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import {AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 
 import { login, clearErrors } from "../../../actions/userActions";
 import Loader from '../../shared/Loader/loader';
@@ -48,6 +49,13 @@ function Copyright(props) {
 const Login = (props) => {
 
 
+  const [passwordEye, setPasswordEye] = useState(false);
+
+  const handlePasswordClick = () =>{
+      setPasswordEye(!passwordEye)
+  }
+
+
   const useStyles = makeStyles({
 
     button: {
@@ -77,7 +85,8 @@ const { register, handleSubmit, formState: {errors} } = useForm();
 
       if(isAuthenticated) {
         history.push('/');
-        alert.success('Connecté Avec Succès.'); 
+        alert.success('Successfully Connected.'); 
+
 
     }
   
@@ -137,8 +146,8 @@ const { register, handleSubmit, formState: {errors} } = useForm();
             <img src={IMG} alt='logo' />
               </Link> 
             </div>
-            <Box component="form" noValidate onSubmit={handleSubmit(submitHandler)} sx={{ mt: 1 }}>
-          
+            <Box component="form" noValidate onSubmit={handleSubmit(submitHandler)} sx={{ mt: 1 ,  width: 400}}>
+
             <TextField
             id="input-with-icon-textfield"
             label="Email"
@@ -156,9 +165,9 @@ const { register, handleSubmit, formState: {errors} } = useForm();
                 name="email"
                 {...register("email", {pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Information invalide' 
+                  message: 'Email is invalid, exemple: example@mail.com' 
                 }})}
-                {...register("email", {required: 'Champ requis',
+                {...register("email", {required: 'Email is required',
                  
                 })}
                 error={!!errors?.email}
@@ -166,7 +175,9 @@ const { register, handleSubmit, formState: {errors} } = useForm();
                 value={email}          
                 onChange={(e) => setEmail(e.target.value)} 
               />
-              
+                 <div className='mx-1'>
+                     <div className=' relative'>
+
               <TextField
                id="input-with-icon-textfield"
                label="Password"
@@ -182,17 +193,29 @@ const { register, handleSubmit, formState: {errors} } = useForm();
                 margin="normal"
                 fullWidth
                 name="password"
-                type="password"
-              {...register("password", {required: "Champ requis"})}
+                type={(passwordEye === false)? 'password': 'text'}
+              {...register("password", {required: "Password is required"})}
               
                 error={!!errors?.password}
                 helperText={pwdValidation}
                 value={password}          
                 onChange={(e) => setPassword(e.target.value)} 
               />
+
+                        <div className='text-2xl absolute top-8 right-1' >
+                            {
+                                (passwordEye === false)? <AiFillEyeInvisible onClick={handlePasswordClick}/>:
+                                 <AiFillEye onClick={handlePasswordClick}/>
+                                    }
+                                    
+                                     
+                                     </div>
+          </div>
+</div>
+
            <Grid container>
                 <Grid item xs style={{marginTop:"2rem"}}>
-                <Link to="/password/forgot" style={{color:'black', marginLeft:"9rem"}} >
+                <Link to="/password/forgot" style={{color:'black'}} >
                     Forgot password?
                   </Link>
                 </Grid>
@@ -225,6 +248,7 @@ const { register, handleSubmit, formState: {errors} } = useForm();
               </Button>
 
               <Copyright sx={{ mt: 5 }} />
+           
             </Box>
           </Box>
         </Grid>

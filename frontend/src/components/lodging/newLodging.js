@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom';
-
+import { Link, useHistory } from 'react-router-dom';
+import {  useForm } from "react-hook-form";
 
 //MUI IMPORTS
 
@@ -38,6 +38,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NewLodging = () => {
+
+
+  //Validation
+
+  const { register , handleSubmit, formState: {errors} } = useForm();
+  
+  const titleValidation = errors?.title ? errors.title.message : null;
+  const addressValidation = errors?.address ? errors.address.message : null;
+  const pricepernightValidation = errors?.pricepernight ? errors.pricepernight.message : null;
+  const descriptionValidation = errors?.description ? errors.description.message : null;
+  const imagesValidation = errors?.images ? errors.images.message : null;
+  const lodcategoryValidation = errors?.lodcategory ? errors.lodcategory.message : null;
+  const lodtypeValidation = errors?.lodtype ? errors.lodtype.message : null;
+
+ 
+
+
 
 
   const classes = useStyles();
@@ -139,7 +156,7 @@ useEffect(() => {
 
 
 const submitHandler = (e) => {
-  e.preventDefault();
+ 
 
   const formData = new FormData();
   formData.set('lodgingCategory', lodgingCategory);
@@ -166,7 +183,7 @@ const submitHandler = (e) => {
   return (
     <React.Fragment >
         <CssBaseline />
-        <section className="hero is-fullheight he">
+        <section className="hero is-fullheight he" >
       <div className={classes.root}>
         <Container component="main" >
 
@@ -176,19 +193,21 @@ const submitHandler = (e) => {
         fontWeight:700,
         fontSize:"42px",
         lineHeight:'42px',
-        marginTop:'7rem',
+        marginTop:'4rem',
         color:"white"
      }} >
     CREATE A LODGING
       </Typography>
       <br />
           <br/>
-      <Grid container component="form" onSubmit={submitHandler}   noValidate spacing={4} >
+      <Grid container component="form" onSubmit={handleSubmit(submitHandler)}   noValidate spacing={4} >
        
       <Grid item xs={12} md={4}> 
       <Typography  style={{ color:"white", textAlign: "left", }}>Lodging Category :</Typography> 
       <FormControl fullWidth>
         <Select
+        {...register("lodcategory", { required: "Lodging Category is required",
+      })}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           displayEmpty
@@ -214,6 +233,9 @@ const submitHandler = (e) => {
 
         </Select>
       </FormControl>
+      <br/>
+      {!!errors?.lodcategory && <span className="text-sm text-red-500">
+                                        {lodcategoryValidation}</span>}
       </Grid>
     { select ? (
          <Grid item xs={12} md={4}>
@@ -225,6 +247,10 @@ const submitHandler = (e) => {
               placeholder="Other"
               fullWidth
               variant="standard"
+              {...register("lodcategory", {required: "Lodging category is required"})}
+              error={!!errors?.lodcategory}
+              helperText={lodcategoryValidation}
+
               value={lodgingCategory}
               onChange={handleChange}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -240,6 +266,7 @@ const submitHandler = (e) => {
     <Typography  style={{ color:"white", textAlign: "left", }}>Lodging Type :</Typography> 
       <FormControl fullWidth>
         <Select
+        {...register("lodtype", {required: "Lodging type is required"})}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           displayEmpty
@@ -267,6 +294,9 @@ const submitHandler = (e) => {
 
         </Select>
       </FormControl>
+      <br/>
+      {!!errors?.lodtype && <span className="text-sm text-red-500">
+                                        {lodtypeValidation}</span>}
     </Grid>
     { selected ? (
          <Grid item xs={12} md={4}>
@@ -278,6 +308,10 @@ const submitHandler = (e) => {
               placeholder="Other"
               fullWidth
               variant="standard"
+              {...register("lodtype", {required: "Lodging type is required"})}
+              error={!!errors?.lodtype}
+              helperText={lodtypeValidation}
+
               value={otherType}
               onChange={(e) => setOtherType(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -290,7 +324,7 @@ const submitHandler = (e) => {
     }
   <br />
       <Grid item xs={12} md={4}>
-    <Typography  style={{ color:"white", textAlign: "left", }}>Price Per Night :</Typography> 
+    <Typography  style={{ color:"white", textAlign: "left", }}>Price Per Night (DTN) :</Typography> 
 	  <TextField
               required
               id="pricepernight"
@@ -299,6 +333,15 @@ const submitHandler = (e) => {
               placeholder="Price Per Night"
               fullWidth
               variant="standard"
+              {...register("pricepernight", {required: "Price is required, Only numbers is allowed",
+              valueAsNumber: true,
+              pattern:{
+                   value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                  },
+            })}
+              error={!!errors?.pricepernight}
+              helperText={pricepernightValidation}
+
               value={pricepernight}
               onChange={(e) => setPricepernight(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -308,13 +351,16 @@ const submitHandler = (e) => {
 	  <Grid item xs={12} md={4}>
     <Typography  style={{ color:"white", textAlign: "left" }}>Lodging Name:</Typography> 
 	  <TextField
-              required
+             
               id="lodgingName"
               name="lodgingName"
               placeholder="Lodging Name"
               fullWidth
-              autoFocus
               variant="standard"
+              {...register("title", {required: "Lodging Name is required"})}
+              error={!!errors?.title}
+              helperText={titleValidation}
+
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -331,6 +377,11 @@ const submitHandler = (e) => {
               fullWidth
               autoFocus
               variant="standard"
+              {...register("address", { required: "Address is required",
+            })}
+              error={!!errors?.address}
+              helperText={addressValidation}
+
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'8px 8px 8px 8px' }}
@@ -345,6 +396,7 @@ const submitHandler = (e) => {
     <div>
                 <label className="file-label">
                     <input className="file-input" type="file" style={{ color:"white" }}
+                    {...register("images", {required: "Lodging photos is required"})}
                   name='patente'
                   accept='image/*,application/pdf' 
                   onChange={onChange}
@@ -367,7 +419,13 @@ const submitHandler = (e) => {
 
                                 </div>
     
-          
+                                {namee === "" ? (
+										<>
+									 {!!errors?.images && <span className="text-sm text-red-500">
+                                        {imagesValidation}</span>}
+										</>
+									):(<></>)
+										}
 
                         </Grid>
           <Grid item xs={12} md={4}>
@@ -392,15 +450,19 @@ const submitHandler = (e) => {
       aria-label="maximum height"
       placeholder="Lodging’s description..."
       style={{ width: "65%", height:"100%", borderRadius:'8px 8px 8px 8px'}}
+      {...register("description", {required: "Description is required"})}
       value={description}
       onChange={(e) => setDescription(e.target.value)}
     />
+    <br/>
+{!!errors?.description && <span className="text-sm text-red-500">
+                                        {descriptionValidation}</span>}
 </Grid>
 
       <Grid item xs={12} style={{textAlign:"center"}}>
       <br />
       <br />
-
+    <Link to="/merchant/me">
       <Button variant="contained"
 		   color="secondary" 
       
@@ -412,6 +474,7 @@ const submitHandler = (e) => {
             >
 			CANCEL 
 		  </Button>
+      </Link>
      <Button variant="contained"
        type='submit'
        style={{textTransform: 'none',

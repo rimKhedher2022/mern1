@@ -8,7 +8,7 @@ import TraderProtectedRoutes from './components/route/TraderProtectedRoutes';
 
 import { loadUser } from './actions/userActions';
 import store from './store'
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 import theme from '../src/components/shared/theme'
 import './App.scss';
@@ -25,15 +25,13 @@ import HostForm from './components/host/hostPages/newHost/HostForm';
 
 import LodgingDetails from './components/lodging/lodgingDetails';
 
-import Profile from './components/userAuth/Profile/Profile';
 
 
 
-import UpdateProfile from './components/userAuth/Profile/UpdateProfile'
-import UpdatePassword from './components/userAuth/Profile/UpdatePassword';
+
+
 import ForgotPassword from './components/userAuth/Login/ForgotPassword'
 import NewPassword from './components/userAuth/Login/NewPassword';
-import Success from './components/userAuth/Signup/Success';
 import Check from './components/userAuth/Signup/Check';
 import Login from './components/userAuth/Login/Loginpage';
 import Signup from './components/userAuth/Signup/SignupPage';
@@ -56,10 +54,13 @@ import AllLodgings from './components/lodging/allLodgings'
 import AllTransport from './components/transport/allTransport';
 
 import AddRemoveMultipleInputFields from './test'
+
 //Host pages
 import Host from './components/userAuth/Profile/host/Host';
 
+import Merchant from './components/userAuth/Profile/merchant/Merchant'
 
+import User from './components/userAuth/Profile/user/User'
 
 
 import RestaurantDetails from './components/restaurant/restaurantDetails';
@@ -68,7 +69,6 @@ import ExperienceForm from './components/experience/ExperienceForm';
 
 
 //Profile
-
 import UserProfile from './components/userAuth/Profile/UserProfile';
 
 //Reservation 
@@ -80,6 +80,20 @@ import Contact from './components/userPages/Contact';
 
 //Dialog 
 import CustomizedDialogs from './Dialog/dialog1'
+
+
+import UserSettings from './components/userAuth/Profile/userSettings/UserSettings'
+
+
+//Update services
+import LogdingForm from './components/lodging/updateLodging'
+import DishForm from './components/restaurant/updateRestaurant'
+import TransportForm from './components/transport/updateTransport'
+
+//update experiences
+import EditExperience from "./components/experience/editExperience/EditExperience";
+import Activation from './components/userAuth/Signup/Activation';
+
 
 function App() {
   useEffect(() => {
@@ -94,6 +108,9 @@ function App() {
     <Router>
       <Switch>
 
+  
+
+      <Route exact path='/settings' component={UserSettings} />
       <Route exact path='/dialog1' component={CustomizedDialogs} />
 
 
@@ -105,13 +122,16 @@ function App() {
 
 
 
+    
 
 
 
     <Route exact path='/password/forgot' component={ForgotPassword} />
     <Route exact path='/password/reset/:token' component={NewPassword} />
-    <Route exact path='/activate/liyT0hVe5Kz5QVbnbi4NXB5ZXL7eFa7N' component={Success} />
+
+    <Route exact path='/confirm/:activationcode' component={Activation} />
     <Route exact path='/check' component={Check} />
+
     <Route exact path='/login' component={Login} />
     <Route exact path='/signup' component={Signup} />
 
@@ -132,15 +152,28 @@ function App() {
     <Route exact path='/allexperiences' component={AllExperiences} />
     <Route  path="/experience/:id" component={ExperienceDetails} />
     <HostProtectedRoute exact path='/host/me' component={Host} />
+    <HostProtectedRoute exact path='/updateexperience' component={EditExperience} />
+
 
 
 
    {/* Trader Routes */}
     <Route exact path='/becometrader' component={TraderForm} />
-  
+
+    <TraderProtectedRoutes exact path='/merchant/me' component={Merchant} />
+
+  {/* Add Services */}
     <TraderProtectedRoutes exact path='/newrestaurant' component={NewRestaurant} />
     <TraderProtectedRoutes exact path='/newlodging' component={NewLodging} />
     <TraderProtectedRoutes exact path='/newtransport' component={NewTransport} />
+
+  {/* Update Services */}
+    <TraderProtectedRoutes exact path='/updatelodging' component={LogdingForm} />
+    <TraderProtectedRoutes exact path='/updatedish' component={DishForm} />
+    <TraderProtectedRoutes exact path='/updatetransport' component={TransportForm} />
+
+
+
 
     <Route exact path='/allrestaurants' component={AllRestaurants} />
     <Route exact path='/alllodgings' component={AllLodgings} />
@@ -174,9 +207,10 @@ function App() {
 
    {/* User Profile Routes */}
 
-  <ProtectedRoute exact path='/me' component={UserProfile}  />
-  <ProtectedRoute exact path='/me/update' component={UpdateProfile}  />
-  <ProtectedRoute exact path='/password/update' component={UpdatePassword}  />
+  <ProtectedRoute exact path='/me/user' component={User}  />
+
+
+
 
 
     </Switch>

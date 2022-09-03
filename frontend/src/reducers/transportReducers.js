@@ -27,6 +27,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_TRANSPORTS_REQUEST,
+    MY_TRANSPORTS_SUCCESS,
+    MY_TRANSPORTS_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/transportConstants'
@@ -270,3 +273,34 @@ export const transportReviewsReducer = (state = { review: [] }, action) => {
 }
 
 
+//
+
+export const myTransportsReducer = (state = { transports: [] }, action) => {
+    switch (action.type) {
+
+        case MY_TRANSPORTS_REQUEST:
+            return {
+                loading: true
+            }
+
+        case MY_TRANSPORTS_SUCCESS:
+            return {
+                loading: false,
+                transports: action.payload
+            }
+
+        case MY_TRANSPORTS_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
+    }
+}

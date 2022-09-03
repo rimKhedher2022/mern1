@@ -268,7 +268,7 @@ export default function TraderForm(props) {
                   Thank you for your inscription.
                 </Typography>
                 <Typography variant="subtitle1" style={{ color:"black"}}>
-                  Welcome To BAGNGO ...
+                  Welcome To livmo ...
                 </Typography>
                 <br />
                 <Button variant="contained" disableElevation style={{textTransform: 'none'}}>
@@ -285,34 +285,50 @@ export default function TraderForm(props) {
                    changeDetailedValue,
                    documentFormValues,
                    changeDocumentValue,)}
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' , marginTop:"-2.4rem" }}>
+              
+                <Box sx={{ display: 'flex', justifyContent: 'center' , marginTop:"-3rem" }}>
                 <ThemeProvider theme={theme}>
+              
                   {activeStep !== 0 && (
                     
                     <Button 
+                
                     sx={{ mr: 100 }}
                     variant="outlined"
                     onClick={handleBack}
                     style={{textTransform: 'none', 
-                    width: '12%', height:'20%', color:"#E22357", background: "white", border: '2px solid'}}>
+                    color:"#E22357", background: "white", border: '2px solid',width: '12%', height:'20%', }}>
                       Previous
                     </Button>
                   )}
                      
+                     {activeStep === 0 && (
+                    
+                    <Button 
+                
+                    sx={{ mr: 100 }}
+                    onClick={handleBack}
+                    style={{width: '12%', height:'20%', }}>
+                  
+                    </Button>
+                  )}
                   {activeStep !== steps.length - 1  && (
                      
                   <Button
+                 
                     onClick={handleNext}
                     sx={{ mr: 9 }}
                     type="submit" 
                     variant="contained"
-                    style={{textTransform: 'none', background: "linear-gradient(#F02F32,#DA1D6C)", width: '12%',height:'20%'}}
+                    style={{textTransform: 'none', background: "linear-gradient(#F02F32,#DA1D6C)",width: '12%', height:'20%'}}
                   >
                       Next
                   </Button>
                   )}
+                 
                   </ThemeProvider>
                 </Box>
+ 
               </React.Fragment>
          
             )}

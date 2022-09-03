@@ -284,3 +284,13 @@ exports.getRestaurantReviews = catchAsyncErrors(async (req, res, next) => {
         reviews: restaurant.reviews
     })
 })
+
+//// Get logged in user food   =>   /api/v1/restaurants/me
+exports.myRestaurants = catchAsyncErrors(async (req, res, next) => {
+    const restaurants = await Restaurant.find({ user: req.user.id })
+
+    res.status(200).json({
+        success: true,
+        restaurants
+    })
+})

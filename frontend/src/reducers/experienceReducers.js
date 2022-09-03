@@ -31,6 +31,9 @@ import {
     DELETE_REVIEW_SUCCESS,
     DELETE_REVIEW_RESET,
     DELETE_REVIEW_FAIL,
+    MY_EXPERIENCES_REQUEST,
+    MY_EXPERIENCES_SUCCESS,
+    MY_EXPERIENCES_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/experienceConstants'
@@ -312,3 +315,32 @@ export const reviewReducer = (state = {}, action) => {
     }
 }
 
+export const myExperiencesReducer = (state = { experiences: [] }, action) => {
+    switch (action.type) {
+
+        case MY_EXPERIENCES_REQUEST:
+            return {
+                loading: true
+            }
+
+        case MY_EXPERIENCES_SUCCESS:
+            return {
+                loading: false,
+                experiences: action.payload
+            }
+
+        case MY_EXPERIENCES_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
+    }
+}

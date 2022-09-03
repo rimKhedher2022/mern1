@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import {  useForm } from "react-hook-form";
 
 
 //MUI Imports
@@ -35,6 +36,33 @@ import { NEW_RESTAURANT_RESET } from '../../constants/restaurantConstants'
 
 
 const NewRestaurant= () => {
+
+
+
+      //Validation
+
+      const { register , handleSubmit, formState: {errors} } = useForm();
+
+  const restaurantNameValidation = errors?.restaurantName ? errors.restaurantName.message : null;
+  const platNameValidation = errors?.platName ? errors.platName.message : null;
+  const descriptionValidation = errors?.description ? errors.description.message : null;
+  const priceValidation = errors?.price ? errors.price.message : null;
+  const addressValidation = errors?.address ? errors.address.message : null;
+  const rulesValidation = errors?.rules ? errors.rules.message : null;
+  const images1Validation = errors?.images1 ? errors.images1.message : null;
+  const images2Validation = errors?.images2 ? errors.images2.message : null;
+  const restypeValidation = errors?.restype ? errors.restype.message : null;
+  const speValidation = errors?.spe ? errors.spe.message : null;
+
+
+
+
+
+
+
+
+
+
 
   const useStyles = makeStyles((theme) => ({
 
@@ -204,7 +232,7 @@ useEffect(() => {
 
 
 const submitHandler = (e) => {
-  e.preventDefault();
+  
 
   const formData = new FormData();
   formData.set('restaurantType', restaurantType);
@@ -254,17 +282,19 @@ const classes = useStyles();
         fontWeight:700,
         fontSize:"42px",
         lineHeight:'42px',
-        marginTop:'3rem',
+     
         color:"white"
      }}>
     CREATE A Dish
       </Typography>
-      <Grid container  component="form" onSubmit={submitHandler}   noValidate  spacing={3}>
+      <Grid container  component="form" onSubmit={handleSubmit(submitHandler)}   noValidate  spacing={3}>
 
           <Grid item xs={12} md={4}> 
       <FormControl fullWidth>
       <Typography  style={{ color:"white", textAlign: "left", }}>Type of restaurant</Typography> 
         <Select
+        {...register("restype", { required: "Type of restaurant is required",
+      })}
           displayEmpty
           style={{ textAlign: "left", backgroundColor:"white", height:"35px"}}
           labelId="demo-simple-select-label"
@@ -282,15 +312,18 @@ const classes = useStyles();
           <MenuItem disabled value="">
             <em>Type Restaurant</em>
           </MenuItem>
-          <MenuItem onClick={OnChanging} value={"Restaurant à thème"}>Restaurant à thème</MenuItem>
+          <MenuItem onClick={OnChanging} value={"Theme Restaurant"}>Theme Restaurant</MenuItem>
           <MenuItem onClick={Changing} value={"Fast Food"}>Fast Food</MenuItem>
           <MenuItem onClick={Changin} value={"Resto Bar"}>Resto Bar</MenuItem>
-          <MenuItem onClick={OnChangin} value={"Les Bistros"}>Les Bistros</MenuItem>
-          <MenuItem onClick={OnChangin} value={"Les Restaurants routiers"}>Les Restaurants routiers</MenuItem>
-          <MenuItem onClick={OnChangi}  value={"Les Brasseries"}>Les Brasseries</MenuItem>
-          <MenuItem onClick={Changin} value={"Les restaurants gastronomiques"}>Les restaurants gastronomiques</MenuItem>
+          <MenuItem onClick={OnChangin} value={"Bistros"}>Bistros</MenuItem>
+          <MenuItem onClick={OnChangin} value={"Roadside Restaurants"}>Roadside Restaurants</MenuItem>
+          <MenuItem onClick={OnChangi}  value={"Breweries"}>Breweries</MenuItem>
+          <MenuItem onClick={Changin} value={"Gourmet Restaurants"}>Gourmet Restaurants</MenuItem>
         </Select>
       </FormControl>
+      <br/>
+      {!!errors?.restype && <span className="text-sm text-red-500">
+                                        {restypeValidation}</span>}
     </Grid>
     
 
@@ -442,6 +475,10 @@ const classes = useStyles();
               fullWidth
               autoFocus
               variant="standard"
+              {...register("restaurantName", {required: "Restaurant name is required"})}
+              error={!!errors?.restaurantName}
+              helperText={restaurantNameValidation}
+
               value={restaurantName}
               onChange={(e) => setRestaurantName(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -459,6 +496,10 @@ const classes = useStyles();
               fullWidth
               autoFocus
               variant="standard"
+              {...register("platName", {required: "Dish name is required"})}
+              error={!!errors?.platName}
+              helperText={platNameValidation}
+
               value={platName}
               onChange={(e) => setPlatName(e.target.value)}
               style={{ textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -470,6 +511,7 @@ const classes = useStyles();
            <div>
                 <label className="file-label">
                     <input className="file-input" type="file" style={{ color:"white" }}
+                    {...register("images1", {required: "Dish photos is required"})}
                   name='patente'
                   accept='image/*,application/pdf' 
                   onChange={onChange}
@@ -492,6 +534,13 @@ const classes = useStyles();
                       ))}
                    </div>
                  </div>
+                 {namee === "" ? (
+										<>
+									 {!!errors?.images1 && <span className="text-sm text-red-500">
+                                        {images1Validation}</span>}
+										</>
+									):(<></>)
+										}
               </Grid>
   <Grid item xs={12} md={4}>
     <Typography  style={{ color:"white", textAlign: "left" }}>Menu:</Typography> 
@@ -499,6 +548,7 @@ const classes = useStyles();
            <div>
                 <label className="file-label">
                     <input className="file-input" type="file" style={{ color:"white" }}
+                    {...register("images2", {required: "Menu photos is required"})}
                   name='patente'
                   accept='image/*,application/pdf' 
                   onChange={Change}
@@ -521,22 +571,31 @@ const classes = useStyles();
          ))}
   </div>
          </div>
+         {names === "" ? (
+										<>
+									 {!!errors?.images2 && <span className="text-sm text-red-500">
+                                        {images2Validation}</span>}
+										</>
+									):(<></>)
+										}
   </Grid>
           <Grid item xs={12} md={4}>
       <Typography  style={{ color:"white", textAlign: "left" }}>Dish Description:</Typography> 
        <TextareaAutosize
-      
+      {...register("description", {required: "Dish description is required"})}
       aria-label="maximum height"
       placeholder="Dish Description"
       style={{ width: "100%", height:"60%", textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
       value={descriptionPlat}
       onChange={(e) => setDescriptionPlat(e.target.value)}
-
     />
+    <br/>
+{!!errors?.description && <span className="text-sm text-red-500">
+                                        {descriptionValidation}</span>}
   </Grid>
 
   <Grid item xs={12} md={4}>
-      <Typography  style={{ color:"white", textAlign: "left" }}>Price:</Typography> 
+      <Typography  style={{ color:"white", textAlign: "left" }}>Price (DTN):</Typography> 
 	  <TextField
               required
               id="price"
@@ -545,6 +604,15 @@ const classes = useStyles();
               type='number'
               fullWidth
               variant="standard"
+              {...register("price", {required: "Price is required, Only numbers is allowed",
+              valueAsNumber: true,
+              pattern:{
+                   value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                  },
+            })}
+              error={!!errors?.price}
+              helperText={priceValidation}
+
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               style={{textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -594,6 +662,11 @@ const classes = useStyles();
               fullWidth
               autoFocus
               variant="standard"
+              {...register("address", { required: "Address is required",
+            })}
+              error={!!errors?.address}
+              helperText={addressValidation}
+
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               style={{textAlign: "left", backgroundColor:"white", borderRadius:'6.1568px' }}
@@ -673,14 +746,18 @@ const classes = useStyles();
       aria-label="maximum height"
       placeholder="Restaurant Rules..."
       style={{ width: "65%", height:"100%", borderRadius:'8px 8px 8px 8px'}}
+      {...register("rules", {required: "Restaurant rules is required"})}
+
       value={description}
       onChange={(e) => setDescription(e.target.value)}
-
-
     />
+        <br/>
+{!!errors?.rules && <span className="text-sm text-red-500">
+                                        {rulesValidation}</span>}
 </Grid>
 
 <Grid item xs={12} style={{textAlign:"right"}}>
+  <Link to="/merchant/me">
         <Button variant="contained"
 		   color="secondary" 
       
@@ -692,6 +769,7 @@ const classes = useStyles();
             >
 			CANCEL 
 		  </Button>
+      </Link>
      <Button variant="contained"
        type='submit'
        style={{textTransform: 'none',
@@ -708,13 +786,13 @@ const classes = useStyles();
       </Grid> 
       
      </Grid>
-      
    </Grid>
 
    </Container>
 
    </div>
-   
+
+
     </section>
     </React.Fragment>
   );

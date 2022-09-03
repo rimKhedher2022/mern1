@@ -6,10 +6,8 @@ import moment from 'moment'
 
 
 //Img Imports
-import verifiedPinkIcon from '../../../../img/verifiedPinkGradientIcon.png'
-import favoriteIcon from '../../../../img/favoritesPinkGradientIcon.png'
+
 import favoriteFilledIcon from '../../../../img/favouritePinkIcon.png'
-import commentsIcon from '../../../../img/commentsPinkGradientIcon.png'
 import commentsBlueIcon from '../../../../img/commentsBlueGradientIcon.png'
 import verifiedBlackIcon from '../../../../img/verifiedBlackIcon.png'
 
@@ -19,7 +17,7 @@ import HostProfileExperienceItem from "./HostProfileExperienceItem";
 import HostProfileComments from "./HostProfileComments";
 
 //Mui Imports
-import {Button} from "@mui/material";
+import {Button, Link} from "@mui/material";
 import muiButtonSx from "../MuiStyles";
 import Box from "@mui/material/Box";
 import { FacebookRounded, Instagram, LinkedIn, Twitter} from "@mui/icons-material";
@@ -32,13 +30,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const HostProfile = ()=>{
 
-    const { user, loading } = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.auth);
 
     //Preset data
-    const hostProfileData={
 
-        bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-    }
     const presetEditExperiencesData=[
         {id: '1', name: 'Jbal Rsas Hiking', price: '120', location: 'Mornak', startDateTime: '25/06/2022 12:00', endDateTime: '27/06/2022 18:00', tags: 'Nature Hiking', image: 'https://t4.ftcdn.net/jpg/02/12/62/79/240_F_212627923_L2vmREAE9lGLnmFbNPhf2TfCRT44z6PB.jpg', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'}
     ]
@@ -59,7 +54,7 @@ const HostProfile = ()=>{
                     <Box className="mb-8">
                         <img className="hostProfilePictureBig ml-7"
                              src={user.avatar.url}
-                             alt="Host profile picture" />
+                             alt={user.name} />
                     </Box>
                     <Box className="flex space-x-8">
 
@@ -99,7 +94,9 @@ const HostProfile = ()=>{
                 {/* Unclear */}
                 <Box className="pl-7 space-y-16">
                     <Box style={{marginTop: '-90px', color: 'black', letterSpacing: '0.02em'}} className="itemsBoxRoundedBlueBoxTextFont">
-                        {user.name}: Confirmation effectué
+                        {user.name}: Confirmed
+
+
                     </Box>
 
                     {/* Verified box */}
@@ -120,7 +117,7 @@ const HostProfile = ()=>{
 
                     {/* Learn more box */}
                     <Box className="profileBoxes learnMoreText" paddingTop="15%">
-                        <a href="#" target="_blank" className="blueGradientText detailsTextFont">Learn More:</a> on how confirming account information helps keep the LIVMO community safe.
+                        <Link to="#" target="_blank" className="blueGradientText detailsTextFont">Learn More:</Link> on how confirming account information helps keep the LIVMO community safe.
                     </Box>
 
                 </Box>
@@ -163,7 +160,7 @@ const HostProfile = ()=>{
                         Biography
                     </Box>
                     <Box className="normalTextFont">
-                        {hostProfileData.bio}
+                        {user.bio}
                     </Box>
                 </Box>
 

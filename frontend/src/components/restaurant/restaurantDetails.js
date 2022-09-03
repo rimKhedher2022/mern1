@@ -364,7 +364,7 @@ fontWeight: 700,
 fontSize: "24px",
 lineHeight: "29px", margin:"0 30px 0"}}>Talking about it !</h3>
 <br/>
-{ user ? 
+{ user && user.role==="user" ? 
 
                         <Paper style={{ width:"50%", marginLeft:'15px'}}>
                                  
@@ -408,6 +408,7 @@ lineHeight: "29px", margin:"0 30px 0"}}>Talking about it !</h3>
                     :
                     <Stack sx={{ width: '20%', marginLeft:"30px" }} spacing={2}>
                     <Alert severity="warning">Login first to post your review.</Alert>
+                    <Alert severity="warning">Ps: Only normal users can post comments. (merchant & host can't)</Alert>
                     </Stack>
                     }
                     

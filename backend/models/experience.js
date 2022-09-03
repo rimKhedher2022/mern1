@@ -40,7 +40,10 @@ const experienceSchema = new mongoose.Schema({
         type: Number,
     },
     startdate: {
-        type: String,
+        type: Date,
+    },
+    enddate: {
+        type: Date,
     },
     season: {
         type: String,
@@ -161,10 +164,10 @@ const experienceSchema = new mongoose.Schema({
     ],
     dishinputFields: [
         {
-            dishId: {
-                type: Number,
+            id: {
+                type: String,
             },
-            dishName: {
+            dishName:  {
                 type: String,
             },
             dishDescription: {
@@ -183,7 +186,7 @@ const experienceSchema = new mongoose.Schema({
                 }
             ],
            
-        }
+        },
     ],
 
     ratings: {

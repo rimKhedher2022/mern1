@@ -68,15 +68,7 @@ exports.getTransports = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-exports.getTraderTransports = catchAsyncErrors(async (req, res, next) => {
 
-    const transports = await Transport.find();
-
-    res.status(200).json({
-        success: true,
-        transports
-    })
-})
 
 
 
@@ -229,3 +221,23 @@ exports.getTransportReviews = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+
+//// Get logged in user orders   =>   /api/v1/transports/me
+exports.myTransports = catchAsyncErrors(async (req, res, next) => {
+    const transports = await Transport.find({ user: req.user.id })
+
+    res.status(200).json({
+        success: true,
+        transports
+    })
+})
+
+exports.getTraderTransports = catchAsyncErrors(async (req, res, next) => {
+
+    const transports = await Transport.find();
+
+    res.status(200).json({
+        success: true,
+        transports
+    })
+})

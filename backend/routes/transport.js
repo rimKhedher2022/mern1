@@ -11,11 +11,13 @@ const {
     deleteTransport,
     createTransportReview,
     getTransportReviews,
+    myTransports,
      } = require('../controllers/transportController')
 
      const { isAuthenticatedUser , authorizeRoles} = require('../middleware/auth');
 
-
+     //
+     router.route('/transports/me').get(isAuthenticatedUser, authorizeRoles('trader'), myTransports);
 
      router.route('/transports').get(getTransports);
      router.route('/trader/transports').get(getTraderTransports);
@@ -25,14 +27,14 @@ const {
      
      router.route('/trader/transport/new').post(isAuthenticatedUser,authorizeRoles('trader'), newTransport);
      
-     router.route('/host/transport/:id')
+     router.route('/merchant/transport/:id')
          .put(isAuthenticatedUser, authorizeRoles('trader'), updateTransport)
          .delete(isAuthenticatedUser, authorizeRoles('trader'), deleteTransport);
      
-         router.route('/review').put(isAuthenticatedUser, createTransportReview);
+         router.route('/transport/review').put(isAuthenticatedUser, createTransportReview);
 
 
-         router.route('/reviews').get(isAuthenticatedUser, getTransportReviews);
+         router.route('/transport/reviews').get(isAuthenticatedUser, getTransportReviews);
 
 
 

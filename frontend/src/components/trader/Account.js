@@ -56,7 +56,8 @@ const onChangee = e => {
                                 </div>
                                 <div className='custom-file'  style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
                                     <input
-									    className='custom-file-input'
+                                        style={{display : 'none' }}
+									                      className='custom-file-input'
                                         type='file'
                                         name='avatar'
                                         id='customFile'

@@ -25,6 +25,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_RESTAURANTS_REQUEST,
+    MY_RESTAURANTS_SUCCESS,
+    MY_RESTAURANTS_FAIL,
     CLEAR_ERRORS
 
 
@@ -88,7 +91,7 @@ export const deleteRestaurant = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_RESTAURANT_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/trader/restaurant/${id}`)
+        const { data } = await axios.delete(`/api/v1/merchant/restaurant/${id}`)
 
         dispatch({
             type: DELETE_RESTAURANT_SUCCESS,
@@ -185,7 +188,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`/api/v1/restaurant/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -206,7 +209,7 @@ export const getRestaurantReviews = (id) => async (dispatch) => {
 
         dispatch({ type: GET_REVIEWS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/reviews?id=${id}`)
+        const { data } = await axios.get(`/api/v1/restaurant/reviews?id=${id}`)
 
         dispatch({
             type: GET_REVIEWS_SUCCESS,
@@ -217,6 +220,28 @@ export const getRestaurantReviews = (id) => async (dispatch) => {
 
         dispatch({
             type: GET_REVIEWS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+// Get curretly logged in trader food
+export const myRestaurants = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: MY_RESTAURANTS_REQUEST });
+
+        const { data } = await axios.get('/api/v1/restaurants/me')
+
+        dispatch({
+            type: MY_RESTAURANTS_SUCCESS,
+            payload: data.restaurants
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MY_RESTAURANTS_FAIL,
             payload: error.response.data.message
         })
     }

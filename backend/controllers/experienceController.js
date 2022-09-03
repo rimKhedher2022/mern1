@@ -4,88 +4,169 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures')
 const cloudinary = require('cloudinary');
 
+
 // Create new experience   =>   /api/v1/host/experience/new
 
 exports.newExperience = catchAsyncErrors(async (req, res, next) => {
    
-    //Experience Image
-    let YourIdeaImage = []
-    if (typeof req.body.YourIdeaImage === 'string') {
-        YourIdeaImage.push(req.body.YourIdeaImage)
+   {/*  //Experience Image
+     let YourIdeaImage = []
+     if (typeof req.body.YourIdeaImage === 'string') {
+         YourIdeaImage.push(req.body.YourIdeaImage)
+     } else {
+         YourIdeaImage = req.body.YourIdeaImage
+     }
+ 
+     let imagesLinks = [];
+ 
+     for (let i = 0; i < YourIdeaImage.length; i++) {
+         const result = await cloudinary.v2.uploader.upload(YourIdeaImage[i], {
+             folder: 'experiences'
+         });
+ 
+         imagesLinks.push({
+             public_id: result.public_id,
+             url: result.secure_url
+         })
+     }
+ 
+     req.body.YourIdeaImage = imagesLinks;
+     req.body.user = req.user.id;
+ 
+       //Transport Image
+       if (req.body.TrImage !== undefined) {
+       let TrImage = []
+ 
+       if (typeof req.body.TrImage === 'string') {
+           TrImage.push(req.body.TrImage)
+       } else {
+           TrImage = req.body.TrImage
+       }
+   
+       let imagesLinkss = [];
+   
+       for (let i = 0; i < TrImage.length; i++) {
+           const result = await cloudinary.v2.uploader.upload(TrImage[i], {
+               folder: 'experiences'
+           });
+   
+           imagesLinkss.push({
+               public_id: result.public_id,
+               url: result.secure_url
+           })
+       }
+   
+   
+       req.body.TrImage = imagesLinkss;
+     }
+ 
+     //Lodging Image
+       if (req.body.LdImage !== undefined) {
+       let LdImage = []
+ 
+       if (typeof req.body.LdImage === 'string') {
+         LdImage.push(req.body.LdImage)
+       } else {
+         LdImage = req.body.LdImage
+       }
+   
+       let imagesLinksss = [];
+   
+       for (let i = 0; i < LdImage.length; i++) {
+           const result = await cloudinary.v2.uploader.upload(LdImage[i], {
+               folder: 'experiences'
+           });
+   
+           imagesLinksss.push({
+               public_id: result.public_id,
+               url: result.secure_url
+           })
+       }
+   
+   
+       req.body.LdImage = imagesLinksss;
+     }
+     */}
+
+    ///////////////////////////////////////////////////////
+    let dishinputFields  = []
+
+    if (typeof req.body.dishinputFields === 'string') {
+        dishinputFields.push(req.body.dishinputFields)
     } else {
-        YourIdeaImage = req.body.YourIdeaImage
+        dishinputFields = req.body.dishinputFields
+    }
+   
+    let disharray = [];
+
+    //img
+    let dishImages = []
+
+    if (typeof req.body.dishImages === 'string') {
+        dishImages.push(req.body.dishImages)
+    } else {
+        dishImages = req.body.dishImages
+    } 
+   
+    let disharrays = [];
+
+
+   const size = req.body.size
+ if( size === "1") {
+    for (let i = 0; i < size ; i++) {
+
+
+
+        const result = await cloudinary.v2.uploader.upload(dishImages[i], {
+               folder: 'experiences'
+           });             
+           
+  
+       
+        disharray.push({
+            id: req.body.id,
+            dishName: req.body.dishName,
+            dishDescription: req.body.dishDescription,
+            dishImages : 
+                {
+                public_id: result.public_id,
+                url: result.secure_url
+            },
+
+        },
+        )
+    
     }
 
-    let imagesLinks = [];
 
-    for (let i = 0; i < YourIdeaImage.length; i++) {
-        const result = await cloudinary.v2.uploader.upload(YourIdeaImage[i], {
-            folder: 'experiences'
-        });
+} else if (size > "1"){
 
-        imagesLinks.push({
-            public_id: result.public_id,
-            url: result.secure_url
-        })
-    }
+    for (let i = 0; i < size; i++) {
 
-    req.body.YourIdeaImage = imagesLinks;
+   
+
+       const result = await cloudinary.v2.uploader.upload(dishImages[i], {
+          folder: 'experiences'
+      });     
+      disharray.push({
+          id: req.body.id[i],
+          dishName: req.body.dishName[i],
+          dishDescription: req.body.dishDescription[i],
+          dishImages : {
+              public_id: result.public_id,
+              url: result.secure_url
+          } 
+      }
+      )
+  }
+}
+
+
+
+    req.body.dishinputFields = disharray;
+
+    
     req.body.user = req.user.id;
-
-      //Transport Image
-      if (req.body.TrImage !== undefined) {
-      let TrImage = []
-
-      if (typeof req.body.TrImage === 'string') {
-          TrImage.push(req.body.TrImage)
-      } else {
-          TrImage = req.body.TrImage
-      }
-  
-      let imagesLinkss = [];
-  
-      for (let i = 0; i < TrImage.length; i++) {
-          const result = await cloudinary.v2.uploader.upload(TrImage[i], {
-              folder: 'experiences'
-          });
-  
-          imagesLinkss.push({
-              public_id: result.public_id,
-              url: result.secure_url
-          })
-      }
-  
-  
-      req.body.TrImage = imagesLinkss;
-    }
-
-    //Lodging Image
-      if (req.body.LdImage !== undefined) {
-      let LdImage = []
-
-      if (typeof req.body.LdImage === 'string') {
-        LdImage.push(req.body.LdImage)
-      } else {
-        LdImage = req.body.LdImage
-      }
-  
-      let imagesLinksss = [];
-  
-      for (let i = 0; i < LdImage.length; i++) {
-          const result = await cloudinary.v2.uploader.upload(LdImage[i], {
-              folder: 'experiences'
-          });
-  
-          imagesLinksss.push({
-              public_id: result.public_id,
-              url: result.secure_url
-          })
-      }
-  
-  
-      req.body.LdImage = imagesLinksss;
-    }
-
 
     const experience = await new Experience(req.body).save();
     res.status(201).json({
@@ -217,8 +298,8 @@ exports.deleteExperience = catchAsyncErrors(async (req, res, next) => {
     }
 
     // Deleting images associated with the experience
-    for (let i = 0; i < experience.images.length; i++) {
-        const result = await cloudinary.v2.uploader.destroy(experience.images[i].public_id)
+    for (let i = 0; i < experience.YourIdeaImage.length; i++) {
+        const result = await cloudinary.v2.uploader.destroy(experience.YourIdeaImage[i].public_id)
     }
 
     await experience.remove();
@@ -312,3 +393,12 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+//// Get logged in user experiences   =>   /api/v1/experiences/me
+exports.myExperiences = catchAsyncErrors(async (req, res, next) => {
+    const experiences = await Experience.find({ user: req.user.id })
+
+    res.status(200).json({
+        success: true,
+        experiences
+    })
+})

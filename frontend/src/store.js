@@ -3,10 +3,10 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer  } from './reducers/userReducers';
-import { experiencesReducer, newExperienceReducer, experienceReducer, experienceDetailsReducer, newReviewReducer, experienceReviewsReducer, reviewReducer  } from './reducers/experienceReducers'
-import { lodgingsReducer, newLodgingReducer, lodgingReducer, lodgingDetailsReducer, newReview1Reducer, lodgingReviewsReducer  } from './reducers/lodgingReducers';
-import { restaurantsReducer, newRestaurantReducer, restaurantReducer, restaurantDetailsReducer, newReview2Reducer, restaurantReviewsReducer   } from './reducers/restaurantReducers';
-import { transportsReducer, newTransportReducer, transportReducer, transportDetailsReducer, newReview3Reducer, transportReviewsReducer   } from './reducers/transportReducers';
+import { experiencesReducer, newExperienceReducer, experienceReducer, experienceDetailsReducer, newReviewReducer, experienceReviewsReducer, reviewReducer, myExperiencesReducer  } from './reducers/experienceReducers'
+import { lodgingsReducer, newLodgingReducer, lodgingReducer, lodgingDetailsReducer, newReview1Reducer, lodgingReviewsReducer, myLodgingsReducer } from './reducers/lodgingReducers';
+import { restaurantsReducer, newRestaurantReducer, restaurantReducer, restaurantDetailsReducer, newReview2Reducer, restaurantReviewsReducer, myRestaurantsReducer   } from './reducers/restaurantReducers';
+import { transportsReducer, newTransportReducer, transportReducer, transportDetailsReducer, newReview3Reducer, transportReviewsReducer, myTransportsReducer   } from './reducers/transportReducers';
 import { cartReducer, cartLodgingReducer, cartTransportReducer, cartRestaurantReducer } from './reducers/favouriteReducers'
 import reservationConfirmedLodgingReducer from "./reducers/reservationConfirmedLodgingReducer";
 import reservationConfirmedRestaurantReducer from "./reducers/reservationConfirmedRestaurantReducer";
@@ -29,6 +29,8 @@ const reducer = combineReducers({
      experienceReviews: experienceReviewsReducer,
      review: reviewReducer,
      newReview: newReviewReducer,
+     listExperience: myExperiencesReducer,
+
 
      lodgings : lodgingsReducer,
      lodgingDetails: lodgingDetailsReducer,
@@ -36,13 +38,17 @@ const reducer = combineReducers({
      lodging: lodgingReducer,
      review1: newReview1Reducer,
      lodgingReviews: lodgingReviewsReducer,
-     
+     listLodging: myLodgingsReducer,
+
+
      restaurants : restaurantsReducer,
      restaurantDetails: restaurantDetailsReducer,
      newRestaurant: newRestaurantReducer,
      restaurant: restaurantReducer,
      review2: newReview2Reducer,
      restaurantReviews: restaurantReviewsReducer,
+     listRestaurant: myRestaurantsReducer,
+
 
      transports : transportsReducer,
      transportDetails: transportDetailsReducer,
@@ -50,6 +56,7 @@ const reducer = combineReducers({
      transport: transportReducer,
      review3: newReview3Reducer,
      transportReviews: transportReviewsReducer,
+     listTransport: myTransportsReducer,
 
      cart: cartReducer,
      cartLodging: cartLodgingReducer,
@@ -62,7 +69,8 @@ const reducer = combineReducers({
      reservationConfirmedLodging: reservationConfirmedLodgingReducer,
      reservationConfirmedRestaurant: reservationConfirmedRestaurantReducer,
      reservationConfirmedTransport:reservationConfirmedTransportReducer,
-     reservationTotal: reservationTotalReducer
+     reservationTotal: reservationTotalReducer,
+     
     
  })
 

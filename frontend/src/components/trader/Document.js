@@ -431,10 +431,10 @@ const HandleSubmit = (e) => {
 	<br/>
 
 
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-
-
+  
+  <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
     <ThemeProvider theme={theme}>
+
              <Button
              onClick={handleClickOpen}
              sx={{ mr: 3 }}
@@ -455,7 +455,7 @@ const HandleSubmit = (e) => {
                       Confirm
                   </Button>
                   </ThemeProvider>
-                  </Box>
+                  </div>
 
     </React.Fragment>
 

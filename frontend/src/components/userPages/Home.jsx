@@ -27,7 +27,7 @@ const Home = () => {
   return (
   <React.Fragment>
     <Layout>
-          <MetaData title={'BAGNGO|Home Page'} />
+          <MetaData title={'livmo|Home Page'} />
     <Hero />
     <Sliders sliderData={sliderData} />
     <Hero2 />

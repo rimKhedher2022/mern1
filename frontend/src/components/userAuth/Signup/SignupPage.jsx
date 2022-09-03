@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-
+import {AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 
 import { Register, clearErrors } from "../../../actions/userActions";
 
@@ -33,7 +33,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Link }  from 'react-router-dom';
 
-import { useTheme } from '@mui/material/styles';
+
 import InputAdornment from '@mui/material/InputAdornment';
 import BadgeIcon from '@mui/icons-material/Badge';
 
@@ -488,11 +488,29 @@ function Copyright(props) {
 const Signup = () => {
 
 
+	const minDate = new Date('1930-01-01T00:00:00.000');
+	const maxDate = new Date('2004-01-01T00:00:00.000');
+
+	//
+
+	const [passwordEye, setPasswordEye] = useState(false);
+
+    const handlePasswordClick = () =>{
+        setPasswordEye(!passwordEye)
+    }
+
+    //Confirm
+    const [confirmpasswordEye, setConfirmPasswordEye] = useState(false);
+
+    const handleConfirmPasswordClick = () =>{
+        setConfirmPasswordEye(!confirmpasswordEye)
+    }
+
 	const color = "#E42651"
 	const themes = createTheme();
 
 	const history = useHistory();
-	const theme = useTheme();
+	
 	//signup
 
 	const[user, setUser] = useState({
@@ -500,13 +518,14 @@ const Signup = () => {
 		lname:'',
 		phone:'',
         email: '',
-        password:''
-		
+
     })
 	const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview ] = useState('/images/default_avatar.jpg')
 	const [birthday, setBirthDay] = React.useState(null);
-    const { fname, lname, phone, email, password } = user;
+	const [password, setPassword] = React.useState(null);
+
+    const { fname, lname, phone, email } = user;
 
 	const onChange = e => {
 	
@@ -520,8 +539,9 @@ const Signup = () => {
 	useEffect(() => {
 
 		if(isAuthenticated) {
+
 			history.push('/check');
-			alert.success('Inscription Réussie.');
+			alert.success('Successful registration');
 
 		}
 	  
@@ -574,12 +594,21 @@ const Signup = () => {
   
 	 // validation
 
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { register , handleSubmit, formState: {errors} } = useForm();
   
   const emailValidation = errors?.email ? errors.email.message : null;
-  const pwdValidation = errors?.password ? errors.password.message : null;
+  const picValidation = errors?.pic ? errors.pic.message : null;
+
+  const birthValidation = errors?.birth ? errors.birth.message : null;
+  const countryValidation = errors?.country ? errors.country.message : null;
   const fnameValidation = errors?.fname ? errors.fname.message : null;
   const lnameValidation = errors?.lname ? errors.lname.message : null;
+  const phoneValidation = errors?.phone ? errors.phone.message : null;
+  const pwdValidation = errors?.pwd ? errors.pwd.message : null;
+  const confirmpwdValidation = errors?.confirmpwd ? errors.confirmpwd.message : null;
+
+
+
 
   
 
@@ -642,16 +671,24 @@ const Signup = () => {
                                 </div>
                                 <div className='custom-file'>
                                     <input
+									{...register("pic", {required: "Profile picture is required"})}
 									    className='custom-file-input'
                                         type='file'
                                         name='avatar'
-                                       
+										style={{display : 'none' }}
                                         id='customFile'
                                         accept='image/*'
                                         onChange={onChangee}
                                     />
+									{avatarPreview === "/images/default_avatar.jpg" ? (
+										<>
+									 {!!errors?.pic && <span className="text-sm text-red-500">
+                                        {picValidation}</span>}
+										</>
+									):(<></>)
+										}
                                     
-								<label className='custom-file-label' htmlFor='customFile'>
+								<label className='custom-file-label' htmlFor='customFile' >
 								<Input />
 								<Button 
 								variant="contained"
@@ -684,21 +721,21 @@ const Signup = () => {
                 name="fname"
 				{...register("fname", {pattern: {
 					value: /^[A-Za-z]+$/,
-					message: 'seulement des characters' 
+					message: 'only characters' 
 				  }})}
 				{...register("fname", {
 					minLength: {
 					  value: 3,
-					  message: 'Minimum 3 caractères' 
+					  message: 'Minimum 3 characters'
 					}
 				  })}
 				  {...register("fname", {
 					maxLength: {
 					  value: 15,
-					  message: 'Maximum 15 caractères' 
+					  message: 'Maximum 15 characters'
 					}
 				  })}
-				  {...register("fname", {required: "Champ requis"})}
+				  {...register("fname", {required: "First name is required"})}
 				  
 					error={!!errors?.fname}
 					helperText={fnameValidation}
@@ -726,21 +763,21 @@ const Signup = () => {
                 name="lname"
 				{...register("lname", {pattern: {
 					value: /^[A-Za-z]+$/,
-					message: 'seulement des characters' 
+					message: 'Only characters' 
 				  }})}
 				{...register("lname", {
 					minLength: {
 					  value: 3,
-					  message: 'Minimum 3 caractères' 
+					  message: 'Minimum 3 characters' 
 					}
 				  })}
 				  {...register("lname", {
 					maxLength: {
 					  value: 15,
-					  message: 'Maximum 15 caractères' 
+					  message: 'Maximum 15 characters' 
 					}
 				  })}
-				  {...register("lname", {required: "Champ requis"})}
+				  {...register("lname", {required: "Last name is required"})}
 				  
 					error={!!errors?.lname}
 					helperText={lnameValidation}
@@ -751,35 +788,48 @@ const Signup = () => {
 			  </Grid>
 			  <Grid item xs={12}>
 			  <LocalizationProvider dateAdapter={AdapterDateFns}>
+			 
 				<DatePicker
-				renderInput={(params) => {
-					return (
-					  <TextField
-						{...params}
-						sx={{
-						  svg: { color },
-						  input: { color },
-						  label: { color },
-						  width: "100%"
-						}}
-					  />
-					);
-				  }}
+				minDate={minDate}
+				maxDate={maxDate}
 					label="Date of birth"
 					value={birthday}
 					onChange={(newValue) => {
 					setBirthDay(newValue);
 					}}
+					renderInput={(params) => {
 				
+						return (
+						  <TextField
+							{...params}
+							sx={{
+							  svg: { color },
+							  input: "black",
+							  label: "black",
+							  width: "100%"
+							}}
+
+						
+						  />
+						);
+					  }}
 				/>
 				</LocalizationProvider>
+				{/* {birthday === null ? (
+										<>
+									 <span className="text-sm text-red-500">
+                                        Date of birth is required</span>
+										</>
+									):(<></>)
+										}
+										*/}
 			  </Grid>
 
 
 			<Grid item xs={12}>
 			{/*	 <div>{`value: ${country.label !== null ? `'${country.label}'` : 'null'}`}</div> */}
 			<Autocomplete
-      id="country-select-demo"
+      id="country-select-demo"			
 		value={country.option}			
 		onChange={(event, option) => {
             setCountry(option);
@@ -801,16 +851,21 @@ const Signup = () => {
         </Box>
       )}
       renderInput={(params) => (
+		
         <TextField
           {...params}
 		  sx={{
-			label: { color },
+			label:"black" ,
 		  }}
           label="Choose a country"
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill
           }}
+		  {...register("country", { required: "Country is required",
+		})}
+		  error={!!errors?.country}
+			helperText={countryValidation}
         />
       )}
     />
@@ -832,6 +887,14 @@ const Signup = () => {
                 required
                 fullWidth
 				type='Number'
+				{...register("phone", { required: "Phone is required, Only numbers is allowed",
+				valueAsNumber: true,
+    			pattern:{
+      				 value: /^(0|[1-9]\d*)(\.\d+)?$/,
+  					  },
+			})}
+				  error={!!errors?.phone}
+				  helperText={phoneValidation}
 				value={phone}
 				onChange={onChange} 
               />
@@ -854,9 +917,9 @@ const Signup = () => {
                 style={{marginTop:"1rem"}}
 				{...register("email", {pattern: {
 					value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-					message: 'Information invalide' 
+					message: 'Email is invalid, exemple: example@mail.com' 
 				  }})}
-				  {...register("email", {required: 'Champ requis',
+				  {...register("email", {required: 'Email is required',
 				   
 				  })}
 				  error={!!errors?.email}
@@ -866,6 +929,7 @@ const Signup = () => {
               />
 			  </Grid>
 			  <Grid item xs={12}>
+			  <div className='relative'>
     			<TextField
 				id="input-with-icon-textfield"
 				label="Password"
@@ -876,33 +940,49 @@ const Signup = () => {
 					</InputAdornment>
 				  ),
 				}}
+				type={(passwordEye === false)? 'password': 'text'}
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                type="password"
+				name="password"
 				style={{marginTop:"1rem"}}
-				
-                {...register("password", {
-					minLength: {
-					  value: 7,
-					  message: 'Minimum 7 caractères' 
-					}
-				  })}
-				  {...register("password", {required: "Champ requis"})}
-				  
-					error={!!errors?.password}
+				{...register("pwd", { required: "Password is required",
+				pattern:{
+					value:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+					message:'Password should include at least one uppercase & one lowercase, one numeric value and one special character'
+				},
+				minLength:{
+					value:8,
+					message:'Minimum Required length is 8'
+				},
+				maxLength: {
+					value: 20,
+					message: "Maximum Required length is 20"
+				}
+			})}
+					error={!!errors?.pwd}
 					helperText={pwdValidation}
 					value={password}
-                	onChange={onChange}
-
-					
+					onChange={(e) => setPassword(e.target.value)}
 					              />
+
+                <div className='text-2xl absolute top-8 right-5'>
+               {
+                   (passwordEye === false)? <AiFillEyeInvisible onClick={handlePasswordClick}/>:
+                     <AiFillEye onClick={handlePasswordClick}/>
+                     }
+                                    
+                                     
+                                     </div>
+							</div>
 					  </Grid>
 			  <Grid item xs={12}>
+			  <div className='relative'>
 			  <TextField
 				id="input-with-icon-textfield"
 				label="Confirm Password"
+				type={(confirmpasswordEye === false)? 'password': 'text'}
+
 				InputProps={{
 				  startAdornment: (
 					<InputAdornment position="start">
@@ -914,10 +994,26 @@ const Signup = () => {
                 required
                 fullWidth
                 name="confirmpassword"
-                type="confirmpassword"
 
-					              />
+				{...register("confirmpwd", { required: "Confirm Password is required",
+				validate: (value) =>
+				value === password || "The passwords do not match"
+					  })}
+					  error={!!errors?.confirmpwd}
+					helperText={confirmpwdValidation}
+					  />
+					  
+			   <div className='text-2xl absolute top-8 right-5' >
+			  {
+				  (confirmpasswordEye === false)? <AiFillEyeInvisible onClick={handleConfirmPasswordClick}/>:
+				   <AiFillEye onClick={handleConfirmPasswordClick}/>
+					  }
+					  
+					   
+					   </div>
+					     </div>
 					  </Grid>
+					  
 			</Grid>
 	  <Button
 		type="submit"

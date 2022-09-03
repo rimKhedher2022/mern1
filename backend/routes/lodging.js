@@ -11,11 +11,14 @@ const {
     deleteLodging,
     createLodgingReview,
     getLodgingeReviews,
+    myLodgings,
 
      } = require('../controllers/lodgingController')
 
      const { isAuthenticatedUser , authorizeRoles} = require('../middleware/auth');
 
+     //
+     router.route('/lodgings/me').get(isAuthenticatedUser,authorizeRoles('trader'), myLodgings);
 
 
      router.route('/lodgings').get(getLodgings);
@@ -26,15 +29,15 @@ const {
      
      router.route('/trader/lodging/new').post(isAuthenticatedUser,authorizeRoles('trader'), newLodging);
      
-     router.route('/trader/lodging/:id')
+     router.route('/merchant/lodging/:id')
          .put(isAuthenticatedUser, authorizeRoles('trader'), updateLodging)
          .delete(isAuthenticatedUser, authorizeRoles('trader'), deleteLodging);
      
     
-         router.route('/review').put(isAuthenticatedUser, createLodgingReview);
+         router.route('/lodging/review').put(isAuthenticatedUser, createLodgingReview);
 
 
-         router.route('/reviews').get(isAuthenticatedUser, getLodgingeReviews);
+         router.route('/lodging/reviews').get(isAuthenticatedUser, getLodgingeReviews);
 
 
      module.exports = router;

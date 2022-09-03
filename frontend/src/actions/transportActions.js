@@ -25,6 +25,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_TRANSPORTS_REQUEST,
+    MY_TRANSPORTS_SUCCESS,
+    MY_TRANSPORTS_FAIL,
     CLEAR_ERRORS
 
 
@@ -88,7 +91,7 @@ export const deleteTransport = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_TRANSPORT_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/trader/transport/${id}`)
+        const { data } = await axios.delete(`/api/v1/merchant/transport/${id}`)
 
         dispatch({
             type: DELETE_TRANSPORT_SUCCESS,
@@ -153,26 +156,6 @@ export const getSingleTransport = (id) => async (dispatch) => {
 
 
 
-export const getTraderTransports = () => async (dispatch) => {
-    try {
-
-        dispatch({ type: ADMIN_TRANSPORTS_REQUEST })
-
-        const { data } = await axios.get(`/api/v1/trader/transports`)
-
-        dispatch({
-            type: ADMIN_TRANSPORTS_SUCCESS,
-            payload: data.transports
-        })
-
-    } catch (error) {
-
-        dispatch({
-            type: ADMIN_TRANSPORTS_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
 
 
 export const newReview = (reviewData) => async (dispatch) => {
@@ -186,7 +169,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`/api/v1/transport/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -207,7 +190,7 @@ export const getRestaurantReviews = (id) => async (dispatch) => {
 
         dispatch({ type: GET_REVIEWS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/reviews?id=${id}`)
+        const { data } = await axios.get(`/api/v1/transport/reviews?id=${id}`)
 
         dispatch({
             type: GET_REVIEWS_SUCCESS,
@@ -218,6 +201,51 @@ export const getRestaurantReviews = (id) => async (dispatch) => {
 
         dispatch({
             type: GET_REVIEWS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+
+// Get curretly logged in trader transports
+export const myTransports = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: MY_TRANSPORTS_REQUEST });
+
+        const { data } = await axios.get('/api/v1/transports/me')
+
+        dispatch({
+            type: MY_TRANSPORTS_SUCCESS,
+            payload: data.transports
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MY_TRANSPORTS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const getTraderTransports = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: ADMIN_TRANSPORTS_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/trader/transports`)
+
+        dispatch({
+            type: ADMIN_TRANSPORTS_SUCCESS,
+            payload: data.transports
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: ADMIN_TRANSPORTS_FAIL,
             payload: error.response.data.message
         })
     }

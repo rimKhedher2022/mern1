@@ -9,19 +9,22 @@ const {
     resetPassword,
     getUserProfile, 
     updatePassword,
+    updateEmail,
     updateProfile,
     registerUserHost,
     updateToHostProfile,
-
     registerOrganism,
-
     registerTrader,
-
+    verifyUser,
     logout } = require('../controllers/userController');
 
 
 const { isAuthenticatedUser } = require('../middleware/auth');
 
+//Conformation code
+router.route('/verifyuser/:activationcode').post(verifyUser);
+
+//
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 
@@ -39,6 +42,8 @@ router.route('/password/reset/:token').put(resetPassword);
 
 router.route('/me').get(isAuthenticatedUser, getUserProfile);
 router.route('/password/update').put(isAuthenticatedUser, updatePassword);
+router.route('/email/update').put(isAuthenticatedUser, updateEmail);
+
 router.route('/me/update').put(isAuthenticatedUser, updateProfile);
 
 

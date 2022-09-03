@@ -25,6 +25,9 @@ import {
     GET_REVIEWS_REQUEST,
     GET_REVIEWS_SUCCESS,
     GET_REVIEWS_FAIL,
+    MY_LODGINGS_REQUEST,
+    MY_LODGINGS_SUCCESS,
+    MY_LODGINGS_FAIL,
     CLEAR_ERRORS
 
 
@@ -88,7 +91,7 @@ export const deleteLodging = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_LODGING_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/trader/lodging/${id}`)
+        const { data } = await axios.delete(`/api/v1/merchant/lodging/${id}`)
 
         dispatch({
             type: DELETE_LODGING_SUCCESS,
@@ -186,7 +189,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`/api/v1/lodging/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -207,7 +210,7 @@ export const getLodgingReviews = (id) => async (dispatch) => {
 
         dispatch({ type: GET_REVIEWS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/reviews?id=${id}`)
+        const { data } = await axios.get(`/api/v1/lodging/reviews?id=${id}`)
 
         dispatch({
             type: GET_REVIEWS_SUCCESS,
@@ -222,6 +225,7 @@ export const getLodgingReviews = (id) => async (dispatch) => {
         })
     }
 }
+
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({
@@ -229,3 +233,24 @@ export const clearErrors = () => async (dispatch) => {
     })
 }
 
+
+// Get curretly logged in trader lodgings
+export const myLodgings = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: MY_LODGINGS_REQUEST });
+
+        const { data } = await axios.get('/api/v1/lodgings/me')
+
+        dispatch({
+            type: MY_LODGINGS_SUCCESS,
+            payload: data.lodgings
+        })
+
+    } catch (error) {
+        dispatch({
+            type: MY_LODGINGS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}

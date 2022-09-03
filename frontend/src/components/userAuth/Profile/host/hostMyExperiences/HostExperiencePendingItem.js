@@ -5,6 +5,7 @@ import {Box, Button} from "@mui/material";
 //
 import "../hostStyle.scss"
 import muiButtonSx from "../MuiStyles";
+import { Link } from "react-router-dom";
 
 const HostExperiencePendingItem = ({data}) =>{
 
@@ -15,30 +16,27 @@ const HostExperiencePendingItem = ({data}) =>{
             <Box className="space-y-5 itemsBoxRoundedLeftBox">
                 <Box className="flex space-x-20">
                     {/* Name */}
-                    <Box className="itemTitleFont" >{data.name}</Box>
+                    <Box className="itemTitleFont" >{data.exptitle}</Box>
 
                     {/* Tags (I used tags as string separated by spaces ' ') */}
                     <Box className="flex space-x-16">
-                        {
-                            data.tags.split(' ').map(tag=>(
-                                <Box key={tag} className="pinkGradientBgWhiteText tagItem">{tag}</Box>
-                            ))
-                        }
+                    <Box  className="pinkGradientBgWhiteText tagItem">{data.theme}</Box>
+                    <Box  className="pinkGradientBgWhiteText tagItem">{data.subtheme}</Box>
                     </Box>
                 </Box>
 
                 {/* Description */}
                 <Box className="importantItemTextFont">Description :</Box>
-                <Box className="normalTextFont">{data.description}</Box>
+                <Box className="normalTextFont">{data.plan}</Box>
                 {/* Price & dates */}
                 <Box className="flex relative">
                     <Box className="importantItemTextFont">{data.price} DT/Person</Box>
-                    <Box className="importantItemTextFont" className="absolute right-0"> {data.startDateTime} - {data.endDateTime} </Box>
+                    <Box className="importantItemTextFont" className="absolute right-0"> {data.startdate} - {data.enddate} </Box>
                 </Box>
                 {/* Location & details button */}
                 <Box className="flex relative">
                     <Box className="importantItemTextFont">{data.location}</Box>
-                    <Box className="absolute right-0"> <a className="importantItemTextFont detailsTextFont">Details</a> </Box>
+                    <Box className="absolute right-0"> <Link className="importantItemTextFont detailsTextFont">Details</Link> </Box>
                 </Box>
             </Box>
 

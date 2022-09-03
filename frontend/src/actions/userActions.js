@@ -45,10 +45,41 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
+    UPDATE_EMAIL_REQUEST,
+    UPDATE_EMAIL_SUCCESS,
+    UPDATE_EMAIL_FAIL,
+    VALIDATION_REQUEST,
+    VALIDATION_SUCCESS,
+    VALIDATION_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
     CLEAR_ERRORS
 } from '../constants/userConstants'
+
+
+// Validation
+export const Validation = (userData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: VALIDATION_REQUEST })
+
+
+
+        const { data } = await axios.post('/api/v1/verifyuser/:activationcode', userData)
+
+        dispatch({
+            type: VALIDATION_SUCCESS,
+            payload: data.user
+        })
+
+    } catch (error) {
+        dispatch({
+            type: VALIDATION_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 
 // Login
 export const login = (email, password) => async (dispatch) => {
@@ -460,4 +491,32 @@ export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS
     })
+}
+
+
+// Update password
+export const updateEmail = (emails) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_EMAIL_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put('/api/v1/email/update', emails, config)
+
+        dispatch({
+            type: UPDATE_EMAIL_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_EMAIL_FAIL,
+            payload: error.response.data.message
+        })
+    }
 }

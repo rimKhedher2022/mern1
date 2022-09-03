@@ -1,9 +1,21 @@
 import React from 'react'
 import './becomeaccount.scss'
-
+import { useSelector } from 'react-redux'
 import Button from '@mui/material/Button'
+import { Link } from 'react-router-dom'
+import { useAlert } from 'react-alert'
 
 const BecomeAccount = () => {
+  const alert = useAlert()
+  const { user } = useSelector(state => state.auth);
+
+const OnClick = () => {
+  alert.error("You are already connected");
+  alert.error("Logout first");
+
+}
+ 
+
   return (
     <React.Fragment>
 <br/>
@@ -16,9 +28,19 @@ const BecomeAccount = () => {
     ADVENTURER
     </p>
     <p class="subtitle">
-    <Button variant="contained" color="secondary">
+    { user ? 
+     <Link to="/becomeaccount"><Button variant="contained" color="secondary" onClick={OnClick}>
     SIGN UP NOW
     </Button>
+    </Link>
+    :
+    <>
+     <Link to="/signup"><Button variant="contained" color="secondary">
+    SIGN UP NOW
+    </Button>
+    </Link>
+    </>
+}
     </p>
   </div>
 </section>
@@ -30,9 +52,19 @@ const BecomeAccount = () => {
     MERCHANT
     </p>
     <p class="subtitle">
-    <Button variant="contained" color="secondary">
+    { user ? 
+     <Link to="/becomeaccount"><Button variant="contained" color="secondary"  onClick={OnClick}>
     SIGN UP NOW
     </Button>
+    </Link>
+    :
+    <>
+     <Link to="/becometrader"><Button variant="contained" color="secondary">
+    SIGN UP NOW
+    </Button>
+    </Link>
+    </>
+}
     </p>
   </div>
 </section>
@@ -44,9 +76,19 @@ const BecomeAccount = () => {
     HOST
     </p>
     <p class="subtitle">
-    <Button variant="contained" color="secondary">
+    { user ? 
+     <Link to="/becomeaccount"><Button variant="contained" color="secondary"  onClick={OnClick}>
     SIGN UP NOW
     </Button>
+    </Link>
+    :
+    <>
+     <Link to="/becomehost"><Button variant="contained" color="secondary">
+    SIGN UP NOW
+    </Button>
+    </Link>
+    </>
+}
     </p>
   </div>
 </section>

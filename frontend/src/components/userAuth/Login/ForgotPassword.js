@@ -1,21 +1,37 @@
 import React, { useState, useEffect } from 'react'
-
-
-import MetaData from '../../shared/metaData'
-
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from "react-hook-form";
+
+import MetaData from '../../shared/metaData'
+import Layout from '../../shared/layout'
+
 import { forgotPassword, clearErrors } from '../../../actions/userActions'
+
+
+//Mui Imports
+
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
+
 
 
 const ForgotPassword = () => {
+
+  
+  // Validation
+
+const { register, handleSubmit, formState: {errors} } = useForm();
+
+const emailValidation = errors?.email ? errors.email.message : null;
+
+//
 
     const [email, setEmail] = useState('')
 
@@ -38,7 +54,7 @@ const ForgotPassword = () => {
     }, [dispatch, alert, error, message])
 
     const submitHandler = (e) => {
-        e.preventDefault();
+
 
         const formData = new FormData();
         formData.set('email', email);
@@ -47,11 +63,11 @@ const ForgotPassword = () => {
     }
 
     return (
-
+      <Layout>
         <React.Fragment>
 <MetaData title={'Forgot Password'} />
       <CssBaseline />
-      <Container maxWidth="sm" style={{marginTop:"8rem"}}>
+      <Container maxWidth="sm" style={{marginTop:"12rem"}}>
       <Paper
       sx={{
         p: 2,
@@ -68,26 +84,43 @@ const ForgotPassword = () => {
         
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
-              <h2>Réinitialisez votre mot de passe :</h2>
-            <Grid item xs component="form" onSubmit={submitHandler} >
+              <h2 style={{marginTop:"0.8rem", marginLeft:"0.8rem"}}>Reset your password :</h2>
+            <Grid item xs component="form" onSubmit={handleSubmit(submitHandler)} >
+
+
             <TextField
+            id="input-with-icon-textfield"
+            label="Email"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+               <MailOutlineIcon sx={{ color: "#E42651"}} />
+                </InputAdornment>
+              ),
+            }}
+                variant="standard"
                 required
                 margin="normal"
                 fullWidth
-                id="email"
-                label="Email"
                 name="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email", {pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Email is invalid, exemple: example@mail.com' 
+                }})}
+                {...register("email", {required: 'Email is required',
+                 
+                })}
+                error={!!errors?.email}
+                helperText={emailValidation}
+                value={email}          
+                onChange={(e) => setEmail(e.target.value)} 
               />
-              
 
-            
-              <br />
-              <br />
+              <br/>
+              <br/>
+              <br/>
 
-          <Button variant="contained" color="secondary" type="submit" disabled={loading ? true : false} >Envoyer un e-mail</Button>
+          <Button variant="contained" color="secondary" type="submit" disabled={loading ? true : false} >Send an email</Button>
 
           </Grid>
         </Grid>
@@ -96,6 +129,7 @@ const ForgotPassword = () => {
     </Paper>
       </Container>
     </React.Fragment>
+    </Layout>
           
 
 

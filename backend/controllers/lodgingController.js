@@ -227,3 +227,15 @@ exports.getLodgingeReviews = catchAsyncErrors(async (req, res, next) => {
         reviews: lodging.reviews
     })
 })
+
+
+
+//// Get logged in user lodgings   =>   /api/v1/lodgings/me
+exports.myLodgings = catchAsyncErrors(async (req, res, next) => {
+    const lodgings = await Lodging.find({ user: req.user.id })
+
+    res.status(200).json({
+        success: true,
+        lodgings
+    })
+})
