@@ -24,7 +24,7 @@ const rateLimit = require('express-rate-limit')
 var hpp = require('hpp');
 
 //Setting up config file
-dotenv.config({ path: 'config/config.env'});
+dotenv.config({ path: 'config/.env'});
 
 // Setting up cloudinary configuration
 cloudinary.config({
@@ -35,7 +35,6 @@ cloudinary.config({
 
 
 // Connecting to database
-connectDatabase();
 
 const server = app.listen(process.env.PORT, ()=>{
     console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
