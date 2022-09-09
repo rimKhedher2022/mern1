@@ -8,35 +8,50 @@ import moment from 'moment'
 import {  Avatar, Grid, Paper } from "@material-ui/core";
 import Rating from '@mui/material/Rating';
 
+import Box from "@mui/material/Box";
+import {Stack} from "@mui/material";
+
 
 
 const ListReviews = ({ reviews }) => {
     return (
        
-            <Fragment>   <div style={{ padding: 14 }} className="App">
+            <Fragment>   
+              <div style={{ padding: 14 }} className="App">
 
-            <br/>
-            {reviews && reviews.map(review => (
-            <Paper style={{ padding: "40px 20px", width:"50%" }}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item >
-                  <Avatar alt="Remy Sharp" src={review.avatar.url} />
-                </Grid>
-                <Grid justifyContent="left" item xs zeroMinWidth>
-                  <h4 style={{ margin: 0, textAlign: "left" }}>{review.fname} {review.lname}</h4>
-                  <Rating name="read-only" value={review.rating} readOnly />
-                  <p style={{ textAlign: "left" }}>
-                  {review.comment}
-                  </p>
-                  <p style={{ textAlign: "left", color: "gray" }}>
+    
+          <br/>
+          <Box className="flex space-x-6" >
+          {reviews && reviews.map(review => (
+          <Box className="talkingAboutItBox">
+            <Box className="flex">
+            <Avatar alt="User Image" src={review.avatar.url} />
+                <Stack className="talkingAboutItText">
+                    <Box>
+                    <Grid justifyContent="left" item xs zeroMinWidth style={{ marginLeft: "1rem", textAlign: "left" }}>
+                    <h4 > {review.fname} {review.lname} </h4>
+                    <Rating name="read-only" value={review.rating} readOnly />
+                      </Grid>
+                      </Box>
+                    <Box className="talkingAboutItTextDate"><p style={{ textAlign: "left", color: "gray", fontSize:"12px"
+                  ,marginLeft:"1rem"}}>
                    {moment(review.created).format('llll')}
-                  </p>
-                </Grid>
-              </Grid>
-            </Paper>
-      ))}
-          
+                  </p></Box>
+                </Stack>
+            </Box>
+            <br/>
+
+            <Box className="talkingAboutItText">
+              {review.comment}
+            </Box>
+
+
+        </Box>
+         ))}
+          </Box>
           </div>
+
+         
         </Fragment>
       
     )

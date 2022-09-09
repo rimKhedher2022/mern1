@@ -385,7 +385,7 @@ const dispatch = useDispatch()
             <Menu id="simple-menu" anchorEl={anchorEll} open={opena}
           onClose={handleClosee}>
            <Link to="/alllodgings" style={{color:"black"}}><MenuItem onClick={handleClosee}>Lodging </MenuItem></Link> 
-           <Link to="/allrestaurants" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Restaurant</MenuItem></Link>
+           <Link to="/allrestaurants" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Food</MenuItem></Link>
            <Link to="/alltransports" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Transport</MenuItem></Link>
 
 

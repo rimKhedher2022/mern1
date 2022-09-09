@@ -38,27 +38,18 @@ import Loader from '../../../../shared/Loader/loader'
 
 const MerchantMyServices =()=>{
 
-    
-
     //Transport
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const {  loading , error, transports } = useSelector(state => state.listTransport);
-    const {  lodgings } = useSelector(state => state.listLodging);
     const {  restaurants } = useSelector(state => state.listRestaurant);
-
-    const [myArray, setMyArray] = useState(lodgings);
-    const [myArray2, setMyArray2] = useState(restaurants);
-
-
-    
-
+    const {  loading , error, transports, } = useSelector(state => state.listTransport);
+    const {  lodgings } = useSelector(state => state.listLodging);
 
     useEffect(() => {
+        dispatch(myRestaurants());
         dispatch(myLodgings());
         dispatch(myTransports());
-        dispatch(myRestaurants());
 
 
         if (error) {
@@ -68,6 +59,22 @@ const MerchantMyServices =()=>{
         
     }, [dispatch, alert, error])
 
+    
+    const [myArray, setMyArray] = useState(lodgings);
+    useEffect(() => {
+        setMyArray(lodgings)
+    }, [lodgings])
+    
+    const [myArray2, setMyArray2] = useState(restaurants);
+     useEffect(() => {
+        setMyArray2(restaurants)
+    }, [restaurants])
+
+    console.log('real lodg',lodgings)
+    console.log('fake lodg',myArray)
+
+    console.log('real food',restaurants)
+    console.log('fake food',myArray2)
 
 
 
@@ -223,7 +230,7 @@ const MerchantMyServices =()=>{
 
                 {/* Pending Food */}
                 <Box className="mt-[50px] space-y-5">
-                     {myArray.length === 0 ? <>
+                     {myArray2.length === 0 ? <>
 
                 <Box className="arrayEmptyBox blueGradientText">
                     You don't have any food request  yet,
@@ -261,7 +268,7 @@ const MerchantMyServices =()=>{
 
                 {/* Edit/Delete Food */}
                 <Box className="mt-[50px] space-y-5">
-                     {myArray.length === 0 ? <>
+                     {myArray2.length === 0 ? <>
 
                 <Box className="arrayEmptyBox blueGradientText">
                     You don't have any food yet,

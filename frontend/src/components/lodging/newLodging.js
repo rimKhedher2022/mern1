@@ -147,7 +147,7 @@ useEffect(() => {
   }
 
   if (success) {
-    history.push('/');
+    history.push('/alllodgings');
       alert.success('Lodging created successfully');
       dispatch({ type: NEW_LODGING_RESET })
   }

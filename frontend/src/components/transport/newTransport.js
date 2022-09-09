@@ -186,7 +186,7 @@ useEffect(() => {
   }
 
   if (success) {
-    history.push('/')
+    history.push('/alltransports')
       alert.success('Transort created successfully');
       dispatch({ type: NEW_TRANSPORT_RESET })
   }
@@ -269,7 +269,7 @@ const oSelected = () =>{
           inputProps={{ 'aria-label': 'Without label' }}
       
         >
-          <MenuItem onClick={onNSelected} value={"Regular passenger transport, intercity"}>Regular passenger transport, intercity</MenuItem>
+          <MenuItem onClick={onNSelected} value={"Regular passenger transport"}>Regular passenger transport</MenuItem>
           <MenuItem onClick={onNSelected} value={"Private transport"}>Private transport</MenuItem>
           <MenuItem onClick={oSelected} selected={select} value={"Public transport"}>Public transport (“louage”, taxi...)</MenuItem>
           <MenuItem onClick={onNSelected} value={"Urban and suburban transport"}>Urban and suburban transport</MenuItem>

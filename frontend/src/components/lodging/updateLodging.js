@@ -1,11 +1,11 @@
-import { Grid, MenuItem } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import ImageAdder from "./ImageAdder";
-import { yupResolver } from "@hookform/resolvers/yup";
-import StarIcon from "@mui/icons-material/Star";
-import Layout from "../shared/layout";
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+//
+import ImageAdder from "./ImageAdder";
 import {
   MyDivider,
   MyForm,
@@ -16,18 +16,33 @@ import {
   MyStack,
   MyButton,
 } from "./CustomStyled";
-import { Link } from "react-router-dom";
-function LogdingForm() {
-  const [description, setDescription] = useState(
-    "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni voluptatem officiis deserunt sapiente quas repellat quo deleniti dicta eligendi explicabo? Aperiam asperiores impedit, commodi error atque ipsa eligendi quidem quam perspiciatis ratione autem maxime quae dolorem a placeat sint ullam illo cum nisi vero, pariatur ducimus beatae! Dolorum, eius!"
-  );
-  const [website, setWebsite] = useState("http://www.movenpick.com");
-  const [name, setName] = useState("Movenpick Hotel");
-  const [address, setAddress] = useState("Tunis 23 rue taieb mhiri 1003");
+
+//Mui Imports
+import { Grid, MenuItem } from "@mui/material";
+
+
+//
+import Layout from "../shared/layout";
+import MetaData from "../shared/metaData"
+
+//
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateLodging, getSingleLodging, clearErrors } from '../../actions/lodgingActions'
+import { UPDATE_LODGING_RESET } from '../../constants/lodgingConstants'
+
+
+
+
+function LogdingForm({match}) {
+  const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [type, setType] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState(160);
-  const [rating, setRating] = useState(3);
+  const [price, setPrice] = useState();
+
 
   //yup
   const schema = yup
@@ -57,21 +72,85 @@ function LogdingForm() {
       type,
       price,
       description,
-      rating,
     },
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
     console.log(data);
   };
-  const handleRating = (e) => {
-    setRating(parseInt(e.target.value));
-  };
-  const types = ["Hotel", "House", "Residence", "Studio"];
-  const categories = ["Non-regular", "Regular", "whatever"];
+
+  const types = ["House", "Apartment", "Hotel", "House hotel", "Residence", "Motel"];
+  const categories = ["Whole house", "Private room", "Shared room"];
+
+
+  //
+  const alert = useAlert();
+  const dispatch = useDispatch();
+
+  const { error, lodging } = useSelector(state => state.lodgingDetails)
+  const { loading, error: updateError, isUpdated } = useSelector(state => state.lodging);
+
+  const lodgingId = match.params.id;
+
+
+  useEffect(() => {
+    if (lodging && lodging._id !== lodgingId) {
+        dispatch(getSingleLodging(lodgingId));
+    } else {
+        setName(lodging.title);
+        setPrice(lodging.pricepernight);
+        setWebsite(lodging.website);
+        setDescription(lodging.description);
+        setAddress(lodging.address)
+        setType(lodging.lodgingType)
+        setCategory(lodging.lodgingCategory)
+    }
+
+    if (error) {
+        alert.error(error);
+        dispatch(clearErrors())
+    }
+
+    if (updateError) {
+        alert.error(updateError);
+        dispatch(clearErrors())
+    }
+
+
+    if (isUpdated) {
+       // history.push('/admin/products');
+        alert.success('Lodging updated successfully');
+        dispatch({ type: UPDATE_LODGING_RESET })
+    }
+
+}, [dispatch, alert, error, isUpdated, updateError, lodging, lodgingId])
+
+
+const submitHandler = (e) => {
+ 
+  const formData = new FormData();
+  formData.set('lodgingCategory', category);
+  formData.set('lodgingType', type );
+  formData.set('title', name);
+  formData.set('address', address);
+  formData.set('pricepernight', price);
+  formData.set('description', description);
+  formData.set('website', website);
+
+
+  /*images.forEach(image => {
+      formData.append('images', image)
+  })*/
+
+
+  dispatch(updateLodging(lodging._id, formData))
+}
+
+
 
   return (
     <React.Fragment>
+      <MetaData title={'Update Lodging'} />
         <Layout>
     <div style={{marginTop:"4rem"}}>
         <section class="hero is-primary editHero">
@@ -117,7 +196,6 @@ function LogdingForm() {
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value);
-                  console.log(category);
                 }}
               >
                 {categories.map((category) => (
@@ -133,6 +211,7 @@ function LogdingForm() {
                 {...register("price")}
                 id="price"
                 error={errors.price}
+                value={price}
                 onChange={(e) => {
                   setPrice(e.target.value);
                 }}
@@ -144,19 +223,13 @@ function LogdingForm() {
                 {...register("website")}
                 error={errors.website}
                 id="website"
+                value={website}
                 onChange={(e) => {
                   setWebsite(e.target.value);
                 }}
                 type="text"
               />
               {<p>{errors.website?.message}</p>}
-
-              <label htmlFor="stars">Hotel Stars:</label>
-              <div className="stars">
-                {Array.from({ length: rating }).map((rate, index) => (
-                  <StarIcon color="primary" key={index} />
-                ))}
-              </div>
             </MyStack>
             <MyStack style={{marginRight:'2rem'}}>
               <label htmlFor="type">Lodgin type :</label>
@@ -180,6 +253,7 @@ function LogdingForm() {
               <MyInput
                 {...register("address")}
                 id="address"
+                value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
@@ -191,6 +265,7 @@ function LogdingForm() {
                 error={errors.description}
                 {...register("description")}
                 id="description"
+                value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}

@@ -40,7 +40,6 @@ const MerchantFoodEditItem= ({data})=>{
         history.push('/');
     }
 
-    const goToEditFood=() => alert("Go to edit Food")
 
 
     return(
@@ -69,9 +68,11 @@ const MerchantFoodEditItem= ({data})=>{
                 </Box>
                 {/* Edit & delete buttons */}
                 <Box className="space-x-6 relative text-center">
+                    <Link to={`/merchant/restaurant/${data._id}`}>
                     <Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             className="pinkGradientBgWhiteText"
-                            onClick={goToEditFood}>Edit</Button>
+                            >Edit</Button>
+                    </Link>
                     <Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             className=" blueGradientText"
                             onClick={() => deleteRestaurantHandler(data._id)}>Delete</Button>

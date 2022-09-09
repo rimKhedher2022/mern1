@@ -223,7 +223,7 @@ useEffect(() => {
 
   if (success) {  
     
-      history.push('/')
+      history.push('/allrestaurants')
       alert.success('Restaurant created successfully');
       dispatch({ type: NEW_RESTAURANT_RESET })
   }
@@ -351,11 +351,11 @@ const classes = useStyles();
                     <em>Restaurant Speciality</em>
                   </MenuItem>
                   <MenuItem value={"Kafteji"}>Kafteji</MenuItem>
-                  <MenuItem value={"Poulet"}>Poulet</MenuItem>
-                  <MenuItem value={"Resto Bar"}>Grill</MenuItem>
-                  <MenuItem value={"Poissons"}>Poissons</MenuItem>
-                  <MenuItem value={"Pizzeria"}>Pizzeria</MenuItem>
-                  <MenuItem value={"Végan"}>Végan</MenuItem>
+                  <MenuItem value={"Chicken"}>Chicken</MenuItem>
+                  <MenuItem value={"Grill"}>Grill</MenuItem>
+                  <MenuItem value={"Fish"}>Fish</MenuItem>
+                  <MenuItem value={"Pizza"}>Pizza</MenuItem>
+                  <MenuItem value={"Vegan"}>Vegan</MenuItem>
                   <MenuItem value={"Chawarma"}>Chawarma</MenuItem>
                   <MenuItem value={"Ayari"}>Ayari</MenuItem>
                   <MenuItem value={"Leblebi"}>Leblebi</MenuItem>
@@ -425,8 +425,8 @@ const classes = useStyles();
                   <MenuItem disabled value="">
                     <em>Restaurant Speciality</em>
                   </MenuItem>
-                  <MenuItem value={"Exigences"}>Exigences</MenuItem>
-                  <MenuItem value={"Cuisine"}>Cuisine</MenuItem>
+                  <MenuItem value={"Requirements"}>Requirements</MenuItem>
+                  <MenuItem value={"Kitchen"}>Kitchen</MenuItem>
                   <MenuItem value={"Menu"}>Menu</MenuItem>
                 </Select>
               </FormControl>
@@ -456,8 +456,8 @@ const classes = useStyles();
                   <MenuItem disabled value="">
                     <em>Restaurant Speciality</em>
                   </MenuItem>
-                  <MenuItem value={"Avec boissons alcooliques"}>Avec boissons alcooliques</MenuItem>
-                  <MenuItem value={"Sans boissons alcooliques"}>Sans boissons alcooliques</MenuItem>
+                  <MenuItem value={"With alcoholic beverages"}>With alcoholic beverages</MenuItem>
+                  <MenuItem value={"Without alcoholic beverages"}>Without alcoholic beverages</MenuItem>
 
                 </Select>
               </FormControl>

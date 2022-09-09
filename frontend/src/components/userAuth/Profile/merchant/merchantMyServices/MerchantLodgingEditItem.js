@@ -38,7 +38,6 @@ const MerchantLodgingEditItem= ({data})=>{
         history.push('/');
     }
 
-    const goToEditLodging =() => alert("Go to edit lodging")
     
 
     return(
@@ -76,9 +75,10 @@ const MerchantLodgingEditItem= ({data})=>{
                 </Box>
                 {/* Edit & delete buttons */}
                 <Box className="space-x-6 relative text-center">
-                    <Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
+                   <Link to={`/merchant/lodging/${data._id}`}><Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             className="pinkGradientBgWhiteText"
-                            onClick={goToEditLodging}>Edit</Button>
+                           >Edit</Button>
+                    </Link> 
                     <Button sx={muiButtonSx} className=" blueGradientText" style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             onClick={() => deleteLodgingHandler(data._id)}>Delete</Button>
                 </Box>

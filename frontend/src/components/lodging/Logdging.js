@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Box from "@mui/material/Box";
 
 const Lodging = ({ lodging, col  }) => {
 
@@ -55,11 +56,12 @@ const Lodging = ({ lodging, col  }) => {
     },
   });
         return (
-          <Grid item >
+          <>
+      <Grid item >
             <div className ={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
               <div className="card__container">
               <div className="card__container--inner--card">
-                <div className='img-wrapper'>
+            <div className='img-wrapper'>
               <StyledRating
               className='btn'
                 name="customized-color"
@@ -73,26 +75,31 @@ const Lodging = ({ lodging, col  }) => {
                 value={value}
                 onChange={onChangefav}
               />
-              <img
-              src= {lodging.images[0].url}
-              alt= "lodging-img"
-            
-            />
-            </div>
-            <div className="card__container--inner--card--date_time">
-            <Link to= {`/lodging/${lodging._id}`} > <h4>{lodging.title}</h4></Link>
-                  </div>
-                 
-                  <p ><span style={{textAlign:"right"}}>{lodging.address}</span></p>
+              <Link to= {`/lodging/${lodging._id}`}>
+                <img src={lodging.images[0].url} alt= "lodging-img"  />
+                </Link>
+                </div>
              
-
-                <p>{lodging.lodgingType}<span style={{textAlign:"right"}}> {lodging.pricepernight}DT/Night</span></p>
-                
-                    </div>
+            <Box sx={{position: 'relative', width: '100%'}}>
+                {/* Lodging data */}
+                <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
+                <Link to= {`/lodging/${lodging._id}`}>
+                    <Box className="pinkGradientText hostFavouriteItemNameFont">{lodging.title}</Box>
+                    </Link>
+                    <Box className="hostFavouriteItemLodgingTypeFont" >{lodging.lodgingType}</Box>
+                </Box>
+                <Box sx={{ float: 'right'}}  className="text-right mt-1 space-y-1">
+                    <Box className="hostFavouriteItemLocationPriceFont">{lodging.address}, Tunisia</Box>
+                    <Box className="hostFavouriteItemLocationPriceFont"> {lodging.pricepernight}DT/Night</Box>
+                </Box>
+            </Box>
+            </div>
         </div>
         </div>
 
         </Grid>
+    
+        </>
         )
         
     

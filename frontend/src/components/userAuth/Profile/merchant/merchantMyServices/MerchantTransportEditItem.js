@@ -33,7 +33,7 @@ const MerchantTransportEditItem= ({data})=>{
         }
     }, [dispatch, alert, deleteError, isDeleted, history])
 
-    const goToEditTransport =() => alert(console.log(data.images[0].url))
+
    
     const deleteTransportHandler = (id) => {
         dispatch(deleteTransport(id))
@@ -67,12 +67,15 @@ const MerchantTransportEditItem= ({data})=>{
                 </Box>
                 {/* Edit & delete buttons */}
                 <Box className="space-x-6 relative text-center">
-                    <Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
+                    <>
+                <Link to={`/merchant/transport/${data._id}`}><Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             className="pinkGradientBgWhiteText"
-                            onClick={goToEditTransport}>Edit</Button>
+                           >Edit</Button>
+                </Link>
                     <Button sx={muiButtonSx} style={{width: '155px', fontSize: '18px',borderRadius: '20px',}}
                             className=" blueGradientText"
                           onClick={() => deleteTransportHandler(data._id)}>Delete</Button>
+                        </>
                 </Box>
 
             </Box>

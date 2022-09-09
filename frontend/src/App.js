@@ -148,11 +148,11 @@ function App() {
    {/* Host Routes */}
 
     <Route exact path='/becomehost' component={HostForm} />
-    <Route exact path='/newexperience' component={ExperienceForm} />
+    <HostProtectedRoute exact path='/newexperience' component={ExperienceForm} />
     <Route exact path='/allexperiences' component={AllExperiences} />
     <Route  path="/experience/:id" component={ExperienceDetails} />
     <HostProtectedRoute exact path='/host/me' component={Host} />
-    <HostProtectedRoute exact path='/updateexperience' component={EditExperience} />
+    <Route exact path='/updateexperience' component={EditExperience} />
 
 
 
@@ -168,9 +168,9 @@ function App() {
     <TraderProtectedRoutes exact path='/newtransport' component={NewTransport} />
 
   {/* Update Services */}
-    <TraderProtectedRoutes exact path='/updatelodging' component={LogdingForm} />
-    <TraderProtectedRoutes exact path='/updatedish' component={DishForm} />
-    <TraderProtectedRoutes exact path='/updatetransport' component={TransportForm} />
+    <TraderProtectedRoutes exact path='/merchant/lodging/:id' component={LogdingForm} />
+    <TraderProtectedRoutes exact path='/merchant/restaurant/:id' component={DishForm} />
+    <TraderProtectedRoutes exact path='/merchant/transport/:id' component={TransportForm} />
 
 
 

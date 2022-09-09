@@ -1,49 +1,57 @@
-import { Grid, MenuItem, Rating } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+//
 import {
   MyDivider,
   MyForm,
   SubGrid,
   MyInput,
   MyTextarea,
-  MySelect,
   MyStack,
   MyTextField,
   MyButton,
 } from "../lodging/CustomStyled";
-
 import Layout from '../shared/layout'
-
-import React, { useState, useEffect } from "react";
 import ImageAdder from "./ImageAdder";
-import { useForm } from "react-hook-form";
+import MetaData from "../shared/metaData"
 
-import { yupResolver } from "@hookform/resolvers/yup";
+
+
+//
+import TextField from '@mui/material/TextField';
+import { Grid, Rating } from "@mui/material";
+import Autocomplete from '@mui/material/Autocomplete';
+import { TimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
-import * as yup from "yup";
-import { TimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { Link } from "react-router-dom";
+
+//
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateRestaurant, getSingleRestaurant, clearErrors } from '../../actions/restaurantActions'
+import { UPDATE_RESTAURANT_RESET } from '../../constants/restaurantConstants'
 
 
 
 
 
-function DishForm() {
-  const [rules, setRules] = useState(
-    "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni voluptatem officiis deserunt sapiente quas repellat quo deleniti dicta eligendi explicabo? Aperiam asperiores impedit, commodi error atque ipsa eligendi quidem quam perspiciatis ratione autem maxime quae dolorem a placeat sint ullam illo cum nisi vero, pariatur ducimus beatae! Dolorum, eius!"
-  );
-  const [description, setDescription] = useState(
-    "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni voluptatem officiis deserunt sapiente quas repellat quo deleniti dicta eligendi explicabo? Aperiam asperiores impedit, commodi error atque ipsa eligendi quidem quam perspiciatis ratione autem maxime quae dolorem a placeat sint ullam illo cum nisi vero, pariatur ducimus beatae! Dolorum, eius!"
-  );
-  const [website, setWebsite] = useState("http://www.livmo.com");
-  const [address, setAddress] = useState("Tunis 23 rue taieb mhiri 1003");
-  const [resto, setResto] = useState("Chaneb");
-  const [recipe, setRecipe] = useState("All Salmon");
-  const [price, setPrice] = useState(13);
-  const [slogan, setSlogan] = useState("we are the best ");
-  const [rating, setRating] = useState(0);
+
+
+
+function DishForm({match}) {
+  const [rules, setRules] = useState("");
+  const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
+  const [address, setAddress] = useState("");
+  const [resto, setResto] = useState("");
+  const [recipe, setRecipe] = useState("");
+  const [price, setPrice] = useState();
+  const [slogan, setSlogan] = useState("");
+  const [nbrFourchettes, setNbrFourchettes] = useState();
   const [time, setTime] = useState(new Date());
   const [startTime, setStartTime] = useState();
 
@@ -52,16 +60,17 @@ function DishForm() {
   // };
   //multiple selection for days off
   const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    { title: 'Monday' },
+    { title: 'Tuesday' },
+    { title: 'Wednesday' },
+    { title: 'Thursday' },
+    { title: 'Friday' },
+    { title: 'Saturday' },
+    { title: 'Sunday' },
+  
   ];
-  const [selectedOffDays, setSelectedOffDays] = useState([]);
-  const [offDays, setOffDays] = useState([]);
+ 
+  const [offDays, setOffDays] = useState("");
 
   //for time range selection
   const [endTime, setEndTime] = useState();
@@ -72,11 +81,6 @@ function DishForm() {
     setEndTime(newValue);
   };
 
-  //for rating
-  const handleRating = (e) => {
-    setRating(parseInt(e.target.value));
-    console.log(rating + typeof rating);
-  };
   //yup
   const schema = yup
     .object({
@@ -108,7 +112,6 @@ function DishForm() {
       slogan,
       description,
       rules,
-      rating,
       time,
       offDays,
     },
@@ -124,12 +127,85 @@ function DishForm() {
   //   const handleChange = (newValue: Date) => {
   //     setValue(newValue);
   //   };
+
+
+  //
+  const alert = useAlert();
+  const dispatch = useDispatch();
+
+  const { error, restaurant } = useSelector(state => state.restaurantDetails)
+  const { loading, error: updateError, isUpdated } = useSelector(state => state.restaurant);
+
+  const restaurantId = match.params.id;
+
+
   useEffect(() => {
-    setOffDays(selectedOffDays.map((item) => item.value));
-  }, [selectedOffDays]);
+    if (restaurant && restaurant._id !== restaurantId) {
+        dispatch(getSingleRestaurant(restaurantId));
+    } else {
+        setResto(restaurant.restaurantName);
+        setAddress(restaurant.address);
+        setWebsite(restaurant.webSite);
+        setPrice(restaurant.price);
+        setSlogan(restaurant.slogon);
+        setDescription(restaurant.descriptionPlat);
+        setRules(restaurant.description);
+        setNbrFourchettes(restaurant.nbrFourchettes);
+        setRecipe(restaurant.platName);
+        setStartTime(restaurant.openingTime);
+        setEndTime(restaurant.closingTime);
+        setOffDays(restaurant.dayoff)
+
+    }
+
+    if (error) {
+        alert.error(error);
+        dispatch(clearErrors())
+    }
+
+    if (updateError) {
+        alert.error(updateError);
+        dispatch(clearErrors())
+    }
+
+
+    if (isUpdated) {
+       // history.push('/admin/products');
+        alert.success('Food updated successfully');
+        dispatch({ type: UPDATE_RESTAURANT_RESET })
+    }
+
+}, [dispatch, alert, error, isUpdated, updateError, restaurant, restaurantId])
+
+const submitHandler = (e) => {
+ 
+  const formData = new FormData();
+  formData.set('platName', );
+  formData.set('restaurantName', );
+  formData.set('descriptionPlat', );
+  formData.set('price', );
+  formData.set('slogon', );
+  formData.set('webSite', );
+  formData.set('address', );
+  formData.set('dayoff', );
+  formData.set('openingTime', );
+  formData.set('closingTime', );
+  formData.set('nbrFourchettes', );
+  formData.set('description', );
+
+  /*images.forEach(image => {
+      formData.append('images', image)
+  })*/
+   /*images.forEach(image => {
+      formData.append('images', image)
+  })*/
+
+  dispatch(updateRestaurant(restaurant._id, formData))
+}
 
   return (
     <React.Fragment>
+      <MetaData title={'Update Food'} />
         <Layout>
             
     <div style={{marginTop:"4rem"}}>
@@ -162,6 +238,7 @@ function DishForm() {
               error={errors.recipe}
               style={{ fontSize: "14pt", fontWeight: "bolder" }}
               type="text"
+              value={recipe}
               onChange={(e) => {
                 setRecipe(e.target.value);
               }}
@@ -175,6 +252,7 @@ function DishForm() {
                   error={errors.resto}
                   {...register("resto")}
                   id="resto"
+                  value={resto}
                   onChange={(e) => {
                     setResto(e.target.value);
                   }}
@@ -186,6 +264,7 @@ function DishForm() {
                   {...register("price")}
                   id="price"
                   error={errors.price}
+                  value={price}
                   onChange={(e) => {
                     setPrice(e.target.value);
                   }}
@@ -196,6 +275,7 @@ function DishForm() {
                 <MyInput
                   {...register("address")}
                   id="address"
+                  value={address}
                   onChange={(e) => {
                     setAddress(e.target.value);
                   }}
@@ -240,22 +320,27 @@ function DishForm() {
                       </MySelect>
                     )}
                   /> */}
-                  <MySelect
-                    {...register("offDays")}
-                    id="offDays"
-                    multiple
-                    value={offDays}
-                    onChange={(e) => {
-                      setOffDays(e.target.value);
-                      console.log(offDays);
-                    }}
-                  >
-                    {days.map((day) => (
-                      <MenuItem key={day} value={day}>
-                        {day}
-                      </MenuItem>
-                    ))}
-                  </MySelect>
+                  <Autocomplete
+        multiple
+        id="tags-standard"	
+          onChange={(event, newValue) => {
+            setOffDays(newValue.map((v) => v.title));
+          }}
+        options={days}
+        getOptionLabel={(option) => option.title}
+        defaultValue={[days[6]]}
+        renderInput={(params) => (
+          <TextField
+        style={{width:"70%"}}
+
+            {...params}
+            variant="standard"
+            placeholder="Days Off"
+          />
+        )}
+        
+      />
+                
 
                   {/* <Controller
                     name="offDays"
@@ -274,26 +359,14 @@ function DishForm() {
                   {<p>{errors.offDays?.message}</p>}
                 </React.Fragment>
                 <label htmlFor="stars">Restaurant Rate:</label>
-                <span id="stars">
-                  <input
-                    name="rating"
-                    type="number"
-                    hidden
-                    value={rating}
-                    {...register("rating")}
-                    readOnly
-                  />
-                  <Rating
-                    onChange={(e) => {
-                      handleRating(e);
-                      console.log("run");
-                    }}
-                    value={rating}
-                    icon={<StarIcon fontSize="20pt" />}
-                    emptyIcon={<StarBorderIcon fontSize="20pt" />}
-                  />
-                </span>
-                {<p>{errors.rating?.message}</p>}
+                <Rating
+                        defaultValue={3} max={3}
+                        name="customized-10" 
+                        value={nbrFourchettes}
+                        onChange={(event, newValue) => {
+                          setNbrFourchettes(newValue);
+                        }}
+                      />
               </MyStack>
               <MyStack style={{marginRight:'2rem'}}>
                 <label htmlFor="website">Website :</label>
@@ -301,6 +374,7 @@ function DishForm() {
                   {...register("website")}
                   error={errors.website}
                   id="website"
+                  value={website}
                   onChange={(e) => {
                     setWebsite(e.target.value);
                   }}
@@ -312,6 +386,7 @@ function DishForm() {
                   {...register("slogan")}
                   error={errors.slogan}
                   id="slogan"
+                  value={slogan}
                   onChange={(e) => {
                     setSlogan(e.target.value);
                   }}
@@ -323,6 +398,7 @@ function DishForm() {
                   error={errors.description}
                   {...register("description")}
                   id="description"
+                  value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
@@ -334,6 +410,7 @@ function DishForm() {
                   error={errors.rules}
                   {...register("rules")}
                   id="rules"
+                  value={rules}
                   onChange={(e) => {
                     setRules(e.target.value);
                   }}
