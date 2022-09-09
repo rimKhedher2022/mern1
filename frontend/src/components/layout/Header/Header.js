@@ -356,7 +356,7 @@ const dispatch = useDispatch()
         <ListItemIcon>
         <AddBoxIcon sx={{ color: '#F02F32' }} fontSize="small"/>
         </ListItemIcon>
-        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="#">Create an experience</Link>
+        <Link onClick={Close} style={{ textDecoration : "none", color: '#000000'}} to="/newexperience">Create an experience</Link>
         </MenuItem>
         ) : ( 
           <></>
