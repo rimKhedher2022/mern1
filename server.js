@@ -24,7 +24,7 @@ const rateLimit = require('express-rate-limit')
 var hpp = require('hpp');
 
 //Setting up config file
-dotenv.config({ path: 'backend/config/config.env'});
+dotenv.config({ path: 'config/config.env'});
 
 // Setting up cloudinary configuration
 cloudinary.config({
