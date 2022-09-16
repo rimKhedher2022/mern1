@@ -1,13 +1,8 @@
-require('dotenv').config({ path: './config/.env' });
-require('./config/database');
 const app = require('./app');
+const connectDatabase = require('./config/database');
 
 
-//create server
-app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT || 5000}`);
-})
-
+const dotenv = require('dotenv');
 
 const cloudinary = require('cloudinary');
 
@@ -22,12 +17,14 @@ const helmet = require("helmet");
 //
 var xss = require('xss-clean')
 
+//Setting up config file
+dotenv.config({ path: 'backend/config/config.env'});
+
 //Use to limit repeated requests to public APIs and/or endpoints such as password reset. 
 const rateLimit = require('express-rate-limit')
 
 // Express middleware to protect against HTTP Parameter Pollution attacks
 var hpp = require('hpp');
-
 
 // Setting up cloudinary configuration
 cloudinary.config({
@@ -37,6 +34,12 @@ cloudinary.config({
 })
 
 
+// Connecting to database
+connectDatabase();
+
+const server = app.listen(process.env.PORT, ()=>{
+    console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
+});
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', err => {
