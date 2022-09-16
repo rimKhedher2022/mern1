@@ -5,7 +5,7 @@ const app = require('./app');
 
 //create server
 app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT}`);
+    console.log(`Listening on port ${process.env.PORT || 5000}`);
 })
 
 
