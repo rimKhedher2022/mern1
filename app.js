@@ -9,7 +9,7 @@ const fileUpload = require('express-fileupload');
 
 const errorMiddleware = require('./middleware/errors');
 
-const whitelist = ["http://localhost:3000"]
+const whitelist = ["https://livmotestt.web.app/"]
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
