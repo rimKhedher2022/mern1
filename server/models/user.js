@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         // required: [true, 'Please enter your email'],
         unique: true,
-        default:"email@gmail.com"
+        
         // validate: [validator.isEmail, 'Please enter valid email address']
     },
     country: {
@@ -31,14 +31,14 @@ const userSchema = new mongoose.Schema({
     },
 	codepostale: {
         type: Number,
-        // minLength: [4, 'Your password must be longer than 4 characters'],
+        minLength: [4, 'Your password must be longer than 4 characters'],
     },
 	address: {
         type: String,
     },
 	password: {
         type: String,
-        // required: [true, 'Please enter your password'],
+        required: [true, 'Please enter your password'],
         minLength: [7, 'Your password must be longer than 6 characters'],
        
     },
@@ -179,7 +179,7 @@ const userSchema = new mongoose.Schema({
             next()
         }
         var salt = await bcrypt.genSalt(10);
-        this.password =   bcrypt.hash(this.password, salt)
+        this.password =   await bcrypt.hash(this.password, salt)
 
     })
 
