@@ -16,7 +16,18 @@ const message = {
   text: options.message
 }
 
-await transporter.sendMail(message)
+ transporter.sendMail(message,(err)=>{
+  if(err)
+  {
+    console.log("it has an error",err)
+  }
+
+  else{
+    console.log("email has sent")
+
+  }
+
+})
 }
 
 

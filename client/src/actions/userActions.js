@@ -93,7 +93,7 @@ export const login = (email, password) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/login', { email, password }, config)
+        const { data } = await axios.post('http://localhost:5000/api/v1/login', { email, password }, config)
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -120,12 +120,15 @@ export const Register = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/register', userData, config)
-
+        const { data } = await axios.post('http://localhost:3000/api/v1/register', userData, config)
+        //const { data } = await axios.post('', userData, config)
+        console.log(data.user)
         dispatch({
             type: REGISTER_USER_SUCCESS,
             payload: data.user
+            
         })
+        console.log(data.user)
 
     } catch (error) {
         dispatch({

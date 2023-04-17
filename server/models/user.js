@@ -16,30 +16,31 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'Please enter your email'],
+        // required: [true, 'Please enter your email'],
         unique: true,
-        validate: [validator.isEmail, 'Please enter valid email address']
+        default:"email@gmail.com"
+        // validate: [validator.isEmail, 'Please enter valid email address']
     },
     country: {
         type: String,
        
     },
 	phone: {
-        type: Number,
-        minLength: [8, 'Your password must be longer than 8 characters'],
+        type: String,
+        minLength: [8, 'Your phone number must be longer than 8 characters'],
     },
 	codepostale: {
         type: Number,
-        minLength: [4, 'Your password must be longer than 4 characters'],
+        // minLength: [4, 'Your password must be longer than 4 characters'],
     },
 	address: {
         type: String,
     },
 	password: {
         type: String,
-        required: [true, 'Please enter your password'],
+        // required: [true, 'Please enter your password'],
         minLength: [7, 'Your password must be longer than 6 characters'],
-        select: false
+       
     },
 	avatar: {
         public_id: {
@@ -146,7 +147,9 @@ const userSchema = new mongoose.Schema({
         default: 'Not yet'
     },
     showbooked : {
-        type: false,
+        // type: false,
+        type: Boolean,
+        default: false
     },
     role:  {
         type: String,
@@ -171,11 +174,13 @@ const userSchema = new mongoose.Schema({
 
 
     // Encrypting password before saving user
-    userSchema.pre('save', async function (next) {
+    userSchema.pre('save',  async function (next) {
         if(!this.isModified('password')) {
             next()
         }
-        this.password = await bcrypt.hash(this.password, 10)
+        var salt = await bcrypt.genSalt(10);
+        this.password =   bcrypt.hash(this.password, salt)
+
     })
 
     // Compare user password

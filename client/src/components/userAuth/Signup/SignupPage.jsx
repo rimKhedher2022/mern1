@@ -655,7 +655,7 @@ const Signup = () => {
 		<div className='loginimg'>
 		<Link to="/">
             <img src={IMG} alt='logo' />
-			</Link>
+		</Link>
             </div>
 	<Box component="form" noValidate onSubmit={handleSubmit(HandleSubmit)} sx={{ mt: 1 }}>
 	<Grid container spacing={2}>

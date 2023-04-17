@@ -3,6 +3,7 @@
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
+  "proxy" : "http:://localhost:5000",
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
     "@date-io/dayjs": "^2.13.1",
@@ -50,6 +51,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
     "tailwindcss": "^3.1.6",
+    "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

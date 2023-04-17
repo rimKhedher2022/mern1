@@ -1,12 +1,30 @@
-const app = require('./app');
+// const app = require('./app');
+const express = require('express')
 const connectDatabase = require('./config/database');
+const app = express();
+const cors = require('cors')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
 
 
+app.use(express.json());
+app.use(bodyParser.json({limit:"30mb" , extended:true}))
+app.use(bodyParser.urlencoded({ limit:"30mb", extended: true }));
+app.use(cors());
+app.use(morgan('tiny'));
+app.use(cookieParser());
+app.use(fileUpload());
+
+
+// app.use(userRoutes);
+// app.use(taskRoute)
 const dotenv = require('dotenv');
 
 const cloudinary = require('cloudinary');
-
-
+const auth = require('./routes/auth');
+app.use('/api/v1', auth);
 
 // Prevent Nosql Injection Sanitize Data
 const mongoSanitize = require('express-mongo-sanitize');
@@ -16,9 +34,10 @@ const helmet = require("helmet");
 
 //
 var xss = require('xss-clean')
+//import xss from 'xss-clean';
 
 //Setting up config file
-dotenv.config({ path: 'backend/config/config.env'});
+dotenv.config({ path: 'config.env'});
 
 //Use to limit repeated requests to public APIs and/or endpoints such as password reset. 
 const rateLimit = require('express-rate-limit')
@@ -34,9 +53,11 @@ cloudinary.config({
 })
 
 
+
 // Connecting to database
 connectDatabase();
-
+// app.use(express.json({ extended: false }));
+//app.use(express.urlencoded({ extended: true} ));
 const server = app.listen(process.env.PORT, ()=>{
     console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
 });

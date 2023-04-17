@@ -1,11 +1,11 @@
-const express = require('express');
-const app = express();
+//const express = require('express')
+//const app = express();
 
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-
+const morgan = require('morgan');
 
 const errorMiddleware = require('./middleware/errors');
 
@@ -22,11 +22,14 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(fileUpload());
+
+ //app.use(express.json());
+// app.use(bodyParser.json({limit:"30mb" , extended:true}))
+// app.use(bodyParser.urlencoded({ limit:"30mb", extended: true }));
+// app.use(cors());
+// app.use(morgan('tiny'));
+// app.use(cookieParser());
+// app.use(fileUpload());
 
 
 
@@ -49,7 +52,7 @@ app.use('/api/v1', transport);
 app.use('/api/v1', restaurant);
 app.use('/api/v1', lodging);
 app.use('/api/v1', experience);
-app.use('/api/v1', auth);
+//app.use('/api/v1', auth);
 
 
 
@@ -59,7 +62,6 @@ app.use('/api/v1', auth);
 
 // Middleware to handle eroors
 app.use(errorMiddleware);
-
 
 
 
