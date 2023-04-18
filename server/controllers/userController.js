@@ -7,6 +7,9 @@ const sendEmail = require('../utils/sendEmail');
 const sendConfirmationEmail = require('../utils/sendEmail');
 const cloudinary = require('cloudinary');
 const crypto =require('crypto');
+const bcrypt = require('bcryptjs');
+
+
 
 
 //Verify user => /api/v1/verifyuser/:activationcode
@@ -90,25 +93,26 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         }
         
         await user.save();
-
-
 })
    
 
 
 
-// Login User  =>  /a[i/v1/login
+// Login User  =>  /api/v1/login  // 123456TOURour*** idlahfidhi
+// 123rimR****
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
+    console.log("this is the password in the login page",password)
 
     // Checks if email and password is entered by user
     if (!email || !password) {
         return next(new ErrorHandler('Please enter your email address and password', 400))
     }
 
-
     // Finding user in database
     const user = await User.findOne({ email }).select('+password')
+    console.log("this is the user password",user.password)
+
 
 
     if (!user) {
@@ -116,18 +120,19 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     }
 
     // Checks if password is correct or not
+    // const isPasswordMatched = user.comparePassword(password);
     const isPasswordMatched = await user.comparePassword(password);
+    console.log(isPasswordMatched)
 
     if (!isPasswordMatched) {
-        return next(new ErrorHandler('Invalid email or password', 401));
+        return next(new ErrorHandler('Invalid email or password second one', 401));
     }
-
     if (isPasswordMatched && user && !user.verified ) {
         return next(new ErrorHandler('Please check your email for activation', 401));
     }
-
-    sendToken(user, 200, res)
+    sendToken(user,200,res)
 })
+
 
 
 // Forgot Password   =>  /api/v1/password/forgot

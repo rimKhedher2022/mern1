@@ -190,10 +190,10 @@ const userSchema = new mongoose.Schema({
 
     // Return JWT token
     userSchema.methods.getJwtToken = function () {
-        return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_TIME
+       const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+            expiresIn: 3600
         })
-
+        return token;
     }
 
     // Generate password reset token
@@ -213,11 +213,6 @@ const userSchema = new mongoose.Schema({
 
         return resetToken
     }
-
-
-
-
-
 module.exports = mongoose.model('User', userSchema);
 
 	
