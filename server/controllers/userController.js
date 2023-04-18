@@ -42,7 +42,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 
 
-  const { fname, lname, phone, birthday, email, country, password,avatar } = req.body;
+  const { fname, lname, phone, birthday, email, country, password } = req.body;
     console.log(req.body)
 
     const user = await User.create({
@@ -54,10 +54,10 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         country,
         password,
         activationCode: activationCode,
-        avatar: {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
+        // avatar: {    /// comment this 
+        //     public_id: result.public_id, // comment this 
+        //     url: result.secure_url// comment this 
+        // } // comment this 
     })
 
         // Create reset password url
