@@ -34,15 +34,15 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     for (let i = 0; i < 25; i++) {
         activationCode += characters[Math.floor(Math.random() * characters.length)];
     }
-    // const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //     folder: 'avatars',
-    //     width: 150,
-    //     crop: "scale"
-    // })
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: 'avatars',
+        width: 150,
+        crop: "scale"
+    })
 
 
 
-  const { fname, lname, phone, birthday, email, country, password } = req.body;
+  const { fname, lname, phone, birthday, email, country, password,avatar } = req.body;
     console.log(req.body)
 
     const user = await User.create({
@@ -54,10 +54,10 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         country,
         password,
         activationCode: activationCode,
-        // avatar: {
-        //     public_id: result.public_id,
-        //     url: result.secure_url
-        // }
+        avatar: {
+            public_id: result.public_id,
+            url: result.secure_url
+        }
     })
 
         // Create reset password url
