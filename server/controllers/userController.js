@@ -91,7 +91,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 
 
-// Login User  =>  /api/v1/login  // 123456TOURour*** idlahfidhi
+// Login User  =>  /api/v1/login  
 // 123rimR****
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
