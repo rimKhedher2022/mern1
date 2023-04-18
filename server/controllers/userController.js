@@ -16,18 +16,11 @@ const bcrypt = require('bcryptjs');
 exports.verifyUser  = catchAsyncErrors(async (req, res, next) => {
 
     const user = await User.findOne({ activationCode: req.params.activationcode });
-   
-                 
             user.verified = true
-
             await user.save();
-
             res.send({
-                message: ""
+                message: "Verified Successfully"
             })
-    
-
-    
 })
 
 

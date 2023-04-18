@@ -25,7 +25,7 @@ const dotenv = require('dotenv');
 const cloudinary = require('cloudinary');
 const auth = require('./routes/auth');
 
-app.use('/api/v1', auth);  //***************** SIGNUP ********************** */
+app.use('/api/v1', auth);  //***************** SIGNUP and LOGIN ********************** */
 
 // Prevent Nosql Injection Sanitize Data
 const mongoSanitize = require('express-mongo-sanitize');
@@ -102,3 +102,7 @@ app.use(limiter)
 app.use(hpp())
 // backend : 3000
 // frontend : 3001
+
+// npm install --ignore-scripts
+// npm install -g npm 
+// npm install --legacy-peer-deps
