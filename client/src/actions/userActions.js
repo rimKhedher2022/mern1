@@ -58,20 +58,15 @@ import {
 
 
 // Validation
-export const Validation = (userData) => async (dispatch) => {
+export const Validation = (userData,activationCode) => async (dispatch) => {
     try {
-
         dispatch({ type: VALIDATION_REQUEST })
-
-
-
-        const { data } = await axios.post('/api/v1/verifyuser/:activationcode', userData)
-
+        const { data } = await axios.post(`http://localhost:3000/api/v1/verifyuser/${activationCode}`, userData)
         dispatch({
             type: VALIDATION_SUCCESS,
-            payload: data.user
+            payload: data.user,
+           
         })
-
     } catch (error) {
         dispatch({
             type: VALIDATION_FAIL,
