@@ -7,6 +7,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
+// const https = require('https')
+// const path = require('path')
+// const fs = require('fs')
+
+
 
 
 app.use(express.json());
@@ -24,9 +29,46 @@ const dotenv = require('dotenv');
 
 const cloudinary = require('cloudinary');
 const auth = require('./routes/auth');
+const experience = require('./routes/experience');
+const lodging = require('./routes/lodging');
+const restaurant = require('./routes/restaurant');
+const transport = require('./routes/transport');
+
+
+// Define a middleware function to redirect HTTP to HTTPS
+function httpsRedirect(req, res, next) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect('https://' + req.headers.host + req.url);
+    }
+    return next();
+  }
+  
+  // Use the middleware for all incoming requests
+  app.use(httpsRedirect);
+
+//////////****************www */
+  app.use(function(req, res, next) {
+    if (req.headers.host.slice(0, 4) === 'www.') {
+      var newHost = req.headers.host.slice(4);
+      return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+    }
+    next();
+  });
+
 
 app.use('/api/v1', auth);  //***************** SIGNUP and LOGIN ********************** */
+app.use('/api/v1', transport);
+app.use('/api/v1', restaurant);
+app.use('/api/v1', lodging);
+app.use('/api/v1', experience);
 
+
+app.get('/http://localhost:3001', function(req, res) {
+    // Redirect to the new URL with a 301 status code
+    res.redirect(301, 'https://localhost:3000');
+  });
+
+// app.use(errorMiddleware);
 // Prevent Nosql Injection Sanitize Data
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -57,8 +99,7 @@ cloudinary.config({
 
 // Connecting to database
 connectDatabase();
-// app.use(express.json({ extended: false }));
-//app.use(express.urlencoded({ extended: true} ));
+
 const server = app.listen(process.env.PORT, ()=>{
     console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
 });

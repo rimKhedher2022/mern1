@@ -57,6 +57,7 @@ import {
 } from '../constants/userConstants'
 
 
+
 // Validation
 export const Validation = (userData,activationCode) => async (dispatch) => {
     try {
@@ -147,7 +148,7 @@ export const HostRegister = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/hostregister', userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/hostregister', userData, config)
 
         dispatch({
             type: HOSTREGISTER_USER_SUCCESS,
@@ -175,7 +176,7 @@ export const updateToHostProfile = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('/api/v1/registerhost', userData, config)
+        const { data } = await axios.put('http://localhost:3000/api/v1/registerhost', userData, config)
 
         dispatch({
             type: HOSTUPDATE_PROFILE_SUCCESS,
@@ -203,7 +204,7 @@ export const RegisterOrganism = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/organism/register', userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/organism/register', userData, config)
 
         dispatch({
             type: ORGANISMREGISTER_USER_SUCCESS,
@@ -231,7 +232,7 @@ export const registerTrader = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/traderregister', userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/traderregister', userData, config)
 
         dispatch({
             type: TRADERREGISTER_USER_SUCCESS,
@@ -253,7 +254,7 @@ export const loadUser = () => async (dispatch) => {
 
         dispatch({ type: LOAD_USER_REQUEST })
 
-        const { data } = await axios.get('/api/v1/me')
+        const { data } = await axios.get('http://localhost:3000/api/v1/me')
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -280,7 +281,7 @@ export const updateProfile = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('/api/v1/me/update', userData, config)
+        const { data } = await axios.put('http://localhost:3000/api/v1/me/update', userData, config)
 
         dispatch({
             type: UPDATE_PROFILE_SUCCESS,

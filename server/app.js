@@ -48,10 +48,10 @@ const transport = require('./routes/transport');
 
 
 
-app.use('/api/v1', transport);
-app.use('/api/v1', restaurant);
-app.use('/api/v1', lodging);
-app.use('/api/v1', experience);
+// app.use('/api/v1', transport);
+// app.use('/api/v1', restaurant);
+// app.use('/api/v1', lodging);
+// app.use('/api/v1', experience);
 //app.use('/api/v1', auth);
 
 
@@ -61,7 +61,7 @@ app.use('/api/v1', experience);
 
 
 // Middleware to handle eroors
-app.use(errorMiddleware);
+// app.use(errorMiddleware);
 
 
 

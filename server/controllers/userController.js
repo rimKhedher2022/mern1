@@ -34,11 +34,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     for (let i = 0; i < 25; i++) {
         activationCode += characters[Math.floor(Math.random() * characters.length)];
     }
-    // const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //     folder: 'avatars',
-    //     width: 150,
-    //     crop: "scale"
-    // })
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: 'avatars',
+        width: 150,
+        crop: "scale"
+    })
 
 
 
@@ -53,11 +53,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         phone,
         country,
         password,
-        activationCode: activationCode
-        // avatar: {    /// comment this 
-        //     public_id: result.public_id, // comment this 
-        //     url: result.secure_url// comment this 
-        // } // comment this 
+        activationCode: activationCode,
+        avatar: {    /// comment this 
+        public_id: result.public_id, // comment this 
+        secure_url: result.secure_url// comment this 
+        } // comment this 
     })
 
         // Create reset password url

@@ -77,7 +77,7 @@ const Host= () =>{
             {/* Profile header */}
             <Box className="flex justify-center center pt-11">
                 <img className="hostProfilePictureBig"
-                    src={user.avatar.url}
+                    src={user.avatar.secure_url}
                      alt="Host profile picture" />
                 <Box className="p-6">
                     <Typography component="div" className="flex space-x-3.5">
