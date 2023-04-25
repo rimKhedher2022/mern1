@@ -132,6 +132,18 @@ const AllTransport = ({ match }) => {
       ) : (
         <Fragment>
           <Box>
+
+          <head>
+                <meta charset="UTF-8" />
+                <title>Choose lodging Get transportation and taste food-Book now with Livmo</title>
+
+                <meta name="description" content="Explore our complete range of srvices to meet all
+                 your travel needs .find the perfect accomodations for your next trip . 
+                 Discover our selection of restaurants for unique culinary experiences .
+                  Simplify your transportation 
+                during your next trip with our convenient and affordable transport options.Book now!"/>
+
+                </head>
             {/* Filters */}
             <Grid container justifyContent="center" className="mt-28">
               <Stack spacing={3}>

@@ -84,7 +84,7 @@ const Lodging = ({ lodging, col  }) => {
                 {/* Lodging data */}
                 <Box sx={{position: 'absolute'}}  className="text-left space-y-1">
                 <Link to= {`/lodging/${lodging._id}`}>
-                    <Box className="pinkGradientText hostFavouriteItemNameFont">{lodging.title}</Box>
+                    <Box className="pinkGradientText hostFavouriteItemNameFont"><h2>{lodging.title}</h2></Box>
                     </Link>
                     <Box className="hostFavouriteItemLodgingTypeFont" >{lodging.lodgingType}</Box>
                 </Box>

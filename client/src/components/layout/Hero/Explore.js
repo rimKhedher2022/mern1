@@ -45,7 +45,7 @@ export default class Explore extends Component {
             align='center'
             variant="h3"
             gutterBottom component="div">
-            Why book with LIVMO ?
+            <h2>Why book with LIVMO ?</h2>
               </Typography>
             <div className="explore__container">
                 <h1>
@@ -55,7 +55,7 @@ export default class Explore extends Component {
              {this.props.data.map((item,index) =>{return(
                     <div key={index} className="explore__container--inner-card">
                         <img src={item.url} alt="item"/>
-                        <h2>{item.title}</h2>
+                        <h3>{item.title}</h3>
                         <p className='exp'>{item.description}</p>
                     </div>
                 )})}

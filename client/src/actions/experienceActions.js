@@ -70,18 +70,20 @@ export const newExperience = (experienceData) => async (dispatch) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+        
             }
         }
 
-        const { data } = await axios.post(`/api/v1/host/experience/new`, experienceData, config)
-
+        const { data } = await axios.post(`http://localhost:3000/api/v1/host/experience/new`, experienceData, config)
+        
         dispatch({
             type: NEW_EXPERIENCE_SUCCESS,
             payload: data
         })
 
     } catch (error) {
+
         dispatch({
             type: NEW_EXPERIENCE_FAIL,
             payload: error.response.data.message
@@ -89,13 +91,14 @@ export const newExperience = (experienceData) => async (dispatch) => {
     }
 }
 
+
 // Delete experience (Host)
 export const deleteExperience = (id) => async (dispatch) => {
     try {
 
         dispatch({ type: DELETE_EXPERIENCE_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/host/experience/${id}`)
+        const { data } = await axios.delete(`http://localhost:3000/api/v1/host/experience/${id}`)
 
         dispatch({
             type: DELETE_EXPERIENCE_SUCCESS,
@@ -122,7 +125,7 @@ export const updateExperience = (id, experienceData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/host/experience/${id}`, experienceData, config)
+        const { data } = await axios.put(`http://localhost:3000/api/v1/host/experience/${id}`, experienceData, config)
 
         dispatch({
             type: UPDATE_EXPERIENCE_SUCCESS,
@@ -142,7 +145,7 @@ export const getSingleExperience = (id) => async (dispatch) => {
 
         dispatch({ type: EXPERIENCE_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/experience/${id}`)
+        const { data } = await axios.get(`http://localhost:3000/api/v1/experience/${id}`)
 
         dispatch({
             type: EXPERIENCE_DETAILS_SUCCESS,
@@ -168,7 +171,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`http://localhost:3000/api/v1/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -189,7 +192,7 @@ export const getHostExperiences = () => async (dispatch) => {
 
         dispatch({ type: ADMIN_EXPERIENCES_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/host/experiences`)
+        const { data } = await axios.get(`http://localhost:3000/api/v1/host/experiences`)
 
         dispatch({
             type: ADMIN_EXPERIENCES_SUCCESS,
@@ -211,7 +214,7 @@ export const getExperienceReviews = (id) => async (dispatch) => {
 
         dispatch({ type: GET_REVIEWS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/reviews?id=${id}`)
+        const { data } = await axios.get(`http://localhost:3000/api/v1/reviews?id=${id}`)
 
         dispatch({
             type: GET_REVIEWS_SUCCESS,
@@ -233,7 +236,7 @@ export const deleteReview = (id, experienceId) => async (dispatch) => {
 
         dispatch({ type: DELETE_REVIEW_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/reviews?id=${id}&experienceId=${experienceId}`)
+        const { data } = await axios.delete(`http://localhost:3000/api/v1/reviews?id=${id}&experienceId=${experienceId}`)
 
         dispatch({
             type: DELETE_REVIEW_SUCCESS,
@@ -264,7 +267,7 @@ export const myExperiences = () => async (dispatch) => {
 
         dispatch({ type: MY_EXPERIENCES_REQUEST });
 
-        const { data } = await axios.get('/api/v1/experiences/me')
+        const { data } = await axios.get('http/api/v1/experiences/me')
 
         dispatch({
             type: MY_EXPERIENCES_SUCCESS,

@@ -84,7 +84,7 @@ const Experience = ({ experience, col }) => {
                     />
                    </div>
                     <div className="card__container--inner--card--date_time">
-                    <Link to= {`/experience/${experience._id}`} >  <h4>{experience.exptitle}</h4> </Link>
+                    <Link to= {`/experience/${experience._id}`} >  <h2>{experience.exptitle}</h2> </Link>
                           </div>
                          
                           <p ><span style={{textAlign:"right"}}>{experience.location}</span></p>

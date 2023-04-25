@@ -84,7 +84,7 @@ const { user, loading  } = useSelector(state => state.auth);
 const alert = useAlert();
 const dispatch = useDispatch()
 
-
+console.log('user',user)
 
   const [ope, setOpe] = React.useState(false);
 
@@ -209,7 +209,7 @@ const dispatch = useDispatch()
                 </Tab>
                 </Link>
 
-                <Link to="/allexperiences">
+                <Link to="/all-experiences">
                 <Tab textColor="#E42651" style={{ fontSize: "18px",
                  fontFamily: 'Montserrat',
                  textTransform:' capitalize',
@@ -231,7 +231,7 @@ const dispatch = useDispatch()
                 label="Services" ></Tab>
                 </Link>
                 <div class="verticalLine"></div>
-                <Link  to="/becomeaccount">
+                <Link  to="/become-account">
                 <Tab
                textColor="#E42651" 
                   className={classes.tab}	
@@ -384,9 +384,9 @@ const dispatch = useDispatch()
           </Box>
             <Menu id="simple-menu" anchorEl={anchorEll} open={opena}
           onClose={handleClosee}>
-           <Link to="/alllodgings" style={{color:"black"}}><MenuItem onClick={handleClosee}>Lodging </MenuItem></Link> 
-           <Link to="/allrestaurants" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Food</MenuItem></Link>
-           <Link to="/alltransports" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Transport</MenuItem></Link>
+           <Link to="/all-lodgings" style={{color:"black"}}><MenuItem onClick={handleClosee}>Lodging </MenuItem></Link> 
+           <Link to="/all-restaurants" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Food</MenuItem></Link>
+           <Link to="/all-transports" style={{color:"black"}}>  <MenuItem onClick={handleClosee}>Transport</MenuItem></Link>
 
 
             </Menu>

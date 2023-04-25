@@ -67,7 +67,10 @@ import {
 
 
 
-export const authReducer = (state = { user: {} }, action) => {
+// export const authReducer = (state = { user: {} }, action) => {
+export const authReducer = (state = {user: {}}, action) => {
+    console.log('state',state)
+    console.log('action',action)
     switch (action.type) {
 
         case LOGIN_REQUEST:
@@ -78,17 +81,21 @@ export const authReducer = (state = { user: {} }, action) => {
         case LOAD_USER_REQUEST:
             return {
                 loading: true,
-                isAuthenticated: false,
+                isAuthenticated: true,
             }
 
         case LOGIN_SUCCESS:
+            return {
+                loading: false,
+                isAuthenticated: true,
+                user: action.payload
+            }
         case REGISTER_USER_SUCCESS:
         case HOSTREGISTER_USER_SUCCESS:
         case ORGANISMREGISTER_USER_SUCCESS:
         case TRADERREGISTER_USER_SUCCESS:
         case LOAD_USER_SUCCESS:
             return {
-                ...state,
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload

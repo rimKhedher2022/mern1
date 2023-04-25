@@ -24,19 +24,23 @@ const OnClick = () => {
 <section class="hero is-medium is-link adventurer-hero">
   <div class="hero-body">
     <p class="title">
-    BECOME AN <br/>
+      <h2>
+      BECOME AN <br/>
     ADVENTURER
+
+      </h2>
+   
     </p>
     <p class="subtitle">
     { user ? 
-     <Link to="/becomeaccount"><Button variant="contained" color="secondary" onClick={OnClick}>
-    SIGN UP NOW
+     <Link to="/become-account"><Button variant="contained" color="secondary" onClick={OnClick}>
+    <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     :
     <>
      <Link to="/signup"><Button variant="contained" color="secondary">
-    SIGN UP NOW
+    <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     </>
@@ -48,19 +52,23 @@ const OnClick = () => {
 <section class="hero is-medium is-link merchant-hero">
   <div class="hero-body">
     <p class="title">
-    BECOME A <br/>
+      <h2>
+      BECOME A <br/>
     MERCHANT
+
+      </h2>
+  
     </p>
     <p class="subtitle">
     { user ? 
-     <Link to="/becomeaccount"><Button variant="contained" color="secondary"  onClick={OnClick}>
-    SIGN UP NOW
+     <Link to="/become-account"><Button variant="contained" color="secondary"  onClick={OnClick}>
+    <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     :
     <>
-     <Link to="/becometrader"><Button variant="contained" color="secondary">
-    SIGN UP NOW
+     <Link to="/become-trader"><Button variant="contained" color="secondary">
+     <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     </>
@@ -72,19 +80,23 @@ const OnClick = () => {
 <section class="hero is-medium is-link host-hero">
   <div class="hero-body">
     <p class="title">
-    BECOME A <br/>
+      <h2>
+      BECOME A <br/>
     HOST
+        
+      </h2>
+  
     </p>
     <p class="subtitle">
     { user ? 
-     <Link to="/becomeaccount"><Button variant="contained" color="secondary"  onClick={OnClick}>
-    SIGN UP NOW
+     <Link to="/become-account"><Button variant="contained" color="secondary"  onClick={OnClick}>
+   <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     :
     <>
-     <Link to="/becomehost"><Button variant="contained" color="secondary">
-    SIGN UP NOW
+     <Link to="/become-host"><Button variant="contained" color="secondary">
+     <h3>SIGN UP NOW</h3>
     </Button>
     </Link>
     </>

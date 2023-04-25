@@ -24,14 +24,50 @@ const data = [
 
 
 const Home = () => {
+
+
+
+  
+  
   return (
+
+
+
+   
+
   <React.Fragment>
+
     <Layout>
+
+      {/* seo is here  */}
+     <link rel="canonical" href=" https://www.livmo.net"/> 
+     <meta name="robots"content="noindex"></meta>
+     {/* seo is here  */}
+     <head>
+
+
+      
+  <meta charset="UTF-8" />
+  <title>Live More Tourism Experiences-livmo</title>
+
+  <meta name="description" content="You don’t know where to go ?
+Perfect ! Livmo website is here to offer you unforgettable tourism experiences. Join us now to start your adventure."/>
+
+
+
+
+
+</head>
+
+
           <MetaData title={'livmo|Home Page'} />
+
+         
     <Hero />
     <Sliders sliderData={sliderData} />
     <Hero2 />
     <Explore  data = {data}/>
+   
     </Layout>
          </React.Fragment>
   )

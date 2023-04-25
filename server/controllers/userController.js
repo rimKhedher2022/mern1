@@ -24,12 +24,10 @@ exports.verifyUser  = catchAsyncErrors(async (req, res) => {
 })
 
 
-// Register a user   => /api/v1/register
+// Register a user   => /api/v1/register //////////////////////////////register user ////////////////////////////////
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
- 
-    
     let activationCode = "";
     for (let i = 0; i < 25; i++) {
         activationCode += characters[Math.floor(Math.random() * characters.length)];
@@ -61,8 +59,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     })
 
         // Create reset password url
-        const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`;
-
+        const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
         const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
     
         try {
@@ -86,6 +83,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         }
         
         await user.save();
+        sendToken(user, 200, res)
 })
    
 
@@ -94,8 +92,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 // Login User  =>  /api/v1/login  
 // 123rimR****
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+
+    
     const { email, password } = req.body;
-    console.log("this is the password in the login page",password)
+    
+   
+   // console.log("this is the password in the login page",password)
+
 
     // Checks if email and password is entered by user
     if (!email || !password) {
@@ -104,7 +107,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
     // Finding user in database
     const user = await User.findOne({ email }).select('+password')
-    console.log("this is the user password",user.password)
+    //console.log("this is the user password",user.password)
+   
 
 
 
@@ -115,14 +119,15 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     // Checks if password is correct or not
     // const isPasswordMatched = user.comparePassword(password);
     const isPasswordMatched = await user.comparePassword(password);
-    console.log(isPasswordMatched)
-
+   // console.log(isPasswordMatched)
+    
     if (!isPasswordMatched) {
         return next(new ErrorHandler('Invalid email or password second one', 401));
     }
     if (isPasswordMatched && user && !user.verified ) {
         return next(new ErrorHandler('Please check your email for activation', 401));
     }
+    
     sendToken(user,200,res)
 })
 
@@ -168,6 +173,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
         return next(new ErrorHandler(error.message, 500));
     }
+    sendToken(user,200,res)
 
 })
 
@@ -321,16 +327,21 @@ exports.registerUserHost = catchAsyncErrors(async (req, res, next) => {
         width: 150,
         crop: "scale"
     })
+
     const resu = await cloudinary.v2.uploader.upload(req.body.patente, {
         folder: 'patente',
         width: 150,
         crop: "scale"
     })
- 
+    const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let activationCode = ""
 
+    for (let i = 0; i < 25; i++) {
+        activationCode += characters[Math.floor(Math.random() * characters.length)];
+    }
+    
     const { typehost, name, email, country, phone, password, city, codepostale, address } = req.body;
-
-    const user = await User.create({
+    const user = await User.create({ //******************************************register as a host ********************************* */
         typehost,
         name,
         email,
@@ -340,6 +351,7 @@ exports.registerUserHost = catchAsyncErrors(async (req, res, next) => {
         password,
         codepostale,
         address,
+        activationCode: activationCode,
         role: 'host',
         avatar: {
             public_id: result.public_id,
@@ -355,11 +367,29 @@ exports.registerUserHost = catchAsyncErrors(async (req, res, next) => {
         },
     })
 
-    
-    
-    sendToken(user, 200, res)
 
+    const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
+    const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'livmo conform your account',
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email}`
+        })
+
+    } catch (error) {
+        return next(console.log(error));
+    }
+    await user.save();
+   // sendToken(user, 200, res)
 })
+
 
 
 exports.updateToHostProfile = catchAsyncErrors(async (req, res, next) => {
@@ -425,13 +455,17 @@ exports.updateToHostProfile = catchAsyncErrors(async (req, res, next) => {
 // Host "Organism Controller"
 
 exports.registerOrganism = catchAsyncErrors(async (req, res, next) => {
+    const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let activationCode = "";
+    for (let i = 0; i < 25; i++) {
+        activationCode += characters[Math.floor(Math.random() * characters.length)];
+    }
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: 'documents',
         width: 150,
         crop: "scale"
     })
-
     const resul = await cloudinary.v2.uploader.upload(req.body.rne, {
         folder: 'rne',
         width: 150,
@@ -477,7 +511,28 @@ exports.registerOrganism = catchAsyncErrors(async (req, res, next) => {
 
 
     })
+
+    const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
+    const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
     
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'livmo conform your account',
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email}`
+        })
+
+    } catch (error) {
+        return next(console.log(error));
+    }
+    
+    await user.save();
+
     sendToken(user, 200, res)
 
 })
@@ -534,6 +589,15 @@ exports.updateOrganismProfile = catchAsyncErrors(async (req, res, next) => {
 
 exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
 
+    const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+ 
+    
+    let activationCode = "";
+
+    for (let i = 0; i < 25; i++) {
+        activationCode += characters[Math.floor(Math.random() * characters.length)];
+    }
+
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: 'documents',
         width: 150,
@@ -575,8 +639,8 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
         femme,
         forme,
         typerestaurant,
+        activationCode: activationCode,
         specialty,
-
         role: 'trader',
 
         avatar: {
@@ -595,6 +659,28 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
        
     })
 
+
+    const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
+    const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'livmo conform your account',
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email}`
+        })
+
+    } catch (error) {
+        return next(console.log(error));
+       
+    }
+
+  
   
     if (req.body.cad !== '') {
     
@@ -611,9 +697,9 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
     }
    
 
+    await user.save();
     
-    
-    sendToken(user, 200, res)
+  // sendToken(user, 200, res)
 
 })
 

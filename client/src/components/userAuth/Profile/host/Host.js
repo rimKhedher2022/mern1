@@ -31,7 +31,8 @@ const tabsStyle= {
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
 }
-const tabsSx: SxProps={
+
+const tabsSx={
     '& .MuiTabs-root':{
 //        width: '100%'
     },

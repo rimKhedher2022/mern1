@@ -9,7 +9,7 @@ const cloudinary = require('cloudinary');
 
 exports.newExperience = catchAsyncErrors(async (req, res, next) => {
    
-   {/*  //Experience Image
+   //Experience Image
      let YourIdeaImage = []
      if (typeof req.body.YourIdeaImage === 'string') {
          YourIdeaImage.push(req.body.YourIdeaImage)
@@ -86,7 +86,7 @@ exports.newExperience = catchAsyncErrors(async (req, res, next) => {
    
        req.body.LdImage = imagesLinksss;
      }
-     */}
+     
 
     ///////////////////////////////////////////////////////
     let dishinputFields  = []

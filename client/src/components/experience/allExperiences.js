@@ -19,7 +19,13 @@ const AllExperiences = ({ match }) => {
 
   
 
+  <head>
+  <meta charset="UTF-8" />
+  <title>Discover incredible experiences and book your reservations today</title>
 
+  <meta name="description" content="Looking for exciting experiences to add to your list ? look no further ! our plateform offers a wide range of options . Discover and make your reservations today."/>
+
+</head>
 
 
   

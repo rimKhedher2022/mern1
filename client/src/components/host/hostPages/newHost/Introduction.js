@@ -63,7 +63,8 @@ const onRadichange = e => {
    }}  >
 	   <br/>
 	   <br/>
-	  What is a host ?
+	  <h3>What is a host ?</h3>
+	  <h3>Become a host allows you to create experiences</h3>
       </Typography>
 	  <Typography variant="h6" gutterBottom
 	  style={{
@@ -72,7 +73,7 @@ const onRadichange = e => {
 	  lineHeight:'15px',
 	  color:"black"
    }}  >
-	Becoming a host allows you to create experiences
+	
       </Typography>
 	  <Typography variant="h6" gutterBottom
 	  style={{
@@ -81,7 +82,7 @@ const onRadichange = e => {
 	  lineHeight:'20px',
 	  color:"black"
    }}  >
-	  Are you an individual or an organization?
+	  <h3>Are you an individual or an organization?</h3>
 	  </Typography>
 	 <br/> 
 	  <FormControl >

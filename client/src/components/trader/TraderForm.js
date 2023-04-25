@@ -11,7 +11,6 @@ import Document from './Document';
 
 
 
-
 import './becometrader.scss'
 
 //MUI imports
@@ -67,6 +66,8 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }));
+
+
 const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
   zIndex: 1,
@@ -216,7 +217,15 @@ export default function TraderForm(props) {
 
 
   return (
+
+    
     <React.Fragment>
+        <head>
+                <meta charset="UTF-8" />
+                <title>Become a merchant on Livmo and offer unforgettable experiences</title>
+                <meta name="description" content=""/>
+
+                </head>
       <CssBaseline />
       <section className="hero is-fullheight">
       <div className={classes.root}>

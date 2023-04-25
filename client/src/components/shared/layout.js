@@ -22,9 +22,9 @@ const Layout=({ children }) => {
             children
         }
     </main>
-    {!loading && (!isAuthenticated || user.role !== 'admin') && (
+    {/* {!loading && (!isAuthenticated || user.role !== 'admin') && ( */}
     <Footer />
-    )}
+    {/* )} */}
     </>
     );
 }

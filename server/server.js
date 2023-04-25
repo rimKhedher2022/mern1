@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
+
+
 // const https = require('https')
 // const path = require('path')
 // const fs = require('fs')
@@ -36,15 +38,22 @@ const transport = require('./routes/transport');
 
 
 // Define a middleware function to redirect HTTP to HTTPS
-function httpsRedirect(req, res, next) {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect('https://' + req.headers.host + req.url);
-    }
-    return next();
-  }
-  
+// function httpsRedirect(req, res, next) {
+//     if (req.headers['x-forwarded-proto'] !== 'https') {
+//       return res.redirect('https://' + req.headers.host + req.url);
+//     }
+//     return next();
+//   }
+
+
   // Use the middleware for all incoming requests
-  app.use(httpsRedirect);
+//app.use(httpsRedirect);
+
+
+
+
+
+
 
 //////////****************www */
   app.use(function(req, res, next) {
@@ -63,12 +72,12 @@ app.use('/api/v1', lodging);
 app.use('/api/v1', experience);
 
 
-app.get('/http://localhost:3001', function(req, res) {
-    // Redirect to the new URL with a 301 status code
-    res.redirect(301, 'https://localhost:3000');
-  });
+// app.get('/http://localhost:3001', function(req, res) {
+//     // Redirect to the new URL with a 301 status code
+//     res.redirect(301, 'https://localhost:3000');
+//   });
 
-// app.use(errorMiddleware);
+ //app.use(errorMiddleware);
 // Prevent Nosql Injection Sanitize Data
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -125,6 +134,29 @@ app.use(mongoSanitize());
 
 //Helmet
 app.use(helmet());
+
+
+///code SEO  suite checklist , 2/
+
+app.use(express.static('public'));
+
+
+
+
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'public, max-age=86400');
+  next();
+});
+
+// Définit la date d'expiration à 1 semaine pour les fichiers statiques
+app.use((req, res, next) => {
+  res.set('Expires', new Date(Date.now() + 604800000).toUTCString());
+  next();
+});
+
+
+/// FIN CODE SEO ////
+
 
 //(XSS) is a type of injection attack in which a threat actor inserts data, such as a malicious script
 app.use(xss());

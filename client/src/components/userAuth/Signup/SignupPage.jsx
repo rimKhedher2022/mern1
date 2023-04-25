@@ -486,7 +486,13 @@ function Copyright(props) {
 
 
 const Signup = () => {
+	<head>
+	<meta charset="UTF-8" />
+	<title>Start your adventure today - Become an adventurer with livmo </title>
 
+	<meta name="description" content=""/>
+
+	</head>
 
 	const minDate = new Date('1930-01-01T00:00:00.000');
 	const maxDate = new Date('2004-01-01T00:00:00.000');

@@ -70,7 +70,7 @@ export const newLodging = (logdingData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/trader/lodging/new`, logdingData, config)
+        const { data } = await axios.post(`http://localhost:3000/api/v1/trader/lodging/new`, logdingData, config)
 
         dispatch({
             type: NEW_LODGING_SUCCESS,
@@ -91,7 +91,7 @@ export const deleteLodging = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_LODGING_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/merchant/lodging/${id}`)
+        const { data } = await axios.delete(`http://localhost/api/v1/merchant/lodging/${id}`)
 
         dispatch({
             type: DELETE_LODGING_SUCCESS,
@@ -118,7 +118,7 @@ export const updateLodging = (id, lodgingData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/trader/lodging/${id}`, lodgingData, config)
+        const { data } = await axios.put(`http://localhost:3000/api/v1/trader/lodging/${id}`, lodgingData, config)
 
         dispatch({
             type: UPDATE_LODGING_SUCCESS,
@@ -161,7 +161,7 @@ export const getTraderLodgings = () => async (dispatch) => {
 
         dispatch({ type: ADMIN_LODGINGS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/trader/lodgings`)
+        const { data } = await axios.get(`http://localhost:3000/api/v1/trader/lodgings`)
 
         dispatch({
             type: ADMIN_LODGINGS_SUCCESS,
@@ -240,7 +240,7 @@ export const myLodgings = () => async (dispatch) => {
 
         dispatch({ type: MY_LODGINGS_REQUEST });
 
-        const { data } = await axios.get('/api/v1/lodgings/me')
+        const { data } = await axios.get('http://localhost:3000/api/v1/lodgings/me')
 
         dispatch({
             type: MY_LODGINGS_SUCCESS,

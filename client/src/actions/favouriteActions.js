@@ -10,7 +10,7 @@ import { ADD_TO_FAVOURITE, REMOVE_ITEM_FAVOURITE, SAVE_SHIPPING_INFO,
 
 //Experience
 export const addItemToCart = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/experience/${id}`)
+    const { data } = await axios.get(`http://localhost:3000/api/v1/experience/${id}`)
 
     dispatch({
         type: ADD_TO_FAVOURITE,
@@ -41,7 +41,7 @@ export const removeItemFromCart = (id) => async (dispatch, getState) => {
 
 //Lodging
 export const addLodgingToCart = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/lodging/${id}`)
+    const { data } = await axios.get(`http://localhost:3000/api/v1/lodging/${id}`)
 
     dispatch({
         type: ADD_LODGING_TO_FAVOURITE,
@@ -72,7 +72,7 @@ export const removeLodgingFromCart = (id) => async (dispatch, getState) => {
 
 //Transport
 export const addTransportToCart = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/transport/${id}`)
+    const { data } = await axios.get(`http://localhost:3000/api/v1/transport/${id}`)
 
     dispatch({
         type: ADD_TRANSPORT_TO_FAVOURITE,
@@ -103,7 +103,7 @@ export const removeTransportFromCart = (id) => async (dispatch, getState) => {
 
 //Restaurant
 export const addRestaurantToCart = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/restaurant/${id}`)
+    const { data } = await axios.get(`http://localhost:3000/api/v1/restaurant/${id}`)
 
     dispatch({
         type: ADD_RESTAURANT_TO_FAVOURITE,

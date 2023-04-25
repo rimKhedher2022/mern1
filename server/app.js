@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 
 const errorMiddleware = require('./middleware/errors');
+const redirectMiddleware = require('./middleware/redirect');
 
 const whitelist = ["https://livmotestt.web.app/"]
 const corsOptions = {
@@ -23,16 +24,13 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 
- //app.use(express.json());
+//app.use(express.json());
 // app.use(bodyParser.json({limit:"30mb" , extended:true}))
 // app.use(bodyParser.urlencoded({ limit:"30mb", extended: true }));
 // app.use(cors());
 // app.use(morgan('tiny'));
 // app.use(cookieParser());
 // app.use(fileUpload());
-
-
-
 
 
 
@@ -64,5 +62,5 @@ const transport = require('./routes/transport');
 // app.use(errorMiddleware);
 
 
-
+//travaris
 module.exports = app;

@@ -1,6 +1,9 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware ,compose} from "redux";
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer  } from './reducers/userReducers';
 import { experiencesReducer, newExperienceReducer, experienceReducer, experienceDetailsReducer, newReviewReducer, experienceReviewsReducer, reviewReducer, myExperiencesReducer  } from './reducers/experienceReducers'
@@ -13,8 +16,12 @@ import reservationConfirmedRestaurantReducer from "./reducers/reservationConfirm
 import reservationConfirmedTransportReducer from "./reducers/reservationConfirmedTransportReducer";
 import reservationTotalReducer from "./reducers/reservationTotalReducer";
 
-
-const reducer = combineReducers({
+const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+const persistConfig = {
+    key: 'root',
+    storage,
+  };
+const rootReducer = combineReducers({
 
      auth: authReducer,
      user: userReducer,
@@ -75,14 +82,25 @@ const reducer = combineReducers({
  })
 
 
- let initialState = {
+
+let initialState = {
+
+    auth : {
+        userInfo : userInfo
+
+    } ,
+
     cart: {
        cartItems: localStorage.getItem('cartItems')
            ? JSON.parse(localStorage.getItem('cartItems'))
-           : [],   
+           : [], 
+   
+
        shippingInfo: localStorage.getItem('shippingInfo')
            ? JSON.parse(localStorage.getItem('shippingInfo'))
-           : {}
+           : {},
+
+       
    },
    cartLodging: {
     cartLodging: localStorage.getItem('cartLodging')
@@ -102,7 +120,16 @@ const reducer = combineReducers({
     
  }
 
-const middlware = [thunk];
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middlware)))
 
-export default store;
+const middlware = [thunk];
+//export const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middlware)))
+export const store = createStore(rootReducer, persistConfig, compose(applyMiddleware(thunk)))
+
+//  default store;
+
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const middleware = [thunk];
+// export const store = createStore(persistedReducer, initialState ,composeWithDevTools(applyMiddleware(...middleware)))
+export const persistor = persistStore(store);
+
+

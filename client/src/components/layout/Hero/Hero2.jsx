@@ -171,7 +171,7 @@ const card3 = (
                             fontWeight: 700,
                             fontSize: '36px',
                             lineHeight: '39px'
-                          }} >Become a Host</div>
+                          }} ><h2>Become a Host</h2></div>
                         </div>
                      
       </CardContent>
@@ -198,7 +198,7 @@ const card3 = (
                             fontWeight: 700,
                             fontSize: '36px',
                             lineHeight: '39px'
-                          }} >Become a Merchant</div>
+                          }} ><h2>Become a Merchant</h2></div>
                         </div>
                      
       </CardContent>
@@ -219,7 +219,7 @@ const Hero2 = () => {
     align='center'
     variant="h3"
     gutterBottom component="div">
-    Discover the scheduled experiences
+    <h2>Discover the scheduled experiences</h2>
       </Typography>
       <br />
         <Grid container spacing={2} >
@@ -256,7 +256,7 @@ const Hero2 = () => {
     align='center'
     variant="h3"
     gutterBottom component="div">
-    Become a service provider
+    <h2>Become a service provider</h2>
       </Typography>
       <br />
         <Grid container spacing={2} >

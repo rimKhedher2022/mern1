@@ -92,11 +92,11 @@ const Restaurant = ({ restaurant, col }) => {
               >
                 <Link to={`/restaurant/${restaurant._id}`}>
                   <Box className="pinkGradientText hostFavouriteItemNameFont">
-                    {restaurant.platName}
+                    <h2>{restaurant.platName}</h2>
                   </Box>
                 </Link>
                 <Box className="hostFavouriteItemLodgingTypeFont">
-                  {restaurant.restaurantName}
+                 <h3>{restaurant.restaurantName}</h3> 
                 </Box>
               </Box>
               <Box

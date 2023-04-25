@@ -244,8 +244,15 @@ const changeDocumentValue = (key, value) => {
 
   return (
     <React.Fragment>
+
+<head>
+                <meta charset="UTF-8" />
+                <title>Ready to become a host ? sign up on Livmo now .</title>
+                <meta name="description" content=""/>
+
+                </head>
       <CssBaseline />
-     
+      
       <div className={classes.root}>
       <Container component="main" >
         <Grid item style={{textAlign: "center" }} >
@@ -274,7 +281,7 @@ const changeDocumentValue = (key, value) => {
 
             
          }}  >
-          Hi! we will help you become a host.
+          <h1>Hi! we will help you become a host.</h1>
           </Typography>
           <br />
           {/* Individu stepper*/}
@@ -349,7 +356,7 @@ const changeDocumentValue = (key, value) => {
       <Stepper alternativeLabel activeStep={activeStep}  connector={<ColorlibConnector />} sx={{ pt: 3, pb: 5 }}>
         {stepss.map((label) => (
           <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcons}><Typography style={{
+           <StepLabel variant="h2" StepIconComponent={ColorlibStepIcons}><Typography style={{
                   color:"black"
          }} >{label}
          </Typography></StepLabel>

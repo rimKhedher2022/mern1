@@ -82,7 +82,7 @@ const removeCartRestaurantHandler = (id) => {
                             <Box className="arrayEmptyBox blueGradientText">
                                 You don't have any favourite experience yet,
                                 {/* A link to lodgings' list, opens in new tab */}
-                                <Link to= {`/allexperiences`}  className="pinkGradientText" target="_blank">  check experiences!</Link>
+                                <Link to= {`/all-experiences`}  className="pinkGradientText" target="_blank">  check experiences!</Link>
                             </Box>
             
             </>

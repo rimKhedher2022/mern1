@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
     },
 	cin: {
         public_id: {
-            type: String,
+        type: String,
 
     },
         url: {

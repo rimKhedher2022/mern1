@@ -154,9 +154,13 @@ const Hero = () => {
       lineHeight:"70px"
 
 	  }}>
-    YOU DON’T KNOW<br/>
+      <h1>
+      YOU DON’T KNOW<br/>
     WHERE TO GO?<br/>
     PERFECT!
+
+      </h1>
+
     </p>
     <ThemeProvider theme={theme}>
     <Button variant="contained" style={{

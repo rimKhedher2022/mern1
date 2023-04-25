@@ -28,15 +28,34 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import Sitemap from 'react-sitemap-generator';
 
+// const pages = [
+//   {
+//     path: '/',
+//     priority: 0.8,
+//     changefreq: 'daily',
+//   },
+//   {
+//     path: '/login',
+//     priority: 0.5,
+//     changefreq: 'monthly',
+//   },
+// ];
+
+// Sitemap.generate('http://', pages);
 
 
 
 
 function Copyright(props) {
   return (
+
+  
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
+
+
       <Link color="inherit" href="https://mui.com/">
         livmo
       </Link>{' '}
@@ -49,6 +68,7 @@ function Copyright(props) {
 const Login = (props) => {
 
 
+ 
   const [passwordEye, setPasswordEye] = useState(false);
 
   const handlePasswordClick = () =>{
@@ -65,9 +85,11 @@ const Login = (props) => {
     },
   }})
     const history = useHistory();
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+   const { isAuthenticated , error, loading} = useSelector(state => state.auth);
     const alert = useAlert();
     const dispatch = useDispatch();
+
+   
 
 
   // Validation
@@ -82,26 +104,28 @@ const { register, handleSubmit, formState: {errors} } = useForm();
   
 
     useEffect(() => {
-
-      if(isAuthenticated) {
+       if(isAuthenticated) {
         history.push('/');
+        //history.push('/default-page');
         alert.success('Successfully Connected.'); 
+      }
 
-
-    }
-  
+      // if(isAuthenticated) {
+      //   history.push('/');
+      //   alert.success('Successfully Connected.'); 
+      // }
      
       if (error) {
           alert.error(error);
           dispatch(clearErrors());
       }
-  }, [dispatch, alert, error,isAuthenticated, history])
+  }, [dispatch,alert, error,isAuthenticated, history])
 
-  const submitHandler = () => {
-      dispatch(login(email, password)); 
-      
-       
-  }
+  const submitHandler =  () => {
+      dispatch(login(email, password));
+    
+      } 
+
 
   const emailValidation = errors?.email ? errors.email.message : null;
   const pwdValidation = errors?.password ? errors.password.message : null;
@@ -220,8 +244,9 @@ const { register, handleSubmit, formState: {errors} } = useForm();
                   </Link>
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
+              <Button 
+               type ="submit"
+               
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

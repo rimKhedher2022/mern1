@@ -25,8 +25,8 @@ const Footer = () => {
             />
             </Link>
             </div>
-            <h4>Become a Host</h4>
-            <h4>Become a Merchant</h4>
+            <h2>Become a Host</h2>
+            <h2>Become a Merchant</h2>
     </div>
 
     <div className="footer-col">

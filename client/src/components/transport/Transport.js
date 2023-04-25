@@ -91,7 +91,7 @@ const Transport = ({ transport, col }) => {
               >
                 <Link to={`/transport/${transport._id}`}>
                   <Box className="pinkGradientText hostFavouriteItemNameFont">
-                    {transport.name}
+                    <h2>{transport.name}</h2>
                   </Box>
                 </Link>
                 <Box className="hostFavouriteItemLodgingTypeFont">
